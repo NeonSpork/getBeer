@@ -21,36 +21,8 @@ from settings import *
 import RPi.GPIO as GPIO
 import lcd
 
-# Sets numeration of channels according to pin numbers on Pi
-GPIO.setmode(GPIO.BOARD)
-GPIO.setwarnings(False)
-
-# Set up GPIO pins
-GPIO.setup(40, GPIO.IN)  # Button
-GPIO.setup(33, GPIO.IN)  # Flow meter
-GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
 
-buttonDown = GPIO.input(40)
-
-
-def openValve():
-    GPIO.output(29, True)
-
-
-def shutValve():
-    GPIO.output(29, False)
-
-
-def countFlow():
-    dispensedVolume = 0
-    if GPIO.input(33):  # Pulse from flow meter
-        dispensedVolume += 1  # Adjust this to whatever equates 1 ml
-    return int(dispensedVolume)
-
-
-def cleanUp():
-    GPIO.cleanup()
 
 
 class BeerDispenser(object):
@@ -60,6 +32,17 @@ class BeerDispenser(object):
         pg.mouse.set_visible(True)
         self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
         self.clock = pg.time.Clock()
+        
+        # Sets numeration of channels according to pin numbers on Pi
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setwarnings(False)
+
+        # Set up GPIO pins
+        GPIO.setup(40, GPIO.IN)  # Button
+        GPIO.setup(33, GPIO.IN)  # Flow meter
+        GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+
+        self.buttonDown = GPIO.input(40)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -72,6 +55,21 @@ class BeerDispenser(object):
 
         self.intro = True
         self.dispensor = False
+
+    def openValve():
+        GPIO.output(29, True)
+
+    def shutValve():
+        GPIO.output(29, False)
+
+    def countFlow():
+        dispensedVolume = 0
+        if GPIO.input(33):  # Pulse from flow meter
+            dispensedVolume += 1  # Adjust this to whatever equates 1 ml
+        return int(dispensedVolume)
+
+    def cleanUp():
+        GPIO.cleanup()
 
     def buttonOn(self):
         openValve()
@@ -235,7 +233,7 @@ class BeerDispenser(object):
         if self.keys[pg.K_ESCAPE]:
             self.running = False
 
-        if buttonDown:
+        if self.buttonDown:
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
