@@ -12,7 +12,7 @@ Magnetic valve  - GP5 (pin 29) & GND (pin 30)
 import RPi.GPIO as GPIO
 
 # Sets numeration of channels according to pin numbers on Pi
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 # Set up GPIO pins

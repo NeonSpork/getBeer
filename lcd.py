@@ -28,7 +28,7 @@ import RPi.GPIO as GPIO
 import time
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(7, GPIO.OUT)   # RS
 GPIO.setup(8, GPIO.OUT)   # E
 GPIO.setup(25, GPIO.OUT)  # DB4
