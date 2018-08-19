@@ -26,8 +26,8 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 # Set up GPIO pins
-GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
-GPIO.setup(33, GPIO.IN)  # Flow meter
+GPIO.setup(40, GPIO.IN, intitial=0)  # Button
+GPIO.setup(33, GPIO.IN, initial=0)  # Flow meter
 GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
 
