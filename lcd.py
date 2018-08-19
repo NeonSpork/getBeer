@@ -46,8 +46,8 @@ LCD_D7 = 18
 
 # Define device constants
 LCD_WIDTH = 16
-# LCD_LINE_1 = 0x80  # LCD RAM address for first line
-# LCD_LINE_2 = 0xC0  # LCD RAM address for second line
+LCD_LINE_1 = 0x80  # LCD RAM address for first line
+LCD_LINE_2 = 0xC0  # LCD RAM address for second line
 
 LCD_CHR = True     # Flag true to send character bit
 LCD_CMD = False    # Flag false to send command bit
@@ -127,8 +127,13 @@ def lcd_clear():
 def lcd_string(message, line):
     # Send string to display
     message = message.ljust(LCD_WIDTH, " ")
+    if line == 1:
+        lcd_byte(LCD_LINE_1, LCD_CMD)
 
-    lcd_byte(line, LCD_CMD)
+        for i in range(LCD_WIDTH):
+            lcd_byte(ord(message[i]), LCD_CHR)
+    if line == 2:
+        lcd_byte(LCD_LINE_2, LCD_CMD)
 
-    for i in range(LCD_WIDTH):
-        lcd_byte(ord(message[i]), LCD_CHR)
+        for i in range(LCD_WIDTH):
+            lcd_byte(ord(message[i]), LCD_CHR)
