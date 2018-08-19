@@ -112,7 +112,7 @@ class BeerDispenser(object):
         if not self.dispensing:
             self.drawImageToBigScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             self.drawToLittleScreen('Volume remaining', 1)
-            self.drawToLittleScreen('{} ml'.format(self.totalVolume),
+            self.drawToLittleScreen('{} ml'.format(self.kegVolume),
                                     2)
         if int(int(self.kegVolume)/500) <= 9:
             self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft))], (350*RELX), (475*RELY))
