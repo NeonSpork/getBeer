@@ -56,26 +56,23 @@ class BeerDispenser(object):
         self.intro = True
         self.dispensor = False
 
-    def openValve():
+    def openValve(self):
         GPIO.output(29, True)
 
-    def shutValve():
+    def shutValve(self):
         GPIO.output(29, False)
 
-    def countFlow():
+    def countFlow(self):
         dispensedVolume = 0
         if GPIO.input(33):  # Pulse from flow meter
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def cleanUp():
-        GPIO.cleanup()
-
     def buttonOn(self):
-        openValve()
+        self.openValve()
 
     def buttonOff(self):
-        shutValve()
+        self.shutValve()
 
     def drawToLittleScreen(self, message, line):
         lcd.lcd_clear()
@@ -237,7 +234,7 @@ class BeerDispenser(object):
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
-                self.dispensedBeer += countFlow()
+                self.dispensedBeer += self.countFlow()
                 self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = True
             if self.kegVolume == 0:
@@ -249,7 +246,7 @@ class BeerDispenser(object):
                 if self.kegVolume > 0:
                     print(self.kegVolume)
                     self.buttonOn()
-                    self.dispensedBeer += countFlow()
+                    self.dispensedBeer += self.countFlow()
                     self.kegVolume -= int(self.dispensedBeer)
                     self.dispensing = True
                 if self.kegVolume == 0:
@@ -289,6 +286,6 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    cleanUp()
+    GPIO.cleanUp()
     pg.quit()
     sys.exit()
