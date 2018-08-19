@@ -43,10 +43,10 @@ class BeerDispenser(object):
         self.dispensor = False
 
     def buttonOn(self):
-       dispenser.openValve()
+        dispenser.openValve()
 
     def buttonOff(self):
-       dispenser.shutValve()
+        dispenser.shutValve()
 
     def drawToLittleScreen(self, message, line):
         lcd.lcd_clear()
@@ -212,11 +212,11 @@ class BeerDispenser(object):
                 self.intro = True
                 self.dispensor = False
 
-        ifdispenser.buttonDown():
+        if dispenser.buttonDown():
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
-                self.dispensedBeer +=dispenser.countFlow()
+                self.dispensedBeer += dispenser.countFlow()
                 self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = True
             if self.kegVolume == 0:
@@ -228,7 +228,7 @@ class BeerDispenser(object):
                 if self.kegVolume > 0:
                     print(self.kegVolume)
                     self.buttonOn()
-                    self.dispensedBeer +=dispenser.countFlow()
+                    self.dispensedBeer += dispenser.countFlow()
                     self.kegVolume -= int(self.dispensedBeer)
                     self.dispensing = True
                 if self.kegVolume == 0:
