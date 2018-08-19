@@ -286,6 +286,6 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    GPIO.cleanUp()
+    GPIO.cleanup()
     pg.quit()
     sys.exit()
