@@ -28,21 +28,21 @@ import RPi.GPIO as GPIO
 import time
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(7, GPIO.OUT)   # RS
-GPIO.setup(8, GPIO.OUT)   # E
-GPIO.setup(25, GPIO.OUT)  # DB4
-GPIO.setup(24, GPIO.OUT)  # DB5
-GPIO.setup(23, GPIO.OUT)  # DB6
-GPIO.setup(18, GPIO.OUT)  # DB7
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(26, GPIO.OUT)   # RS
+GPIO.setup(24, GPIO.OUT)   # E
+GPIO.setup(22, GPIO.OUT)  # DB4
+GPIO.setup(18, GPIO.OUT)  # DB5
+GPIO.setup(16, GPIO.OUT)  # DB6
+GPIO.setup(12, GPIO.OUT)  # DB7
 
 # Define GPIO to LCD mapping
-LCD_RS = 7
-LCD_E = 8
-LCD_D4 = 25
-LCD_D5 = 24
-LCD_D6 = 23
-LCD_D7 = 18
+LCD_RS = 26
+LCD_E = 24
+LCD_D4 = 22
+LCD_D5 = 18
+LCD_D6 = 16
+LCD_D7 = 12
 
 # Define device constants
 LCD_WIDTH = 16

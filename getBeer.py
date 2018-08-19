@@ -18,41 +18,8 @@ See lcd.py for wiring the 16x2 LCD display.
 import sys
 import pygame as pg
 from settings import *
-import RPi.GPIO as GPIO
+import dispenser
 import lcd
-
-# Sets numeration of channels according to pin numbers on Pi
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-# Set up GPIO pins
-GPIO.setup(21, GPIO.IN)  # Button
-GPIO.setup(13, GPIO.IN)  # Flow meter
-GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
-
-
-def buttonDown():
-    if GPIO.input(21):
-        return True
-
-
-def openValve():
-    GPIO.output(5, True)
-
-
-def shutValve():
-    GPIO.output(5, False)
-
-
-def countFlow():
-    dispensedVolume = 0
-    if GPIO.input(13):  # Pulse from flow meter
-        dispensedVolume += 1  # Adjust this to whatever equates 1 ml
-    return int(dispensedVolume)
-
-
-def cleanUp():
-    GPIO.cleanup()
 
 
 class BeerDispenser(object):
@@ -76,10 +43,10 @@ class BeerDispenser(object):
         self.dispensor = False
 
     def buttonOn(self):
-        openValve()
+        dispenser.openValve()
 
     def buttonOff(self):
-        shutValve()
+        dispenser.shutValve()
 
     def drawToLittleScreen(self, message, line):
         lcd.lcd_clear()
@@ -245,11 +212,11 @@ class BeerDispenser(object):
                 self.intro = True
                 self.dispensor = False
 
-        if buttonDown():
+        if dispenser.buttonDown():
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
-                self.dispensedBeer += countFlow()
+                self.dispensedBeer += dispenser.countFlow()
                 self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = True
             if self.kegVolume == 0:
@@ -261,7 +228,7 @@ class BeerDispenser(object):
                 if self.kegVolume > 0:
                     print(self.kegVolume)
                     self.buttonOn()
-                    self.dispensedBeer += countFlow()
+                    self.dispensedBeer += dispenser.countFlow()
                     self.kegVolume -= int(self.dispensedBeer)
                     self.dispensing = True
                 if self.kegVolume == 0:
@@ -293,6 +260,6 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    cleanUp()
+    dispenser.cleanUp()
     pg.quit()
     sys.exit()
