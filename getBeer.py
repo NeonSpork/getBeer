@@ -235,14 +235,6 @@ class BeerDispenser(object):
         if self.keys[pg.K_ESCAPE]:
             self.running = False
 
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                self.running = False
-            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.intro = True
-                self.dispensor = False
-
         if buttonDown:
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
@@ -274,6 +266,14 @@ class BeerDispenser(object):
             self.buttonOff()
             self.dispensedBeer = 0
             self.dispensing = False
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                self.running = False
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                self.intro = True
+                self.dispensor = False
 
     def run(self):
         self.clock.tick(FPS)
