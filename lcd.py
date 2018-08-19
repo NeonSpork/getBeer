@@ -46,8 +46,8 @@ LCD_D7 = 18
 
 # Define device constants
 LCD_WIDTH = 16
-LCD_LINE_1 = 0x80  # LCD RAM address for first line
-LCD_LINE_2 = 0xC0  # LCD RAM address for second line
+# LCD_LINE_1 = 0x80  # LCD RAM address for first line
+# LCD_LINE_2 = 0xC0  # LCD RAM address for second line
 
 LCD_CHR = True     # Flag true to send character bit
 LCD_CMD = False    # Flag false to send command bit

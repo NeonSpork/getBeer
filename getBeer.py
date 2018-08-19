@@ -106,12 +106,12 @@ class BeerDispenser(object):
         if self.dispensing:
             self.drawImageToBigScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             self.drawToLittleScreen('{} ml tapped,'.format(self.dispensedBeer),
-                                    "LCD_LINE_1")
+                                    LCD_LINE_1)
             self.drawToLittleScreen('{} pints left.'.format(self.pintsLeft),
                                     LCD_LINE_2)
         if not self.dispensing:
             self.drawImageToBigScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
-            self.drawToLittleScreen('Volume remaining', "LCD_LINE_1")
+            self.drawToLittleScreen('Volume remaining', LCD_LINE_1)
             self.drawToLittleScreen('{} ml'.format(self.totalVolume),
                                     LCD_LINE_2)
         if int(int(self.kegVolume)/500) <= 9:
