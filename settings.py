@@ -22,7 +22,7 @@ MAGENTA = (233, 0, 255)
 PURPLE = (179, 0, 255)
 
 # Image files - run through scale transform (optimized for 1024x600)
-dispensor_background = pg.image.load('img/background_screen_bricks.png')
+dispensor_background = pg.image.load('img/background_screen_bricks1.png')
 DISPENSOR_BACKGROUND = pg.transform.scale(dispensor_background,
                                           (int(1024*RELX), int(600*RELY)))
 intro_background = pg.image.load('img/splash_screen.png')
