@@ -24,8 +24,6 @@ GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 def buttonDown():
     if GPIO.input(21):
         return True
-    else:
-        return False
 
 
 def openValve():
