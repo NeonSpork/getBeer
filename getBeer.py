@@ -67,7 +67,10 @@ class BeerDispenser(object):
         self.dispensing = True
         self.openValve()
         self.dispensedBeer += 1  # self.countFlow()
-        self.kegVolume -= int(self.dispensedBeer)
+        self.kegVolume = str(self.kegVolume)
+        if len(self.kegVolume) > 0:
+            self.kegVolume = int(self.kegVolume)
+            self.kegVolume -= int(self.dispensedBeer)
 
     def buttonOff(self):
         self.shutValve()
