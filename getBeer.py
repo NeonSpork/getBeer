@@ -26,8 +26,8 @@ class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
         pg.init()
-        pg.mouse.set_visible(True)
         self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
+        pg.mouse.set_visible(True)
         self.clock = pg.time.Clock()
 
         # Sets numeration of channels according to pin numbers on Pi
