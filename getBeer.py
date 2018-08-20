@@ -63,14 +63,18 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def buttonOn(self):
-        self.dispensing = True
-        self.openValve()
-        self.dispensedBeer += 1  # self.countFlow()
-        self.kegVolume = str(self.kegVolume)
-        if len(self.kegVolume) > 0:
-            self.kegVolume = int(self.kegVolume)
-            self.kegVolume -= int(self.dispensedBeer)
+    def buttonSignal(self):
+        self.buttonDown = True
+        return self.buttonDown
+
+    # def buttonOn(self):
+    #     self.dispensing = True
+    #     self.openValve()
+    #     self.dispensedBeer += 1  # self.countFlow()
+    #     self.kegVolume = str(self.kegVolume)
+    #     if len(self.kegVolume) > 0:
+    #         self.kegVolume = int(self.kegVolume)
+    #         self.kegVolume -= int(self.dispensedBeer)
 
     def buttonOff(self):
         self.shutValve()
@@ -232,15 +236,16 @@ class BeerDispenser(object):
         if self.keys[pg.K_ESCAPE]:
             self.running = False
 
-        # if self.buttonDown:
-        #     self.kegVolume = int(self.kegVolume)
-        #     if self.kegVolume > 0:
-        #         self.buttonOn()
-        #         self.dispensedBeer += self.countFlow()
-        #         self.kegVolume -= int(self.dispensedBeer)
-        #         self.dispensing = True
-        #     if self.kegVolume == 0:
-        #             self.kegVolume = str(self.kegVolume)
+        if self.buttonDown:
+            self.dispensing = True
+            self.kegVolume = int(self.kegVolume)
+            if self.kegVolume > 0:
+                self.buttonOn()
+                self.dispensedBeer += self.countFlow()
+                self.kegVolume -= int(self.dispensedBeer)
+                self.dispensing = True
+            if self.kegVolume == 0:
+                    self.kegVolume = str(self.kegVolume)
 
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
