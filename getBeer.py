@@ -39,7 +39,7 @@ class BeerDispenser(object):
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonOn)
+        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonOn)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
