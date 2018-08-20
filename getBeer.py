@@ -36,10 +36,11 @@ class BeerDispenser(object):
 
         # Set up GPIO pins
         GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
-        GPIO.setup(33, GPIO.IN)  # Flow meter
+        GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
         GPIO.add_event_detect(40, GPIO.BOTH, callback=self.buttonSignal)
+        GPIO.add_event_detect(33, GPIO.BOTH, callback=self.flowSignal)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -61,11 +62,12 @@ class BeerDispenser(object):
     def shutValve(self):
         GPIO.output(29, False)
 
-    def countFlow(self):
-        dispensedVolume = 0
-        if GPIO.input(33):  # Pulse from flow meter
-            dispensedVolume += 1  # Adjust this to whatever equates 1 ml
-        return int(dispensedVolume)
+    def flowSignal(self, channel):
+        if GPIO.input(33):  # Pulse from flow meter, SHOULD be 1:1 pulse:ml
+            self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
+        else:
+            self.dispensedBeer = 0
+        return self.dispensedBeer
 
     def buttonSignal(self, channel):
         if GPIO.input(40):
@@ -77,7 +79,6 @@ class BeerDispenser(object):
     def buttonOn(self):
         self.dispensing = True
         self.openValve()
-        self.dispensedBeer += 1  # self.countFlow()
         self.kegVolume = str(self.kegVolume)
         if len(self.kegVolume) > 0:
             self.kegVolume = int(self.kegVolume)
@@ -241,8 +242,6 @@ class BeerDispenser(object):
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
-                self.dispensedBeer += self.countFlow()
-                self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = True
             if self.kegVolume == 0:
                 self.kegVolume = str(self.kegVolume)
@@ -267,7 +266,6 @@ class BeerDispenser(object):
                     self.intro = True
             else:
                 self.buttonOff()
-                self.dispensedBeer = 0
                 self.dispensing = False
 
             for event in pg.event.get():

@@ -1,10 +1,11 @@
 #!/bin/sh
 # Add crontab entry to automagically run
 # getBeer autostart shell at reboot:
-# $ crontab -e
-# @reboot /home/pi/getBeer/autolaunch.sh
+# $ sudo nano /home/pi/.config/lxsession/LXDE-pi/autostart
+# add the following line at the bottom:
+# @sh /home/pi/getBeer/autolaunch.sh
 
 cd /home/pi/getBeer
+/usr/bin/python3 getBeer.python3
 
-tmux new -s beer
-tmux send-keys -t beer 'python3 getBeer.py' C-m
+exit 0
