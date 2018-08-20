@@ -288,7 +288,7 @@ class BeerDispenser(object):
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonOn())
+    GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonSignal())
     while b.running:
         try:
             b.run()
