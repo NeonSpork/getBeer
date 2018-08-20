@@ -35,12 +35,12 @@ class BeerDispenser(object):
         GPIO.setwarnings(False)
 
         # Set up GPIO pins
-        GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
+        self.buttonSignal = GPIO.setup(40, GPIO.IN)  # pull_up_down=GPIO.PUD_DOWN)  # Button
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
-        GPIO.add_event_detect(40, GPIO.FALLING, callback=self.buttonSignalOff)
+        # GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
+        # GPIO.add_event_detect(40, GPIO.FALLING, callback=self.buttonSignalOff)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -68,13 +68,13 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def buttonSignalOn(self, channel):
-        self.buttonDown = True
-        return self.buttonDown
+    # def buttonSignalOn(self, channel):
+    #     self.buttonDown = True
+    #     return self.buttonDown
 
-    def buttonSignalOff(self, channel):
-        self.buttonDown = False
-        return self.buttonDown
+    # def buttonSignalOff(self, channel):
+    #     self.buttonDown = False
+    #     return self.buttonDown
 
     def buttonOn(self):
         self.dispensing = True
@@ -84,7 +84,7 @@ class BeerDispenser(object):
         if len(self.kegVolume) > 0:
             self.kegVolume = int(self.kegVolume)
             self.kegVolume -= int(self.dispensedBeer)
-        # self.dispensorDraw()
+        self.dispensorDraw()
 
     def buttonOff(self):
         self.shutValve()
@@ -240,7 +240,7 @@ class BeerDispenser(object):
                     self.dispensor = True
 
     def dispensorEvents(self):
-        if self.buttonDown:
+        if self.buttonSignal:
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
@@ -255,7 +255,6 @@ class BeerDispenser(object):
             self.keys = pg.key.get_pressed()
             if self.keys[pg.K_ESCAPE]:
                 self.running = False
-
 
             if self.click[0] == 1:
                 if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
