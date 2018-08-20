@@ -143,25 +143,6 @@ class BeerDispenser(object):
         self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def dispensorDraw(self):
-        self.pintsLeft = int((int(self.kegVolume)+499)/500)
-        self.drawImageToBigScreen(DISPENSOR_BACKGROUND, SWIDTH/2, SHEIGHT/2)
-        if self.dispensing:
-            self.drawImageToBigScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
-            self.drawToLittleScreen('{} ml tapped,'.format(self.dispensedBeer), 1)
-            self.drawToLittleScreen('{} pints left.'.format(self.pintsLeft), 2)
-        if not self.dispensing:
-            self.drawImageToBigScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
-            self.drawToLittleScreen('Volume remaining', 1)
-            self.drawToLittleScreen('{} ml'.format(self.kegVolume), 2)
-        if int(int(self.kegVolume)/500) <= 9:
-            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft))], (350*RELX), (475*RELY))
-        if int(int(self.kegVolume)/500) > 9:
-            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], (325*RELX), (475*RELY))
-            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], (380*RELX), (475*RELY))
-        self.kegVolumeDraw(NEON_NUMBER_SCALED_MINI, ((SWIDTH*0.34)), (SHEIGHT*0.95))
-        self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
-        pg.display.flip()
 
     def introEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -242,10 +223,8 @@ class BeerDispenser(object):
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
-                self.dispensing = True
             if self.kegVolume == 0:
                 self.kegVolume = str(self.kegVolume)
-                self.dispensing = False
         else:
             self.mouse = pg.mouse.get_pos()
             self.click = pg.mouse.get_pressed()
@@ -266,6 +245,8 @@ class BeerDispenser(object):
                     self.intro = True
             else:
                 self.buttonOff()
+                self.kegVolume = int(self.kegVolume)
+                self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = False
 
             for event in pg.event.get():
@@ -275,6 +256,26 @@ class BeerDispenser(object):
                 if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.intro = True
                     self.dispensor = False
+
+    def dispensorDraw(self):
+        self.pintsLeft = int((int(self.kegVolume)+499)/500)
+        self.drawImageToBigScreen(DISPENSOR_BACKGROUND, SWIDTH/2, SHEIGHT/2)
+        if self.dispensing:
+            self.drawImageToBigScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            self.drawToLittleScreen('{} ml tapped,'.format(self.dispensedBeer), 1)
+            self.drawToLittleScreen('{} pints left.'.format(self.pintsLeft), 2)
+        if not self.dispensing:
+            self.drawImageToBigScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            self.drawToLittleScreen('Volume remaining', 1)
+            self.drawToLittleScreen('{} ml'.format(self.kegVolume), 2)
+        if int(int(self.kegVolume)/500) <= 9:
+            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft))], (350*RELX), (475*RELY))
+        if int(int(self.kegVolume)/500) > 9:
+            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], (325*RELX), (475*RELY))
+            self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], (380*RELX), (475*RELY))
+        self.kegVolumeDraw(NEON_NUMBER_SCALED_MINI, ((SWIDTH*0.34)), (SHEIGHT*0.95))
+        self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
+        pg.display.flip()
 
     def run(self):
         self.clock.tick(FPS)
