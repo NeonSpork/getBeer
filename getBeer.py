@@ -35,7 +35,7 @@ class BeerDispenser(object):
         GPIO.setwarnings(False)
 
         # Set up GPIO pins
-        self.buttonPushed = GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
+        self.buttonPushed = GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN, bouncetime=17)  # Button
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
