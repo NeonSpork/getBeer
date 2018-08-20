@@ -265,9 +265,6 @@ class BeerDispenser(object):
                 if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
                     self.dispensor = False
                     self.intro = True
-            if not self.click[0]:
-                self.dispensedBeer = 0
-                self.dispensing = False
             else:
                 self.buttonOff()
                 self.dispensedBeer = 0
