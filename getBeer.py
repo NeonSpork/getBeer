@@ -29,7 +29,7 @@ class BeerDispenser(object):
         pg.mouse.set_visible(True)
         self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
         self.clock = pg.time.Clock()
-        
+
         # Sets numeration of channels according to pin numbers on Pi
         GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
@@ -71,6 +71,7 @@ class BeerDispenser(object):
         if len(self.kegVolume) > 0:
             self.kegVolume = int(self.kegVolume)
             self.kegVolume -= int(self.dispensedBeer)
+        self.dispensorDraw()
 
     def buttonOff(self):
         self.shutValve()
