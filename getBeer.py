@@ -148,8 +148,8 @@ class BeerDispenser(object):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
-        if self.keys[pg.K_ESCAPE]:
-            self.running = False
+        # if self.keys[pg.K_ESCAPE]:
+        #     self.running = False
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -229,8 +229,8 @@ class BeerDispenser(object):
             self.mouse = pg.mouse.get_pos()
             self.click = pg.mouse.get_pressed()
             self.keys = pg.key.get_pressed()
-            if self.keys[pg.K_ESCAPE]:
-                self.running = False
+            # if self.keys[pg.K_ESCAPE]:
+            #     self.running = False
 
             if self.click[0] == 1:
                 if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
