@@ -35,12 +35,11 @@ class BeerDispenser(object):
         GPIO.setwarnings(False)
 
         # Set up GPIO pins
-        self.buttonSignal = GPIO.setup(40, GPIO.IN)  # pull_up_down=GPIO.PUD_DOWN)  # Button
+        self.buttonPushed = GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        # GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
-        # GPIO.add_event_detect(40, GPIO.FALLING, callback=self.buttonSignalOff)
+        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -68,13 +67,12 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    # def buttonSignalOn(self, channel):
-    #     self.buttonDown = True
-    #     return self.buttonDown
-
-    # def buttonSignalOff(self, channel):
-    #     self.buttonDown = False
-    #     return self.buttonDown
+    def buttonSignalOn(self, channel):
+        if self.buttonPushed:
+            self.buttonDown = True
+        if not self.buttonPushed:
+            self.buttonDown = False
+        return self.buttonDown
 
     def buttonOn(self):
         self.dispensing = True
@@ -240,7 +238,7 @@ class BeerDispenser(object):
                     self.dispensor = True
 
     def dispensorEvents(self):
-        if self.buttonSignal:
+        if self.buttonDown:
             self.kegVolume = int(self.kegVolume)
             if self.kegVolume > 0:
                 self.buttonOn()
@@ -248,7 +246,7 @@ class BeerDispenser(object):
                 self.kegVolume -= int(self.dispensedBeer)
                 self.dispensing = True
             if self.kegVolume == 0:
-                    self.kegVolume = str(self.kegVolume)
+                self.kegVolume = str(self.kegVolume)
         else:
             self.mouse = pg.mouse.get_pos()
             self.click = pg.mouse.get_pressed()
