@@ -71,7 +71,7 @@ class BeerDispenser(object):
         self.buttonDown = True
         return self.buttonDown
 
-    def buttonOn(self, channel):
+    def buttonOn(self):
         self.dispensing = True
         self.openValve()
         self.dispensedBeer += 1  # self.countFlow()
