@@ -39,7 +39,8 @@ class BeerDispenser(object):
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignal)
+        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
+        GPIO.add_event_detect(40, GPIO.FALLING, callback=self.buttonSignalOff)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -67,8 +68,12 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def buttonSignal(self, channel):
+    def buttonSignalOn(self, channel):
         self.buttonDown = True
+        return self.buttonDown
+
+    def buttonSignalOff(self, channel):
+        self.buttonDown = False
         return self.buttonDown
 
     def buttonOn(self):
