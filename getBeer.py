@@ -22,9 +22,6 @@ import RPi.GPIO as GPIO
 import lcd
 
 
-
-
-
 class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
@@ -38,11 +35,9 @@ class BeerDispenser(object):
         GPIO.setwarnings(False)
 
         # Set up GPIO pins
-        GPIO.setup(40, GPIO.IN)  # Button
+        GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
-
-        self.buttonDown = GPIO.input(40)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -69,14 +64,27 @@ class BeerDispenser(object):
         return int(dispensedVolume)
 
     def buttonOn(self):
+        self.dispensing = True
         self.openValve()
+        self.kegVolume = int(self.kegVolume)
+        if self.kegVolume > 0:
+            self.buttonOn()
+            self.dispensedBeer += 1  # self.countFlow()
+            self.kegVolume -= int(self.dispensedBeer)
+            self.dispensing = True
+        if self.kegVolume == 0:
+                self.kegVolume = str(self.kegVolume)
 
     def buttonOff(self):
         self.shutValve()
+        self.dispensing = False
 
     def drawToLittleScreen(self, message, line):
         lcd.lcd_clear()
-        lcd.lcd_string(message, line)
+        if line == 1:
+            lcd.lcd_string(message, LCD_LINE_1)
+        if line == 2:
+            lcd.lcd_string(message, LCD_LINE_2)
 
     def drawImageToBigScreen(self, image, x, y):
         self.image = image
@@ -131,15 +139,12 @@ class BeerDispenser(object):
         self.drawImageToBigScreen(DISPENSOR_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         if self.dispensing:
             self.drawImageToBigScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
-            self.drawToLittleScreen('{} ml tapped,'.format(self.dispensedBeer),
-                                    1)
-            self.drawToLittleScreen('{} pints left.'.format(self.pintsLeft),
-                                    2)
+            self.drawToLittleScreen('{} ml tapped,'.format(self.dispensedBeer), 1)
+            self.drawToLittleScreen('{} pints left.'.format(self.pintsLeft), 2)
         if not self.dispensing:
             self.drawImageToBigScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             self.drawToLittleScreen('Volume remaining', 1)
-            self.drawToLittleScreen('{} ml'.format(self.kegVolume),
-                                    2)
+            self.drawToLittleScreen('{} ml'.format(self.kegVolume), 2)
         if int(int(self.kegVolume)/500) <= 9:
             self.drawImageToBigScreen(NEON_NUMBER[int(str(self.pintsLeft))], (350*RELX), (475*RELY))
         if int(int(self.kegVolume)/500) > 9:
@@ -230,15 +235,15 @@ class BeerDispenser(object):
         if self.keys[pg.K_ESCAPE]:
             self.running = False
 
-        if self.buttonDown:
-            self.kegVolume = int(self.kegVolume)
-            if self.kegVolume > 0:
-                self.buttonOn()
-                self.dispensedBeer += self.countFlow()
-                self.kegVolume -= int(self.dispensedBeer)
-                self.dispensing = True
-            if self.kegVolume == 0:
-                    self.kegVolume = str(self.kegVolume)
+        # if self.buttonDown:
+        #     self.kegVolume = int(self.kegVolume)
+        #     if self.kegVolume > 0:
+        #         self.buttonOn()
+        #         self.dispensedBeer += self.countFlow()
+        #         self.kegVolume -= int(self.dispensedBeer)
+        #         self.dispensing = True
+        #     if self.kegVolume == 0:
+        #             self.kegVolume = str(self.kegVolume)
 
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
@@ -281,6 +286,7 @@ class BeerDispenser(object):
 
 if __name__ == '__main__':
     b = BeerDispenser()
+    GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonOn())
     while b.running:
         try:
             b.run()
