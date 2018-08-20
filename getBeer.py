@@ -236,7 +236,6 @@ class BeerDispenser(object):
                 if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                     self.kegVolume = int(self.kegVolume)
                     if self.kegVolume > 0:
-                        print(self.kegVolume)
                         self.buttonOn()
                     if self.kegVolume == 0:
                         self.kegVolume = str(self.kegVolume)
