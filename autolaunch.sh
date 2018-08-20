@@ -6,6 +6,6 @@
 # @sh /home/pi/getBeer/autolaunch.sh
 
 cd /home/pi/getBeer
-/usr/bin/python3 getBeer.python3
+/usr/bin/python3 getBeer.py
 
 exit 0
