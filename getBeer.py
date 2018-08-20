@@ -53,7 +53,7 @@ class BeerDispenser(object):
         self.intro = True
         self.dispensor = False
 
-        # self.buttonDown = False
+        self.buttonDown = False
 
     def openValve(self):
         GPIO.output(29, True)
