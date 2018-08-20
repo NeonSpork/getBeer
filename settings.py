@@ -14,6 +14,8 @@ SWIDTH = root.winfo_screenwidth()
 SHEIGHT = root.winfo_screenheight()
 RELX = SWIDTH/1024
 RELY = SHEIGHT/600
+LCD_LINE_1 = 0x80  # LCD RAM address for first line
+LCD_LINE_2 = 0xC0  # LCD RAM address for second line
 
 # Colors
 DARK_GREY = (25, 25, 25)
