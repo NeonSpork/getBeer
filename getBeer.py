@@ -39,7 +39,7 @@ class BeerDispenser(object):
         GPIO.setup(33, GPIO.IN)  # Flow meter
         GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonSignalOn)
+        GPIO.add_event_detect(40, GPIO.RISING, callback=self.buttonPushOn)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
@@ -67,14 +67,14 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def buttonSignalOn(self, channel):
-        if self.buttonPushed:
-            self.buttonDown = True
-        if not self.buttonPushed:
-            self.buttonDown = False
-        return self.buttonDown
+    # def buttonSignalOn(self, channel):
+    #     if self.buttonPushed:
+    #         self.buttonDown = True
+    #     if not self.buttonPushed:
+    #         self.buttonDown = False
+    #     return self.buttonDown
 
-    def buttonOn(self):
+    def buttonPushOn(self, channel):
         self.dispensing = True
         self.openValve()
         self.dispensedBeer += 1  # self.countFlow()
@@ -82,7 +82,15 @@ class BeerDispenser(object):
         if len(self.kegVolume) > 0:
             self.kegVolume = int(self.kegVolume)
             self.kegVolume -= int(self.dispensedBeer)
-        self.dispensorDraw()
+
+    def buttonTouchOn(self):
+        self.dispensing = True
+        self.openValve()
+        self.dispensedBeer += 1  # self.countFlow()
+        self.kegVolume = str(self.kegVolume)
+        if len(self.kegVolume) > 0:
+            self.kegVolume = int(self.kegVolume)
+            self.kegVolume -= int(self.dispensedBeer)
 
     def buttonOff(self):
         self.shutValve()
@@ -238,60 +246,60 @@ class BeerDispenser(object):
                     self.dispensor = True
 
     def dispensorEvents(self):
-        if self.buttonDown:
-            self.kegVolume = int(self.kegVolume)
-            if self.kegVolume > 0:
-                self.buttonOn()
-                self.dispensedBeer += self.countFlow()
-                self.kegVolume -= int(self.dispensedBeer)
-                self.dispensing = True
-            if self.kegVolume == 0:
-                self.kegVolume = str(self.kegVolume)
+        # if self.buttonDown:
+        #     self.kegVolume = int(self.kegVolume)
+        #     if self.kegVolume > 0:
+        #         self.buttonOn()
+        #         self.dispensedBeer += self.countFlow()
+        #         self.kegVolume -= int(self.dispensedBeer)
+        #         self.dispensing = True
+        #     if self.kegVolume == 0:
+        #         self.kegVolume = str(self.kegVolume)
+        # else:
+        self.mouse = pg.mouse.get_pos()
+        self.click = pg.mouse.get_pressed()
+        self.keys = pg.key.get_pressed()
+        if self.keys[pg.K_ESCAPE]:
+            self.running = False
+
+        if self.click[0] == 1:
+            if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
+                self.kegVolume = int(self.kegVolume)
+                if self.kegVolume > 0:
+                    print(self.kegVolume)
+                    self.buttonOn()
+                    # self.dispensedBeer += self.countFlow()
+                    # self.kegVolume -= int(self.dispensedBeer)
+                    # self.dispensing = True
+                if self.kegVolume == 0:
+                    self.kegVolume = str(self.kegVolume)
+            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+                self.dispensor = False
+                self.intro = True
+        if not self.click[0]:
+            self.dispensedBeer = 0
+            self.dispensing = False
         else:
-            self.mouse = pg.mouse.get_pos()
-            self.click = pg.mouse.get_pressed()
-            self.keys = pg.key.get_pressed()
-            if self.keys[pg.K_ESCAPE]:
+            self.buttonOff()
+            self.dispensedBeer = 0
+            self.dispensing = False
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
                 self.running = False
-
-            if self.click[0] == 1:
-                if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
-                    self.kegVolume = int(self.kegVolume)
-                    if self.kegVolume > 0:
-                        print(self.kegVolume)
-                        # self.buttonOn()
-                        self.dispensedBeer += self.countFlow()
-                        self.kegVolume -= int(self.dispensedBeer)
-                        self.dispensing = True
-                    if self.kegVolume == 0:
-                        self.kegVolume = str(self.kegVolume)
-                if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
-                    self.dispensor = False
-                    self.intro = True
-            if not self.click[0]:
-                self.dispensedBeer = 0
-                self.dispensing = False
-            else:
-                self.buttonOff()
-                self.dispensedBeer = 0
-                self.dispensing = False
-
-            for event in pg.event.get():
-                if event.type == pg.QUIT:
-                    pg.quit()
-                    self.running = False
-                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                    self.intro = True
-                    self.dispensor = False
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                self.intro = True
+                self.dispensor = False
 
     def run(self):
         self.clock.tick(FPS)
         if self.intro is True and self.dispensor is False:
-            self.introDraw()
             self.introEvents()
+            self.introDraw()
         if self.intro is False and self.dispensor is True:
-            self.dispensorDraw()
             self.dispensorEvents()
+            self.dispensorDraw()
 
 if __name__ == '__main__':
     b = BeerDispenser()
