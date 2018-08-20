@@ -63,11 +63,7 @@ class BeerDispenser(object):
             dispensedVolume += 1  # Adjust this to whatever equates 1 ml
         return int(dispensedVolume)
 
-    def buttonSignal(self):
-        self.buttonDown = True
-        return self.buttonDown
-
-    def buttonOn(self):
+    def buttonOn(self, channel):
         self.dispensing = True
         self.openValve()
         self.dispensedBeer += 1  # self.countFlow()
@@ -251,7 +247,7 @@ class BeerDispenser(object):
                 self.kegVolume = int(self.kegVolume)
                 if self.kegVolume > 0:
                     print(self.kegVolume)
-                    self.buttonOn()
+                    # self.buttonOn()
                     self.dispensedBeer += self.countFlow()
                     self.kegVolume -= int(self.dispensedBeer)
                     self.dispensing = True
