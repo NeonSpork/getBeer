@@ -67,14 +67,14 @@ class BeerDispenser(object):
         self.buttonDown = True
         return self.buttonDown
 
-    # def buttonOn(self):
-    #     self.dispensing = True
-    #     self.openValve()
-    #     self.dispensedBeer += 1  # self.countFlow()
-    #     self.kegVolume = str(self.kegVolume)
-    #     if len(self.kegVolume) > 0:
-    #         self.kegVolume = int(self.kegVolume)
-    #         self.kegVolume -= int(self.dispensedBeer)
+    def buttonOn(self, channel):
+        self.dispensing = True
+        self.openValve()
+        self.dispensedBeer += 1  # self.countFlow()
+        self.kegVolume = str(self.kegVolume)
+        if len(self.kegVolume) > 0:
+            self.kegVolume = int(self.kegVolume)
+            self.kegVolume -= int(self.dispensedBeer)
 
     def buttonOff(self):
         self.shutValve()
@@ -236,16 +236,15 @@ class BeerDispenser(object):
         if self.keys[pg.K_ESCAPE]:
             self.running = False
 
-        if self.buttonDown:
-            self.dispensing = True
-            self.kegVolume = int(self.kegVolume)
-            if self.kegVolume > 0:
-                self.buttonOn()
-                self.dispensedBeer += self.countFlow()
-                self.kegVolume -= int(self.dispensedBeer)
-                self.dispensing = True
-            if self.kegVolume == 0:
-                    self.kegVolume = str(self.kegVolume)
+        # if self.buttonDown:
+        #     self.kegVolume = int(self.kegVolume)
+        #     if self.kegVolume > 0:
+        #         self.buttonOn()
+        #         self.dispensedBeer += self.countFlow()
+        #         self.kegVolume -= int(self.dispensedBeer)
+        #         self.dispensing = True
+        #     if self.kegVolume == 0:
+        #             self.kegVolume = str(self.kegVolume)
 
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
@@ -288,7 +287,7 @@ class BeerDispenser(object):
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonSignal())
+    GPIO.add_event_detect(40, GPIO.RISING, callback=b.buttonOn)
     while b.running:
         try:
             b.run()
