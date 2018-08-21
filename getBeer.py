@@ -124,26 +124,6 @@ class BeerDispenser(object):
             self.drawImageToBigScreen(size[int(str(self.kegVolume)[4:5])], x+(50*RELX), y)
         self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
 
-    def introDraw(self):
-        self.screen.fill(DARK_GREY)
-        self.drawImageToBigScreen(INTRO_BACKGROUND, SWIDTH/2, SHEIGHT/2)
-        self.drawImageToBigScreen(NEON_NUMBER[7], ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)-(100*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[8], (SWIDTH/2), ((SHEIGHT/2)-(100*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[9], ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)-(100*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[4], ((SWIDTH/2)-(100*RELX)), (SHEIGHT/2))
-        self.drawImageToBigScreen(NEON_NUMBER[5], (SWIDTH/2), (SHEIGHT/2))
-        self.drawImageToBigScreen(NEON_NUMBER[6], ((SWIDTH/2)+(100*RELX)), (SHEIGHT/2))
-        self.drawImageToBigScreen(NEON_NUMBER[1], ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)+(100*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[2], (SWIDTH/2), ((SHEIGHT/2)+(100*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[3], ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)+(100*RELY)))
-        self.drawImageToBigScreen(DELETE, ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)+(200*RELY)))
-        self.drawImageToBigScreen(NEON_NUMBER[0], (SWIDTH/2), ((SHEIGHT/2)+(200*RELY)))
-        self.drawImageToBigScreen(DONE, ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)+(200*RELY)))
-        self.kegVolumeDraw(NEON_NUMBER_SCALED, (SWIDTH/2), (SHEIGHT/2)-(175*RELY))
-        self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
-        pg.display.flip()
-
-
     def introEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
@@ -217,6 +197,25 @@ class BeerDispenser(object):
                     # Ends volume input and moves to next screen
                     self.intro = False
                     self.dispensor = True
+
+    def introDraw(self):
+        self.screen.fill(DARK_GREY)
+        self.drawImageToBigScreen(INTRO_BACKGROUND, SWIDTH/2, SHEIGHT/2)
+        self.drawImageToBigScreen(NEON_NUMBER[7], ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)-(100*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[8], (SWIDTH/2), ((SHEIGHT/2)-(100*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[9], ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)-(100*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[4], ((SWIDTH/2)-(100*RELX)), (SHEIGHT/2))
+        self.drawImageToBigScreen(NEON_NUMBER[5], (SWIDTH/2), (SHEIGHT/2))
+        self.drawImageToBigScreen(NEON_NUMBER[6], ((SWIDTH/2)+(100*RELX)), (SHEIGHT/2))
+        self.drawImageToBigScreen(NEON_NUMBER[1], ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)+(100*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[2], (SWIDTH/2), ((SHEIGHT/2)+(100*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[3], ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)+(100*RELY)))
+        self.drawImageToBigScreen(DELETE, ((SWIDTH/2)-(100*RELX)), ((SHEIGHT/2)+(200*RELY)))
+        self.drawImageToBigScreen(NEON_NUMBER[0], (SWIDTH/2), ((SHEIGHT/2)+(200*RELY)))
+        self.drawImageToBigScreen(DONE, ((SWIDTH/2)+(100*RELX)), ((SHEIGHT/2)+(200*RELY)))
+        self.kegVolumeDraw(NEON_NUMBER_SCALED, (SWIDTH/2), (SHEIGHT/2)-(175*RELY))
+        self.drawImageToBigScreen(QUIT, (25*RELX), (25*RELY))
+        pg.display.flip()
 
     def dispensorEvents(self):
         if self.buttonDown:
