@@ -1,40 +1,33 @@
 """LCD tester"""
 
 import time
-import Adafruit_CharLCD as LCD
 import RPi.GPIO as GPIO
+from charlcd import direct as lcd_direct
+from charlcd.drivers.gpio import Gpio
 
 GPIO.setmode(GPIO.BOARD)
 
-lcd_rs        = 26  # Note this might need to be changed to 21 for older revision Pi's.
-lcd_en        = 24
-lcd_d4        = 22
-lcd_d5        = 18
-lcd_d6        = 16
-lcd_d7        = 12
-lcd_backlight = 4
+lcd = lcd_direct.CharLCD(16, 2, Gpio())
 
-lcd_columns = 16
-lcd_rows = 2
+g = Gpio()
+g.pins = {
+    'RS': 26,
+    'E': 24,
+    'DB4': 22,
+    'DB5': 18,
+    'DB6': 16,
+    'DB7': 12
+}
 
-lcd = LCD.Adafruit_CharLCD(lcd_rs,
-                           lcd_en,
-                           lcd_d4,
-                           lcd_d5,
-                           lcd_d6,
-                           lcd_d7,
-                           lcd_columns,
-                           lcd_rows,
-                           lcd_backlight)
+l = lcd.CharLCD(16, 2, g, cursor_visible=0)
 
-lcd.message('BEER!!\nMore BEER!!')
+l.write('BEER!!\nMore BEER!!')
 
 time.sleep(5)
 
-lcd.clear()
-lcd.message('Exiting')
+l.write('Exiting')
 
 time.sleep(5)
-lcd.clear()
+l.shutdown()
 
 GPIO.cleanup()
