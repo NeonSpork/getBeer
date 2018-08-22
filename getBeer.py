@@ -31,19 +31,20 @@ class BeerDispenser(object):
         self.clock = pg.time.Clock()
 
         # Sets numeration of channels according to pin numbers on Pi
-        GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
 
         # Set up GPIO pins
-        GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
-        GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Flow meter
-        GPIO.setup(29, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+        GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Button
+        GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Flow meter
+        GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
 
-        GPIO.add_event_detect(40, GPIO.BOTH, callback=self.buttonSignal)
-        GPIO.add_event_detect(33, GPIO.BOTH, callback=self.flowSignal)
+        GPIO.add_event_detect(21, GPIO.BOTH, callback=self.buttonSignal)
+        GPIO.add_event_detect(13, GPIO.BOTH, callback=self.flowSignal)
 
         # Initializing 16x2 lcd screen
         lcd.lcd_init()
+        lcd.lcd_clear()
 
         # Parameters for dispenser
         self.running = True
@@ -57,20 +58,20 @@ class BeerDispenser(object):
         self.buttonDown = False
 
     def openValve(self):
-        GPIO.output(29, True)
+        GPIO.output(5, True)
 
     def shutValve(self):
-        GPIO.output(29, False)
+        GPIO.output(5, False)
 
     def flowSignal(self, channel):
-        if GPIO.input(33):  # Pulse from flow meter, SHOULD be 1:1 pulse:ml
+        if GPIO.input(13):  # Pulse from flow meter, SHOULD be 1:1 pulse:ml
             self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
         else:
             self.dispensedBeer = 0
         return self.dispensedBeer
 
     def buttonSignal(self, channel):
-        if GPIO.input(40):
+        if GPIO.input(21):
             self.buttonDown = True
         else:
             self.buttonDown = False

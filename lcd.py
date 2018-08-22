@@ -9,17 +9,17 @@ https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/
 1    VSS                     =  6   GND
 2    VDD                     =  2   5V
 3    V0 (Contrast 0V-5V)     =  14  GND
-4    RS (Register Select)    =  26  GP7
+4    RS (Register Select)    =  26  GP7 // 25
 5    R/W (Read Write)        =  9   GND
-6    E (Enable or Strobe)    =  24  GP8
+6    E (Enable or Strobe)    =  24  GP8 // 24
 7    D0 (Data bit 0)         =  //  UNUSED
 8    D1 (Data bit 1)         =  //  UNUSED
 9    D2 (Data bit 2)         =  //  UNUSED
 10   D3 (Data bit 3)         =  //  UNUSED
-11   D4 (Data bit 4)         =  22  GP25
-12   D5 (Data bit 5)         =  18  GP24
-13   D6 (Data bit 6)         =  16  GP23
-14   D7 (Data bit 7)         =  12  GP18
+11   D4 (Data bit 4)         =  22  GP25 // 22
+12   D5 (Data bit 5)         =  18  GP24 // 23
+13   D6 (Data bit 6)         =  16  GP23 // 27
+14   D7 (Data bit 7)         =  12  GP18 // 17
 15   A (LCD Backlight +5V**) =  4   5V (with resistor? or use 3.3V?)
 16   K (LCD Backlight GND)   =  20  GND
 """
@@ -28,21 +28,21 @@ import RPi.GPIO as GPIO
 import time
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(26, GPIO.OUT)   # RS
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(25, GPIO.OUT)   # RS
 GPIO.setup(24, GPIO.OUT)   # E
 GPIO.setup(22, GPIO.OUT)  # DB4
-GPIO.setup(18, GPIO.OUT)  # DB5
-GPIO.setup(16, GPIO.OUT)  # DB6
-GPIO.setup(12, GPIO.OUT)  # DB7
+GPIO.setup(23, GPIO.OUT)  # DB5
+GPIO.setup(27, GPIO.OUT)  # DB6
+GPIO.setup(17, GPIO.OUT)  # DB7
 
 # Define GPIO to LCD mapping
-LCD_RS = 26
+LCD_RS = 25
 LCD_E = 24
 LCD_D4 = 22
-LCD_D5 = 18
-LCD_D6 = 16
-LCD_D7 = 12
+LCD_D5 = 23
+LCD_D6 = 27
+LCD_D7 = 17
 
 # Define device constants
 LCD_WIDTH = 16
