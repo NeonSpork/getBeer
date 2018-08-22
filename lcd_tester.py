@@ -5,19 +5,10 @@ import RPi.GPIO as GPIO
 from charlcd import direct as lcd_direct
 from charlcd.drivers.gpio import Gpio
 
-GPIO.setmode(GPIO.BOARD)
 
-g = Gpio()
-g.pins = {
-    'RS': 26,
-    'E': 24,
-    'DB4': 22,
-    'DB5': 18,
-    'DB6': 16,
-    'DB7': 12
-}
+GPIO.setmode(GPIO.BCM)
 
-l = lcd_direct.CharLCD(16, 2, g, cursor_visible=0)
+l = lcd_direct.CharLCD(16, 2, cursor_visible=0)
 
 l.write('BEER!!\nMore BEER!!')
 
