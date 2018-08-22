@@ -8,7 +8,7 @@ from charlcd.drivers.gpio import Gpio
 
 GPIO.setmode(GPIO.BCM)
 
-l = lcd_direct.CharLCD(16, 2, cursor_visible=0)
+l = lcd_direct.CharLCD(16, 2, Gpio(), cursor_visible=0)
 
 l.write('BEER!!\nMore BEER!!')
 
