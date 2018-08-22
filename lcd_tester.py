@@ -7,6 +7,12 @@ from charlcd.drivers.gpio import Gpio
 
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(25, GPIO.OUT)   # RS
+GPIO.setup(24, GPIO.OUT)   # E
+GPIO.setup(22, GPIO.OUT)  # DB4
+GPIO.setup(23, GPIO.OUT)  # DB5
+GPIO.setup(27, GPIO.OUT)  # DB6
+GPIO.setup(17, GPIO.OUT)  # DB7
 
 l = lcd_direct.CharLCD(16, 2, Gpio(), cursor_visible=0)
 
