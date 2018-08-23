@@ -65,7 +65,8 @@ class BeerDispenser(object):
 
     def flowSignal(self, channel):
         if GPIO.input(13):  # Pulse from flow meter, SHOULD be 1:1 pulse:ml
-            self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
+            If self.kegVolume > 0:
+                self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
         else:
             self.dispensedBeer = 0
         return self.dispensedBeer
