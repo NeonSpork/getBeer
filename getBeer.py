@@ -65,7 +65,8 @@ class BeerDispenser(object):
 
     def flowSignal(self, channel):
         if GPIO.input(13):  # Pulse from flow meter, SHOULD be 1:1 pulse:ml
-            self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
+            if self.kegVolume > 0:
+                self.dispensedBeer += 1  # Adjust this to whatever equates 1 ml
         else:
             self.dispensedBeer = 0
         return self.dispensedBeer
@@ -90,11 +91,11 @@ class BeerDispenser(object):
         self.dispensing = False
 
     def drawToLittleScreen(self, message, line):
-        lcd.lcd_clear()
-        if line == 1:
-            lcd.lcd_string(message, LCD_LINE_1)
-        if line == 2:
-            lcd.lcd_string(message, LCD_LINE_2)
+        lcd.lcd_string(message, line)
+        # if line == 1:
+        #     lcd.lcd_string(message, LCD_LINE_1)
+        # if line == 2:
+        #     lcd.lcd_string(message, LCD_LINE_2)
 
     def drawImageToBigScreen(self, image, x, y):
         self.image = image

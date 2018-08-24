@@ -2,7 +2,9 @@
 
 import time
 import RPi.GPIO as GPIO
-from RPLCD import CharLCD
+import charlcd
+#from charlcd import direct as lcd_direct
+#from charlcd.drivers.gpio import Gpio
 
 
 GPIO.setmode(GPIO.BCM)
@@ -13,17 +15,17 @@ GPIO.setup(23, GPIO.OUT)  # DB5
 GPIO.setup(27, GPIO.OUT)  # DB6
 GPIO.setup(17, GPIO.OUT)  # DB7
 
-lcd = CharLCD(pin_rs=25,
-              pin_e=24,
-              pins_data=[22, 23, 27, 17],
-              numbering_mode=GPIO.BCM,
-              cols=16, rows=2)
+lcd = charlcd.direct.CharLCD(16, 2, Gpio())
 
-lcd.write_string('BEER!!\nMore BEER!!')
-lcd.clear()
+lcd.write('BEER!')
+lcd.write('More beer', 0, 1)
+
 time.sleep(5)
+#lcd.clear()
 
-lcd.write_string('Exiting')
-lcd.clear()
+lcd.write('Exiting')
+lcd.write('Now', 0, 1)
+time.sleep(5)
+#lcd.shutdown()
 
 GPIO.cleanup()
