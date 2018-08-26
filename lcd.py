@@ -8,20 +8,20 @@ https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/
 ## Pin on LCD #############|## Pin on RPi ##
 1    VSS                     =  6   GND
 2    VDD                     =  2   5V
-3    V0 (Contrast 0V-5V)     =  14  GND
-4    RS (Register Select)    =  26  GP7 // 25
-5    R/W (Read Write)        =  9   GND
-6    E (Enable or Strobe)    =  24  GP8 // 24
+3    V0 (Contrast 0V-5V)     =  6   GND via 10k potentiometer
+4    RS (Register Select)    =  22  GP25
+5    R/W (Read Write)        =  6   GND
+6    E (Enable or Strobe)    =  18  GP24
 7    D0 (Data bit 0)         =  //  UNUSED
 8    D1 (Data bit 1)         =  //  UNUSED
 9    D2 (Data bit 2)         =  //  UNUSED
 10   D3 (Data bit 3)         =  //  UNUSED
-11   D4 (Data bit 4)         =  22  GP25 // 22
-12   D5 (Data bit 5)         =  18  GP24 // 23
-13   D6 (Data bit 6)         =  16  GP23 // 27
-14   D7 (Data bit 7)         =  12  GP18 // 17
-15   A (LCD Backlight +5V**) =  4   5V (with resistor? or use 3.3V?)
-16   K (LCD Backlight GND)   =  20  GND
+11   D4 (Data bit 4)         =  15  GP22
+12   D5 (Data bit 5)         =  16  GP23
+13   D6 (Data bit 6)         =  13  GP27
+14   D7 (Data bit 7)         =  11  GP17
+15   A (LCD Backlight +5V**) =  2   5V (with resistor? or use 3.3V?)
+16   K (LCD Backlight GND)   =  6   GND
 """
 
 import RPi.GPIO as GPIO
