@@ -14,8 +14,6 @@ SWIDTH = root.winfo_screenwidth()
 SHEIGHT = root.winfo_screenheight()
 RELX = SWIDTH/1024
 RELY = SHEIGHT/600
-LCD_LINE_1 = 0x80  # LCD RAM address for first line
-LCD_LINE_2 = 0xC0  # LCD RAM address for second line
 
 # Colors
 DARK_GREY = (25, 25, 25)
@@ -24,7 +22,7 @@ MAGENTA = (233, 0, 255)
 PURPLE = (179, 0, 255)
 
 # Image files - run through scale transform (optimized for 1024x600)
-dispensor_background = pg.image.load('img/background_screen_bricks1.png')
+dispensor_background = pg.image.load('img/background_screen_info.png')
 DISPENSOR_BACKGROUND = pg.transform.scale(dispensor_background,
                                           (int(1024*RELX), int(600*RELY)))
 intro_background = pg.image.load('img/splash_screen.png')
