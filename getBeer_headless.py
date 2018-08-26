@@ -6,8 +6,8 @@ run the Pi zero and solenoid from batteries, so that this unit
 can be mobile, aka portable beer dispensor!
 
 Wiring the hardware:
-Button          - GP21 (pin 40] & GND (pin 39)
-Magnetic valve  - GP5 (pin 29) & 3.3V, both via relay to battery and valve
+Button          - GP21 (pin 40) & GND (pin 39)
+Magnetic valve  - GP5 (pin 29) & GND (pin 30), both via relay to battery/valve
 
 See lcd.py for wiring the 16x2 LCD display.
 """
