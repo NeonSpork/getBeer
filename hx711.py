@@ -21,8 +21,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 import RPi.GPIO as GPIO
-import time
-import sys
 
 
 class HX711:
