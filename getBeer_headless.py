@@ -36,7 +36,6 @@ class BeerDispenser(object):
         lcd.lcd_clear()
 
         # Parameters for dispenser
-        self.running = True
         self.buttonDown = False
 
     def openValve(self):
@@ -52,34 +51,24 @@ class BeerDispenser(object):
             self.buttonDown = True
         return self.buttonDown
 
-    def buttonOn(self):
-        self.dispensing = True
-        self.openValve()
-        self.kegVolume = str(self.kegVolume)
-        if len(self.kegVolume) > 0:
-            self.kegVolume = int(self.kegVolume)
-            self.kegVolume -= int(self.dispensedBeer)
-
-    def buttonOff(self):
-        self.shutValve()
-        self.dispensing = False
-
     def buttonCheck(self):
         if self.buttonDown:
-            self.buttonOn()
+            self.openValve()
             lcd.lcd_string('Dispensing BEER!', 1)
             lcd.lcd_string('Enjoy your drink', 2)
         else:
-            self.buttonOff()
+            self.shutValve()
             lcd.lcd_string('READY: Push', 1)
             lcd.lcd_string('button for beer!', 2)
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    while b.running:
+    while True:
         try:
             b.buttonCheck()
         except KeyboardInterrupt:
-            b.running = False
-    GPIO.cleanup()
-    sys.exit()
+            lcd.lcd_string('Clean exit', 1)
+            lcd.lcd_string('Shutting down', 2)
+            GPIO.cleanup()
+            print("Clean exit.")
+            sys.exit()
