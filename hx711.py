@@ -88,28 +88,28 @@ class HX711:
         # Control if the chip is ready
         while not (GPIO.input(self.DOUT) == 0):
             pass
-        
+
         # Original C source code ported to Python as described in datasheet
         # https://cdn.sparkfun.com/datasheets/Sensors/ForceFlex/hx711_english.pdf
         # Output from python matched the output of different HX711 Arduino library example
         # Lastly, behaviour matches while applying pressure
         # Please see page 8 of the PDF document
-        
+
         GPIO.output(self.PD_SCK, True)
         GPIO.output(self.PD_SCK, False)
         count = 0
-        
+
         for i in range(24):
             GPIO.output(self.PD_SCK, True)
             count = count << 1
             GPIO.output(self.PD_SCK, False)
             if(GPIO.input(self.DOUT)):
                 count += 1
-                
+
         GPIO.output(self.PD_SCK, True)
         count = count ^ 0x800000
         GPIO.output(self.PD_SCK, False)
-        
+
         return count
 
     def read_average(self, times=16):
@@ -122,12 +122,14 @@ class HX711:
             sum += self.read()
         return sum / times
 
-    def get_grams(times=16):
+    def get_grams(self, times=16):
         """
         :param times: set value to calculate average
         :return float weight in grams
         """
-        return self.read_average(times) - self.OFFSET
+        value = self.read_average(times) - self.OFFSET
+        grams = value / self.SCALE
+        return grams
 
     def tare(self, times=16):
         """
