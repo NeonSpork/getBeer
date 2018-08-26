@@ -38,6 +38,8 @@ class BeerDispenser(object):
         # Parameters for dispenser
         self.buttonDown = False
 
+        print('Dispenser online!')
+
     def openValve(self):
         GPIO.output(5, True)
 
@@ -61,14 +63,14 @@ class BeerDispenser(object):
             lcd.lcd_string('READY: Push', 1)
             lcd.lcd_string('button for beer!', 2)
 
+
 if __name__ == '__main__':
     b = BeerDispenser()
     while True:
         try:
             b.buttonCheck()
         except KeyboardInterrupt:
-            lcd.lcd_string('Clean exit', 1)
-            lcd.lcd_string('Shutting down', 2)
+            lcd.lcd_clear()
+            print('\nClean exit.')
             GPIO.cleanup()
-            print("Clean exit.")
             sys.exit()
