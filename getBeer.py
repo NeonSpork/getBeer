@@ -178,8 +178,8 @@ class BeerDispenser(object):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(DEFAULT_THUMBNAIL, SWIDTH/2, (75*RELY))
         thumbImage = 1
-        ratioX = 0.2
-        ratioY = 0.25
+        x = (SWIDTH/2)-(225*RELX)
+        y = (225*RELY)
         for iy in range(3):
             y = (SHEIGHT*ratioY)
             for ix in range(4):
@@ -188,10 +188,10 @@ class BeerDispenser(object):
                     self.drawToScreen(THUMB[thumbImage], x, y)
                 except IndexError:
                     self.drawToScreen(COMING_SOON, x, y)
-                ratioX += 0.2
+                x += (149*RELX)
                 thumbImage += 1
-            ratioY += 0.25
-            ratioX = 0.2
+            y += (149*RELY)
+            x = (SWIDTH/2)-(225*RELX)
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
