@@ -181,9 +181,7 @@ class BeerDispenser(object):
         x = (SWIDTH/2)-(225*RELX)
         y = (225*RELY)
         for iy in range(3):
-            y = (SHEIGHT*ratioY)
             for ix in range(4):
-                x = (SWIDTH*ratioX)
                 try:
                     self.drawToScreen(THUMB[thumbImage], x, y)
                 except IndexError:
