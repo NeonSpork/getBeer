@@ -40,9 +40,9 @@ class BeerDispenser(object):
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
 
         # Load sensor
-        hx = HX711(2, 3)
-        hx.set_scale(92)  # Sets bit value for 1g
-        hx.set_offset(0)  # This gets calibrated to zero the sensor
+#        hx = HX711(2, 3)
+ #       hx.set_scale(92)  # Sets bit value for 1g
+  #      hx.set_offset(0)  # This gets calibrated to zero the sensor
 
         # Parameters for dispenser
         self.running = True
@@ -52,6 +52,7 @@ class BeerDispenser(object):
         self.dispenserDisplay = True
         self.beerChooser = False
         self.tempSensor = W1ThermSensor()
+        self.counter = 0
 
     def drawToScreen(self, image, x, y):
         self.image = image
@@ -195,7 +196,7 @@ class BeerDispenser(object):
 
     def infoDisplay(self):
         lcd.lcd_string('{} ml'.format(self.kegVolume()), 1)
-        lcd.lcd_string('{} *Celcius'.format(self.kegTemp()), 2)
+        lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
 
     def kegVolume(self):
         #dryKegVolume = 4000  # Dry weight of keg system
@@ -215,16 +216,20 @@ class BeerDispenser(object):
         if self.beerChooser:
             self.beerChooserEvents()
             self.beerChooserDraw()
-        self.infoDisplay()
+        self.counter += 1
+        if self.counter > 600:
+             self.infoDisplay()
+             self.counter = 0
 
 if __name__ == '__main__':
     b = BeerDispenser()
+    b.infoDisplay()
     while b.running:
         try:
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    b.hx.reset()
+#    b.hx.reset()
     lcd.lcd_clear()
     GPIO.cleanup()
     pg.quit()
