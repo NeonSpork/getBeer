@@ -2,7 +2,7 @@
 
 Original source: https://gist.github.com/underdoeg/98a38b54f889fce2b237
 Documentation source: https://github.com/aguegu/ardulibs/tree/master/hx711
-Adapted by 2017 Jiri Dohnalek
+Adapted by 2017 Jiri Dohnalek: https://github.com/learn2develop/hx711py
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
