@@ -1,6 +1,4 @@
-"""Settings file for getBeerPG.
-
-TESTING
+"""List of variables used in getBeer
 """
 import tkinter as tk
 import pygame as pg
