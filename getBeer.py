@@ -1,10 +1,10 @@
-"""getBeer
+"""TEST VERSION FOR
 
-This version of the dispensor uses a 7 inch touch screen
-as the primary interface. This is designed to be build into
-a kegerator, and as such it has more permanent features like
-an automatic measurement of remaining volume via a load sensor
-(weight scale), temperature monitor, etc.
+####################
+### RASPBERRY PI ###
+####################
+
+Testing tester
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
