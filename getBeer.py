@@ -1,4 +1,4 @@
-"""getBeer_touch
+"""getBeer
 
 This version of the dispensor uses a 7 inch touch screen
 as the primary interface. This is designed to be build into
