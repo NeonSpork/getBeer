@@ -10,7 +10,7 @@
 # @reboot /home/pi/getBeer/autolaunch.sh > /home/pi/getBeer/beer.log 2>&1
 
 cd /home/pi/getBeer
-/usr/bin/python3 getBeer_touch.py 
+/usr/bin/python3 getBeer.py
 # change the file name to whatever is appropriate
 # for example getBeer_touch.py or getBeer_headless.py
 
