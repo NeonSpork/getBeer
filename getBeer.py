@@ -4,6 +4,8 @@
 ### RASPBERRY PI ###
 ####################
 
+Testing tester
+
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
 Temperature - GP4 (pin 7), GND (pin 20) & 3v3 (pin 1)
