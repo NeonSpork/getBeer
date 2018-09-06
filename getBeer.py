@@ -193,14 +193,15 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def infoDisplay():
+    def infoDisplay(self):
         lcd.lcd_string('{} ml'.format(self.kegVolume()), 1)
         lcd.lcd_string('{} *Celcius'.format(self.kegTemp()), 2)
 
     def kegVolume(self):
-        dryKegVolume = 4000  # Dry weight of keg system
-        wetKegVolume = hx.get_grams() - dryKegVolume
-        return wetKegVolume
+        #dryKegVolume = 4000  # Dry weight of keg system
+        #wetKegVolume = hx.get_grams() - dryKegVolume
+        #return wetKegVolume
+        return 19000
 
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
@@ -223,7 +224,7 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    hx.reset()
+    b.hx.reset()
     lcd.lcd_clear()
     GPIO.cleanup()
     pg.quit()
