@@ -70,6 +70,7 @@ class BeerDispenser(object):
             if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
+                pg.time.delay(500)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
         else:
@@ -117,58 +118,72 @@ class BeerDispenser(object):
             if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(150*RELX)) < self.mouse[0] < (x+(150*RELX)) and self.mouse[1] < (150*RELY):
                 self.bg_image = 0  # Default background
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 1
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(150*RELX)) < self.mouse[0] < x and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 2
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if x < self.mouse[0] < (x+(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 3
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 4
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 5
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(150*RELX)) < self.mouse[0] < x and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 6
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if x < self.mouse[0] < (x+(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 7
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 8
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 9
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x-(150*RELX)) < self.mouse[0] < x and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 10
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if x < self.mouse[0] < (x+(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 11
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 12
                 self.dispenserDisplay = True
                 self.beerChooser = False
+                pg.time.delay(500)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
