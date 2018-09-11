@@ -39,10 +39,14 @@ class BeerDispenser(object):
         GPIO.setup(2, GPIO.IN)  # Load sensor DT
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
 
+        # LCD
+        lcd.lcd_init()
+        lcd.lcd_clear()
+
         # Load sensor
-#        hx = HX711(2, 3)
- #       hx.set_scale(92)  # Sets bit value for 1g
-  #      hx.set_offset(0)  # This gets calibrated to zero the sensor
+        self.hx = HX711(dout_pin=2, pd_sck_pin=3, gain_channel_A=64, select_channel='A')
+        self.hx.set_offset(100350, channel='A', gain_A=64)  # This gets calibrated to zero the sensor
+        self.hx.set_scale_ratio(channel='A', gain_A=64, scale_ratio=36.2109)
 
         # Parameters for dispenser
         self.running = True
@@ -91,7 +95,8 @@ class BeerDispenser(object):
         self.dispensing = False
 
     def dispensorDraw(self):
-        self.pintsLeft = (self.kegVolume()+499)/500
+        if self.counter > 600:
+            self.pintsLeft = int((int(self.kegVolume())+499)/500)
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
         except IndexError:
@@ -211,14 +216,13 @@ class BeerDispenser(object):
         pg.display.flip()
 
     def infoDisplay(self):
-        lcd.lcd_string('{} ml'.format(self.kegVolume()), 1)
+        lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
         lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
 
     def kegVolume(self):
-        #dryKegVolume = 4000  # Dry weight of keg system
-        #wetKegVolume = hx.get_grams() - dryKegVolume
-        #return wetKegVolume
-        return 19000
+        dryKegVolume = 0  # Dry weight of keg system
+        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume
+        return wetKegVolume
 
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
@@ -239,6 +243,7 @@ class BeerDispenser(object):
 
 if __name__ == '__main__':
     b = BeerDispenser()
+    b.pintsLeft = 0
     b.infoDisplay()
     while b.running:
         try:
