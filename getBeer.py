@@ -21,6 +21,8 @@ from w1thermsensor import W1ThermSensor
 import lcd
 
 
+pg.init()
+
 class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
@@ -253,8 +255,7 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-        finally:
-            b.hx.reset()
-            lcd.lcd_clear()
-            GPIO.cleanup()
-            pg.quit()
+    b.hx.reset()
+    lcd.lcd_clear()
+    GPIO.cleanup()
+    pg.quit()
