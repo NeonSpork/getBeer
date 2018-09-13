@@ -220,11 +220,11 @@ class BeerDispenser(object):
 
     def kegVolume(self):
         dryKegVolume = 0  # Dry weight of keg system
-        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume
+        wetKegVolume = self.hx.get_weight_mean(times=1) - dryKegVolume
+        if wetKegVolume < 0:
+            wetKegVolume = 0
+        self.pintsLeft = int(wetKegVolume/500)
         return wetKegVolume
-
-    def kegPints(self):
-        self.pintsLeft = int((int(self.kegVolume())+499)/500)
 
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
@@ -239,8 +239,7 @@ class BeerDispenser(object):
             self.beerChooserEvents()
             self.beerChooserDraw()
         self.counter += 1
-        if self.counter > 600:
-            self.kegPints()
+        if self.counter > 60:
             self.infoDisplay()
             self.counter = 0
 
