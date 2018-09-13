@@ -57,6 +57,7 @@ class BeerDispenser(object):
         self.beerChooser = False
         self.tempSensor = W1ThermSensor()
         self.counter = 0
+        self.pintsLeft = 0
 
     def drawToScreen(self, image, x, y):
         self.image = image
@@ -95,8 +96,6 @@ class BeerDispenser(object):
         self.dispensing = False
 
     def dispensorDraw(self):
-        if self.counter > 600:
-            self.pintsLeft = int((int(self.kegVolume())+499)/500)
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
         except IndexError:
@@ -106,9 +105,9 @@ class BeerDispenser(object):
         if not self.dispensing:
             self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
-        if int(int(self.kegVolume())/500) <= 9:
+        if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
-        if int(int(self.kegVolume())/500) > 9:
+        if int(self.pintsLeft) > 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
@@ -224,6 +223,9 @@ class BeerDispenser(object):
         wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume
         return wetKegVolume
 
+    def kegPints(self):
+        self.pintsLeft = int((int(self.kegVolume())+499)/500)
+
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
         return kegTemperature
@@ -238,8 +240,9 @@ class BeerDispenser(object):
             self.beerChooserDraw()
         self.counter += 1
         if self.counter > 600:
-             self.infoDisplay()
-             self.counter = 0
+            self.kegPints()
+            self.infoDisplay()
+            self.counter = 0
 
 if __name__ == '__main__':
     b = BeerDispenser()
@@ -250,7 +253,8 @@ if __name__ == '__main__':
             b.run()
         except KeyboardInterrupt:
             b.running = False
-#    b.hx.reset()
-    lcd.lcd_clear()
-    GPIO.cleanup()
-    pg.quit()
+        finally:
+            b.hx.reset()
+            lcd.lcd_clear()
+            GPIO.cleanup()
+            pg.quit()
