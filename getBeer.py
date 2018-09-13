@@ -21,8 +21,6 @@ from w1thermsensor import W1ThermSensor
 import lcd
 
 
-pg.init()
-
 class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
