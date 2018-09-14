@@ -95,7 +95,6 @@ class BeerDispenser(object):
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
-            # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
         GPIO.output(5, True)
@@ -211,7 +210,6 @@ class BeerDispenser(object):
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
-            #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
@@ -273,7 +271,7 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 lcd.lcd_clear()
-                b.hx.reset()
+                self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
