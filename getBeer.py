@@ -258,8 +258,6 @@ class BeerDispenser(object):
         lcd.lcd_clear()
         b.hx.reset()
         GPIO.cleanup()
-        pg.quit()
-        sys.exit()
 
 
 if __name__ == '__main__':
@@ -271,3 +269,5 @@ if __name__ == '__main__':
     gameLoop.start()
     littleLCD.join()
     gameLoop.join()
+    pg.quit()
+    sys.exit()
