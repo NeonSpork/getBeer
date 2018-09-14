@@ -10,11 +10,16 @@ See LCD for wiring 16x2 display
 """
 
 import pygame as pg
+from multiprocessing import Process
 from settings import *
 import RPi.GPIO as GPIO
 from hx711 import HX711
 from w1thermsensor import W1ThermSensor
 import lcd
+
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
 
 
 class BeerDispenser(object):
@@ -24,10 +29,6 @@ class BeerDispenser(object):
         self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
         pg.mouse.set_visible(True)  # change to False when using touch screen
         self.clock = pg.time.Clock()
-
-        # Sets numeration of channels according to GPIO on Pi
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
 
         # Set up GPIO pins
         GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
@@ -219,8 +220,10 @@ class BeerDispenser(object):
         wetKegVolume = self.hx.get_weight_mean(times=1) - dryKegVolume
         if wetKegVolume < 0:
             wetKegVolume = 0
-        self.pintsLeft = int(wetKegVolume/500)
         return wetKegVolume
+    
+    def pintsCalculation(self):
+        self.pintsLeft = int(self.kegVolume()/500)
 
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
@@ -236,13 +239,15 @@ class BeerDispenser(object):
             self.beerChooserDraw()
         self.counter += 1
         if self.counter > 60:
-            self.infoDisplay()
+            self.pintsCalculation()
             self.counter = 0
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    b.pintsLeft = 0
-    b.infoDisplay()
+    b.pintsCalculation()
+    littleLCD = Process(target=b.infoDisplay)
+    littleLCD.start()
+    littleLCD.join()
     while b.running:
         try:
             b.run()
