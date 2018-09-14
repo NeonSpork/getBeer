@@ -75,14 +75,14 @@ class BeerDispenser(object):
                 self.beerChooser = True
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
-                self.cleanUp()
+                self.running = False
         else:
             self.shutValve()
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                self.cleanUp()
+                self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.cleanUp()
+                self.running = False
             # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
@@ -188,9 +188,9 @@ class BeerDispenser(object):
                 pg.time.delay(100)
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                self.cleanUp()
+                self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.cleanUp()
+                self.running = False
             #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
@@ -252,23 +252,21 @@ class BeerDispenser(object):
             try:
                 self.run()
             except KeyboardInterrupt:
-                self.cleanUp()
-
-    def cleanUp(self):
-        self.running = False
-        lcd.lcd_clear()
-        b.hx.reset()
-        GPIO.cleanup()
+                self.running = False
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    littleLCD = Process(target=b.infoDisplay)
-    gameLoop = Process(target=b.mainLoop)
-    littleLCD.start()
-    gameLoop.start()
+    if self.running:
+        littleLCD = Process(target=b.infoDisplay)
+        gameLoop = Process(target=b.mainLoop)
+        littleLCD.start()
+        gameLoop.start()
     littleLCD.join()
     gameLoop.join()
+    lcd.lcd_clear()
+    b.hx.reset()
+    GPIO.cleanup()
     pg.quit()
     sys.exit()
