@@ -1,10 +1,6 @@
-"""TEST VERSION FOR
+"""getBeer
 
-####################
-### RASPBERRY PI ###
-####################
-
-Testing tester
+Control unit for beer dispensor built into kegerator.
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
