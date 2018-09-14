@@ -212,8 +212,9 @@ class BeerDispenser(object):
         pg.display.flip()
 
     def infoDisplay(self):
-        lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
-        lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
+        while self.running:
+            lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
+            lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
 
     def kegVolume(self):
         dryKegVolume = 0  # Dry weight of keg system
@@ -221,7 +222,7 @@ class BeerDispenser(object):
         if wetKegVolume < 0:
             wetKegVolume = 0
         return wetKegVolume
-    
+
     def pintsCalculation(self):
         self.pintsLeft = int(self.kegVolume()/500)
 
@@ -246,13 +247,18 @@ if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
     littleLCD = Process(target=b.infoDisplay)
+    gameLoop = Process(target=mainLoop)
     littleLCD.start()
+    gameLoop.start()
     littleLCD.join()
+    gameLoop.join()
     while b.running:
         try:
             b.run()
+            littleLCD.join()
         except KeyboardInterrupt:
             b.running = False
+    littleLCD.join()
     b.hx.reset()
     lcd.lcd_clear()
     GPIO.cleanup()
