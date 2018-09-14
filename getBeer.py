@@ -253,6 +253,11 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 self.running = False
+                lcd.lcd_clear()
+                b.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
 
 
 if __name__ == '__main__':
@@ -263,10 +268,6 @@ if __name__ == '__main__':
         gameLoop = Process(target=b.mainLoop)
         littleLCD.start()
         gameLoop.start()
-    littleLCD.join()
-    gameLoop.join()
-    lcd.lcd_clear()
-    b.hx.reset()
-    GPIO.cleanup()
-    pg.quit()
-    sys.exit()
+    if not b.running:
+        littleLCD.join()
+        gameLoop.join()
