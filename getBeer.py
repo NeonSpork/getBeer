@@ -76,6 +76,10 @@ class BeerDispenser(object):
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
         else:
             self.shutValve()
         for event in pg.event.get():
