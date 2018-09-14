@@ -240,31 +240,31 @@ class BeerDispenser(object):
             self.counter = 0
 
     def infoDisplay(self):
-        while self.running:
+        try:
             lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
             lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
-        if not self.running:
+        except KeyboardInterrupt:
             lcd.lcd_clear()
 
     def mainLoop(self):
-        while self.running:
-            try:
-                self.run()
-            except KeyboardInterrupt:
-                self.running = False
-        if not self.running:
-            self.hx.reset()
-            GPIO.cleanup()
-            pg.quit()
-            sys.exit()
+        try:
+            self.run()
+        except KeyboardInterrupt:
+            self.running = False
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    littleLCD = Process(target=b.infoDisplay)
-    gameLoop = Process(target=b.mainLoop)
-    littleLCD.start()
-    gameLoop.start()
+    if b.running:
+        littleLCD = Process(target=b.infoDisplay)
+        gameLoop = Process(target=b.mainLoop)
+        littleLCD.start()
+        gameLoop.start()
     littleLCD.join()
     gameLoop.join()
+    lcd.lcd_clear()
+    self.hx.reset()
+    GPIO.cleanup()
+    pg.quit()
+    sys.exit()
