@@ -245,7 +245,7 @@ class BeerDispenser(object):
             self.beerChooserEvents()
             self.beerChooserDraw()
         self.counter += 1
-        if self.counter > 60:
+        if self.counter > 30:
             self.pintsCalculation()
             self.counter = 0
 
