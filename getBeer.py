@@ -258,7 +258,7 @@ class BeerDispenser(object):
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    if self.running:
+    if b.running:
         littleLCD = Process(target=b.infoDisplay)
         gameLoop = Process(target=b.mainLoop)
         littleLCD.start()
