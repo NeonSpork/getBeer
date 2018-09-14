@@ -75,7 +75,7 @@ class BeerDispenser(object):
                 self.beerChooser = True
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
-self.running = False
+                self.running = False
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
