@@ -9,6 +9,7 @@ Load sensor - VCC=3v3 (pin 17), GND (pin 9), DT=GP2 (pin 3), SCK=GP3 (pin 5)
 See LCD for wiring 16x2 display
 """
 
+import sys
 import pygame as pg
 from multiprocessing import Process
 from settings import *
@@ -242,6 +243,8 @@ class BeerDispenser(object):
         while self.running:
             lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
             lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
+        if not self.running:
+            lcd.lcd_clear()
 
     def mainLoop(self):
         while self.running:
@@ -249,10 +252,11 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 self.running = False
-        self.hx.reset()
-        lcd.lcd_clear()
-        GPIO.cleanup()
-        pg.quit()
+        if not self.running:
+            self.hx.reset()
+            GPIO.cleanup()
+            pg.quit()
+            sys.exit()
 
 
 if __name__ == '__main__':
@@ -264,4 +268,3 @@ if __name__ == '__main__':
     gameLoop.start()
     littleLCD.join()
     gameLoop.join()
-    littleLCD.join()
