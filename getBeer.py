@@ -75,14 +75,26 @@ class BeerDispenser(object):
                 self.beerChooser = True
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
-                self.running = False
+self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
         else:
             self.shutValve()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
             # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
@@ -189,8 +201,16 @@ class BeerDispenser(object):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
+                self.hx.reset()
+                GPIO.cleanup()
+                pg.quit()
+                sys.exit()
             #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
@@ -252,22 +272,23 @@ class BeerDispenser(object):
             try:
                 self.run()
             except KeyboardInterrupt:
-                self.running = False
                 lcd.lcd_clear()
                 b.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
+        else:
+            GPIO.cleanup()
+            pg.quit()
+            sys.exit()
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    if b.running:
-        littleLCD = Process(target=b.infoDisplay)
-        gameLoop = Process(target=b.mainLoop)
-        littleLCD.start()
-        gameLoop.start()
-    if not b.running:
-        littleLCD.join()
-        gameLoop.join()
+    littleLCD = Process(target=b.infoDisplay)
+    gameLoop = Process(target=b.mainLoop)
+    littleLCD.start()
+    gameLoop.start()
+    littleLCD.join()
+    gameLoop.join()
