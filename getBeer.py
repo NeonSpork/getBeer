@@ -255,6 +255,7 @@ class BeerDispenser(object):
                 self.cleanUp()
 
     def cleanUp(self):
+        self.running = False
         lcd.lcd_clear()
         b.hx.reset()
         GPIO.cleanup()
