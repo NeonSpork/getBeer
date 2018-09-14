@@ -76,6 +76,7 @@ class BeerDispenser(object):
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
+                lcd.lcd_clear()
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
@@ -85,17 +86,18 @@ class BeerDispenser(object):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
+                lcd.lcd_clear()
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
+                lcd.lcd_clear()
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
-            # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
         GPIO.output(5, True)
@@ -201,17 +203,18 @@ class BeerDispenser(object):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
+                lcd.lcd_clear()
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
+                lcd.lcd_clear()
                 self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
-            #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
@@ -255,7 +258,7 @@ class BeerDispenser(object):
             self.beerChooserEvents()
             self.beerChooserDraw()
         self.counter += 1
-        if self.counter > 60:
+        if self.counter > 30:
             self.pintsCalculation()
             self.counter = 0
 
@@ -273,11 +276,13 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 lcd.lcd_clear()
-                b.hx.reset()
+                self.hx.reset()
                 GPIO.cleanup()
                 pg.quit()
                 sys.exit()
         else:
+            lcd.lcd_clear()
+            self.hx.reset()
             GPIO.cleanup()
             pg.quit()
             sys.exit()
