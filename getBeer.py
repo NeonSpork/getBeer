@@ -1,10 +1,10 @@
-"""getBeer
+"""TEST VERSION FOR
 
-This version of the dispensor uses a 7 inch touch screen
-as the primary interface. This is designed to be build into
-a kegerator, and as such it has more permanent features like
-an automatic measurement of remaining volume via a load sensor
-(weight scale), temperature monitor, etc.
+####################
+### RASPBERRY PI ###
+####################
+
+Testing tester
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
@@ -39,10 +39,14 @@ class BeerDispenser(object):
         GPIO.setup(2, GPIO.IN)  # Load sensor DT
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
 
+        # LCD
+        lcd.lcd_init()
+        lcd.lcd_clear()
+
         # Load sensor
-        hx = HX711(2, 3)
-        hx.set_scale(92)  # Sets bit value for 1g
-        hx.set_offset(0)  # This gets calibrated to zero the sensor
+        self.hx = HX711(dout_pin=2, pd_sck_pin=3, gain_channel_A=64, select_channel='A')
+        self.hx.set_offset(100350, channel='A', gain_A=64)  # This gets calibrated to zero the sensor
+        self.hx.set_scale_ratio(channel='A', gain_A=64, scale_ratio=36.2109)
 
         # Parameters for dispenser
         self.running = True
@@ -52,6 +56,8 @@ class BeerDispenser(object):
         self.dispenserDisplay = True
         self.beerChooser = False
         self.tempSensor = W1ThermSensor()
+        self.counter = 0
+        self.pintsLeft = 0
 
     def drawToScreen(self, image, x, y):
         self.image = image
@@ -66,6 +72,12 @@ class BeerDispenser(object):
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.openValve()
+            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+                self.dispenserDisplay = False
+                self.beerChooser = True
+                pg.time.delay(100)
+            if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
+                self.running = False
         else:
             self.shutValve()
         for event in pg.event.get():
@@ -73,12 +85,7 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
-                    self.dispenserDisplay = False
-                    self.beerChooser = True
-                if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
-                    self.running = False
+            # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
         GPIO.output(5, True)
@@ -89,7 +96,6 @@ class BeerDispenser(object):
         self.dispensing = False
 
     def dispensorDraw(self):
-        self.pintsLeft = (self.kegVolume()+499)/500
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
         except IndexError:
@@ -99,9 +105,9 @@ class BeerDispenser(object):
         if not self.dispensing:
             self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
-        if int(int(self.kegVolume())/500) <= 9:
+        if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
-        if int(int(self.kegVolume())/500) > 9:
+        if int(self.pintsLeft) > 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
@@ -111,68 +117,83 @@ class BeerDispenser(object):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
+        x, y = SWIDTH/2, SHEIGHT/2
+        if self.click[0] == 1:
+            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(150*RELX)) < self.mouse[0] < (x+(150*RELX)) and self.mouse[1] < (150*RELY):
+                self.bg_image = 0  # Default background
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
+                self.bg_image = 1
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(150*RELX)) < self.mouse[0] < x and (150*RELY) < self.mouse[1] < (300*RELY):
+                self.bg_image = 2
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if x < self.mouse[0] < (x+(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
+                self.bg_image = 3
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
+                self.bg_image = 4
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
+                self.bg_image = 5
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(150*RELX)) < self.mouse[0] < x and (300*RELY) < self.mouse[1] < (450*RELY):
+                self.bg_image = 6
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if x < self.mouse[0] < (x+(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
+                self.bg_image = 7
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
+                self.bg_image = 8
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
+                self.bg_image = 9
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x-(150*RELX)) < self.mouse[0] < x and (450*RELY) < self.mouse[1] < (600*RELY):
+                self.bg_image = 10
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if x < self.mouse[0] < (x+(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
+                self.bg_image = 11
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
+            if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
+                self.bg_image = 12
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                pg.time.delay(100)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                x, y = SWIDTH/2, SHEIGHT/2
-                if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(150*RELX)) < self.mouse[0] < (x+(150*RELX)) and self.mouse[1] < (150*RELY):
-                    self.bg_image = 0  # Default background
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
-                    self.bg_image = 1
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(150*RELX)) < self.mouse[0] < x and (150*RELY) < self.mouse[1] < (300*RELY):
-                    self.bg_image = 2
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if x < self.mouse[0] < (x+(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
-                    self.bg_image = 3
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
-                    self.bg_image = 4
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
-                    self.bg_image = 5
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(150*RELX)) < self.mouse[0] < x and (300*RELY) < self.mouse[1] < (450*RELY):
-                    self.bg_image = 6
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if x < self.mouse[0] < (x+(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
-                    self.bg_image = 7
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
-                    self.bg_image = 8
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
-                    self.bg_image = 9
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x-(150*RELX)) < self.mouse[0] < x and (450*RELY) < self.mouse[1] < (600*RELY):
-                    self.bg_image = 10
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if x < self.mouse[0] < (x+(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
-                    self.bg_image = 11
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
-                if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
-                    self.bg_image = 12
-                    self.dispenserDisplay = True
-                    self.beerChooser = False
+            #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
@@ -193,13 +214,16 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def infoDisplay():
-        lcd.lcd_string('{} ml'.format(self.kegVolume()), 1)
-        lcd.lcd_string('{} *Celcius'.format(self.kegTemp()), 2)
+    def infoDisplay(self):
+        lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
+        lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
 
     def kegVolume(self):
-        dryKegVolume = 4000  # Dry weight of keg system
-        wetKegVolume = hx.get_grams() - dryKegVolume
+        dryKegVolume = 0  # Dry weight of keg system
+        wetKegVolume = self.hx.get_weight_mean(times=1) - dryKegVolume
+        if wetKegVolume < 0:
+            wetKegVolume = 0
+        self.pintsLeft = int(wetKegVolume/500)
         return wetKegVolume
 
     def kegTemp(self):
@@ -214,16 +238,21 @@ class BeerDispenser(object):
         if self.beerChooser:
             self.beerChooserEvents()
             self.beerChooserDraw()
-        self.infoDisplay()
+        self.counter += 1
+        if self.counter > 60:
+            self.infoDisplay()
+            self.counter = 0
 
 if __name__ == '__main__':
     b = BeerDispenser()
+    b.pintsLeft = 0
+    b.infoDisplay()
     while b.running:
         try:
             b.run()
         except KeyboardInterrupt:
             b.running = False
-    hx.reset()
+    b.hx.reset()
     lcd.lcd_clear()
     GPIO.cleanup()
     pg.quit()
