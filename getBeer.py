@@ -75,14 +75,14 @@ class BeerDispenser(object):
                 self.beerChooser = True
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
-                self.running = False
+                self.cleanUp()
         else:
             self.shutValve()
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                self.running = False
+                self.cleanUp()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.running = False
+                self.cleanUp()
             # if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def openValve(self):
@@ -188,9 +188,9 @@ class BeerDispenser(object):
                 pg.time.delay(100)
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                self.running = False
+                self.cleanUp()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.running = False
+                self.cleanUp()
             #if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
     def beerChooserDraw(self):
@@ -252,21 +252,22 @@ class BeerDispenser(object):
             try:
                 self.run()
             except KeyboardInterrupt:
-                self.running = False
+                self.cleanUp()
+
+    def cleanUp(self):
+        lcd.lcd_clear()
+        b.hx.reset()
+        GPIO.cleanup()
+        pg.quit()
+        sys.exit()
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    if b.running:
-        littleLCD = Process(target=b.infoDisplay)
-        gameLoop = Process(target=b.mainLoop)
-        littleLCD.start()
-        gameLoop.start()
+    littleLCD = Process(target=b.infoDisplay)
+    gameLoop = Process(target=b.mainLoop)
+    littleLCD.start()
+    gameLoop.start()
     littleLCD.join()
     gameLoop.join()
-    lcd.lcd_clear()
-    b.hx.reset()
-    GPIO.cleanup()
-    pg.quit()
-    sys.exit()
