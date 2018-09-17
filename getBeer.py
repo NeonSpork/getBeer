@@ -224,7 +224,7 @@ class BeerDispenser(object):
 
     def kegVolume(self):
         dryKegVolume = 0  # Dry weight of keg system
-        wetKegVolume = self.hx.get_weight_mean(times=1) - dryKegVolume
+        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume  # Trying mean 10x, adjust down if it runs poorly
         if wetKegVolume < 0:
             wetKegVolume = 0
         return wetKegVolume
