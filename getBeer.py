@@ -288,5 +288,6 @@ if __name__ == '__main__':
     gameLoop = Process(target=b.mainLoop)
     littleLCD.start()
     gameLoop.start()
-    littleLCD.join()
-    gameLoop.join()
+    while b.running:
+        littleLCD.join()
+        gameLoop.join()
