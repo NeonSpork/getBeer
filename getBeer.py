@@ -83,10 +83,6 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
 
     def openValve(self):
         GPIO.output(5, True)
@@ -194,10 +190,6 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
 
     def beerChooserDraw(self):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
@@ -259,11 +251,6 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 self.running = False
-                lcd.lcd_clear()
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
         else:
             GPIO.cleanup()
             pg.quit()
@@ -288,7 +275,7 @@ if __name__ == '__main__':
         lcd.lcd_clear()
         b.hx.power_down()
         GPIO.cleanup()
-        pg.quit()
-        sys.exit()
         littleLCD.join()
         gameLoop.join()
+        pg.quit()
+        sys.exit()
