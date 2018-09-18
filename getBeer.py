@@ -76,10 +76,6 @@ class BeerDispenser(object):
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
         else:
             self.shutValve()
         for event in pg.event.get():
@@ -87,10 +83,6 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
 
     def openValve(self):
         GPIO.output(5, True)
@@ -198,10 +190,6 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
 
     def beerChooserDraw(self):
         self.drawToScreen(BRICKS, SWIDTH/2, SHEIGHT/2)
@@ -262,11 +250,7 @@ class BeerDispenser(object):
             try:
                 self.run()
             except KeyboardInterrupt:
-                lcd.lcd_clear()
-                self.hx.reset()
-                GPIO.cleanup()
-                pg.quit()
-                sys.exit()
+                self.running = False
         else:
             GPIO.cleanup()
             pg.quit()
@@ -280,10 +264,18 @@ if __name__ == '__main__':
     gameLoop = Process(target=b.mainLoop)
     littleLCD.start()
     gameLoop.start()
-    littleLCD.join()
-    gameLoop.join()
-    lcd.lcd_clear()
-    b.hx.reset()
-    GPIO.cleanup()
-    pg.quit()
-    sys.exit()
+    try:
+        while b.running:
+            try:
+                littleLCD.join()
+                gameLoop.join()
+            except KeyboardInterrupt:
+                b.running = False
+    finally:
+        b.hx.power_down()
+        littleLCD.join()
+        gameLoop.join()
+        lcd.lcd_clear()
+        pg.quit()
+        GPIO.cleanup()
+        sys.exit()
