@@ -277,17 +277,18 @@ if __name__ == '__main__':
     gameLoop = Process(target=b.mainLoop)
     littleLCD.start()
     gameLoop.start()
-    while b.running:
-        try:
-            littleLCD.join()
-            gameLoop.join()
-        except KeyboardInterrupt:
-            b.running = False
-    littleLCD.join()
-    gameLoop.join()
-    pg.quit()
-    lcd.lcd_clear()
-    b.hx.reset()
-    GPIO.cleanup()
-    #pg.quit()
-    sys.exit()
+    try:
+        while b.running:
+            try:
+                littleLCD.join()
+                gameLoop.join()
+            except KeyboardInterrupt:
+                b.running = False
+    finally:
+        littleLCD.join()
+        gameLoop.join()
+        lcd.lcd_clear()
+        b.hx.reset()
+        GPIO.cleanup()
+        pg.quit()
+        sys.exit()
