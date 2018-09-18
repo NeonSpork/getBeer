@@ -283,8 +283,11 @@ if __name__ == '__main__':
             gameLoop.join()
         except KeyboardInterrupt:
             b.running = False
+    littleLCD.join()
+    gameLoop.join()
+    pg.quit()
     lcd.lcd_clear()
     b.hx.reset()
     GPIO.cleanup()
-    pg.quit()
+    #pg.quit()
     sys.exit()
