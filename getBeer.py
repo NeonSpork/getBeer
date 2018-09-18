@@ -286,9 +286,9 @@ if __name__ == '__main__':
                 b.running = False
     finally:
         lcd.lcd_clear()
-        littleLCD.join()
         b.hx.power_down()
         GPIO.cleanup()
         pg.quit()
-        gameLoop.join()
         sys.exit()
+        littleLCD.join()
+        gameLoop.join()
