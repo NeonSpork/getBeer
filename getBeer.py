@@ -211,7 +211,7 @@ class BeerDispenser(object):
         pg.display.flip()
 
     def kegVolume(self):
-        dryKegVolume = 0  # Dry weight of keg system
+        dryKegVolume = 4000  # Dry weight of keg system
         wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume  # Trying mean 10x, adjust down if it runs poorly
         if wetKegVolume < 0:
             wetKegVolume = 0
