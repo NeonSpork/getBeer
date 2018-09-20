@@ -92,9 +92,15 @@ class BeerDispenser(object):
         except IndexError:
             self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         if self.dispensing:
-            self.drawToScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            if self.bg_image == 2:
+                self.drawToScreen(RED_BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            else:
+                self.drawToScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if not self.dispensing:
-            self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            if self.bg_image == 2:
+                self.drawToScreen(RED_BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+            else:
+                self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
