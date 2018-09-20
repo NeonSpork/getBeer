@@ -57,12 +57,6 @@ class BeerDispenser(object):
         self.counter = 0
         self.pintsLeft = 0
 
-    def drawToScreen(self, image, x, y):
-        self.image = image
-        image_rect = image.get_rect()
-        image_rect.center = (x, y)
-        self.screen.blit(image, image_rect)
-
     def dispensorEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
@@ -109,6 +103,12 @@ class BeerDispenser(object):
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
+
+    def drawToScreen(self, image, x, y):
+        self.image = image
+        image_rect = image.get_rect()
+        image_rect.center = (x, y)
+        self.screen.blit(image, image_rect)
 
     def beerChooserEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -210,19 +210,27 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
+    def infoDisplay(self):
+        while self.running:
+            try:
+                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
+                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
+            except KeyboardInterrupt:
+                self.running = False
+
     def kegVolume(self):
-        dryKegVolume = 4000  # Dry weight of keg system
-        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegVolume  # Trying mean 10x, adjust down if it runs poorly
+        dryKegWeight = 4025
+        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegWeight
         if wetKegVolume < 0:
             wetKegVolume = 0
         return wetKegVolume
 
-    def pintsCalculation(self):
-        self.pintsLeft = int(self.kegVolume()/500)
-
     def kegTemp(self):
         kegTemperature = self.tempSensor.get_temperature()
         return kegTemperature
+
+    def pintsCalculation(self):
+        self.pintsLeft = int(self.kegVolume()/500)
 
     def run(self):
         self.clock.tick(FPS)
@@ -236,14 +244,6 @@ class BeerDispenser(object):
         if self.counter > 60:
             self.pintsCalculation()
             self.counter = 0
-
-    def infoDisplay(self):
-        while self.running:
-            try:
-                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
-                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
-            except KeyboardInterrupt:
-                self.running = False
 
     def mainLoop(self):
         while self.running:
