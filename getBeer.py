@@ -56,6 +56,7 @@ class BeerDispenser(object):
         self.tempSensor = W1ThermSensor()
         self.counter = 0
         self.pintsLeft = 0
+        self.secretTimer = 0
 
     def dispensorEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -70,6 +71,10 @@ class BeerDispenser(object):
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
+            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                self.secretTimer += 1
+            if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                self.secretTimer -= 1
         else:
             self.shutValve()
         for event in pg.event.get():
@@ -246,6 +251,12 @@ class BeerDispenser(object):
         if self.beerChooser:
             self.beerChooserEvents()
             self.beerChooserDraw()
+        if self.secretActive:
+            self.secretEvents()
+            self.secretDraw()
+            self.secretFrame += 1
+            if self.secretFrame < 120:  # Secret screen animation is on 2 s  loop
+                self.secretFrame = 0
         self.counter += 1
         if self.counter > 60:
             self.pintsCalculation()
