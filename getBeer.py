@@ -57,6 +57,8 @@ class BeerDispenser(object):
         self.counter = 0
         self.pintsLeft = 0
         self.secretTimer = 0
+        self.secretActive = False
+        self.secretDispenseOn = False
 
     def dispensorEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -77,11 +79,16 @@ class BeerDispenser(object):
                 self.secretTimer -= 1
         else:
             self.shutValve()
+            self.shutSecretValve()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
+        if self.secretTimer < 300:
+            self.dispenserDisplay = False
+            self.beerChooser = False
+            self.secretActive = True
 
     def openValve(self):
         GPIO.output(5, True)
@@ -242,6 +249,26 @@ class BeerDispenser(object):
 
     def pintsCalculation(self):
         self.pintsLeft = int(self.kegVolume()/500)
+
+    def secretEvents():
+        self.mouse = pg.mouse.get_pos()
+        self.click = pg.mouse.get_pressed()
+        self.keys = pg.key.get_pressed()
+        if self.click[0] == 1:
+            if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
+                self.secretDispenseOn = True
+                self.openSecretValve()
+            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+                self.bg_image = 0
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                self.secretActive = False
+                pg.time.delay(100)
+
+    def secretDraw():
+        self.drawToScreen(SECRET[self.secretFrame], SWIDTH/2, SHEIGHT/2)
+        if self.secretDispenseOn:
+            self.drawToScreen(SECRET_ICON, ((SWIDTH-100)*RELX), SHEIGHT/2)
 
     def run(self):
         self.clock.tick(FPS)
