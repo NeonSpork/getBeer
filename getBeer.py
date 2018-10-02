@@ -64,7 +64,7 @@ class BeerDispenser(object):
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.openValve()
-            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+            if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
                 pg.time.delay(100)
@@ -122,7 +122,7 @@ class BeerDispenser(object):
         self.keys = pg.key.get_pressed()
         x, y = SWIDTH/2, SHEIGHT/2
         if self.click[0] == 1:
-            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+            if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
