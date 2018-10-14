@@ -1,4 +1,4 @@
-"""getBeer
+"""getBeer // TOP SECRET
 
 Control unit for beer dispensor built into kegerator.
 
@@ -33,6 +33,7 @@ class BeerDispenser(object):
 
         # Set up GPIO pins
         GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+        GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
         GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
         GPIO.setup(2, GPIO.IN)  # Load sensor DT
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
@@ -67,7 +68,7 @@ class BeerDispenser(object):
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.openValve()
-            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+            if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
                 pg.time.delay(100)
@@ -96,6 +97,14 @@ class BeerDispenser(object):
 
     def shutValve(self):
         GPIO.output(5, False)
+        self.dispensing = False
+
+    def openSecretValve(self):
+        GPIO.output(6, True)
+        self.dispensing = True
+
+    def shutSecretValve(self):
+        GPIO.output(6, False)
         self.dispensing = False
 
     def dispensorDraw(self):
@@ -134,7 +143,7 @@ class BeerDispenser(object):
         self.keys = pg.key.get_pressed()
         x, y = SWIDTH/2, SHEIGHT/2
         if self.click[0] == 1:
-            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+            if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
@@ -258,7 +267,7 @@ class BeerDispenser(object):
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
                 self.secretDispenseOn = True
                 self.openSecretValve()
-            if self.mouse[0] < (50*RELX) and self.mouse[1] < (50*RELY):
+            if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.bg_image = 0
                 self.dispenserDisplay = True
                 self.beerChooser = False
