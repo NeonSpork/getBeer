@@ -78,6 +78,10 @@ class BeerDispenser(object):
                 self.running = False
             if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                 self.secretTimer += 1
+                if self.secretTimer < 180 and self.bg_image == 0:
+                    self.dispenserDisplay = False
+                    self.beerChooser = False
+                    self.secretActive = True
             if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                 self.secretTimer -= 1
         else:
@@ -88,10 +92,6 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-        if self.secretTimer < 180 and self.bg_image == 0:
-            self.dispenserDisplay = False
-            self.beerChooser = False
-            self.secretActive = True
 
     def openValve(self):
         GPIO.output(5, True)
