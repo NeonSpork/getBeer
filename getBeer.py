@@ -4,6 +4,7 @@ Control unit for beer dispensor built into kegerator.
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
+Secret valve  - GP6 (pin 31) & GND (pin 30)
 Temperature - GP4 (pin 7), GND (pin 20) & 3v3 (pin 1)
 Load sensor - VCC=3v3 (pin 17), GND (pin 9), DT=GP2 (pin 3), SCK=GP3 (pin 5)
 See LCD for wiring 16x2 display
@@ -58,6 +59,7 @@ class BeerDispenser(object):
         self.counter = 0
         self.pintsLeft = 0
         self.secretTimer = 0
+        self.secretTimeIdle = 0
         self.secretActive = False
         self.secretDispenseOn = False
 
@@ -86,7 +88,7 @@ class BeerDispenser(object):
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
-        if self.secretTimer < 300:
+        if self.secretTimer < 180 and self.bg_image == 0:
             self.dispenserDisplay = False
             self.beerChooser = False
             self.secretActive = True
@@ -267,17 +269,42 @@ class BeerDispenser(object):
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
                 self.secretDispenseOn = True
                 self.openSecretValve()
+                self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
+                self.dispenserDisplay = False
+                self.beerChooser = True
+                self.secretActive = False
+                pg.time.delay(100)
+            if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.bg_image = 0
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
                 pg.time.delay(100)
+        else:
+            self.secretTimeIdle += 1
+            if self.secretTimeIdle > 600:
+                self-shutSecretValve()
+                self.dispenserDisplay = True
+                self.beerChooser = False
+                self.secretActive = False
+            self.shutSecretValve()
 
     def secretDraw():
-        self.drawToScreen(SECRET[self.secretFrame], SWIDTH/2, SHEIGHT/2)
+        self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
+        self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispenseOn:
-            self.drawToScreen(SECRET_ICON, ((SWIDTH-100)*RELX), SHEIGHT/2)
+            self.drawToScreen(SECRET_ICON_ON, ((SWIDTH-100)*RELX), SHEIGHT/2)
+        else:
+            self.drawToScreen(SECRET_ICON_OFF, ((SWIDTH-100)*RELX), SHEIGHT/2)
+        self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
+        if int(self.pintsLeft) <= 9:
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
+        if int(self.pintsLeft) > 9:
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
+        self.drawToScreen(QUIT, (25*RELX), (25*RELY))
+        pg.display.flip()
 
     def run(self):
         self.clock.tick(FPS)
@@ -290,9 +317,6 @@ class BeerDispenser(object):
         if self.secretActive:
             self.secretEvents()
             self.secretDraw()
-            self.secretFrame += 1
-            if self.secretFrame < 120:  # Secret screen animation is on 2 s  loop
-                self.secretFrame = 0
         self.counter += 1
         if self.counter > 60:
             self.pintsCalculation()
