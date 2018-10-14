@@ -280,7 +280,7 @@ class BeerDispenser(object):
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
-                pg.time.delay(100)
+                # pg.time.delay(100)
         else:
             self.secretTimeIdle += 1
             if self.secretTimeIdle > 600:
@@ -294,9 +294,9 @@ class BeerDispenser(object):
         self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispenseOn:
-            self.drawToScreen(SECRET_ICON_ON, ((SWIDTH-100)*RELX), SHEIGHT/2)
+            self.drawToScreen(SECRET_ICON_ON, (100*RELX), SHEIGHT-(100*RELY))
         else:
-            self.drawToScreen(SECRET_ICON_OFF, ((SWIDTH-100)*RELX), SHEIGHT/2)
+            self.drawToScreen(SECRET_ICON_OFF, (100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
