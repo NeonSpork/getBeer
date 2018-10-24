@@ -82,8 +82,9 @@ class BeerDispenser(object):
                     self.dispenserDisplay = False
                     self.beerChooser = False
                     self.secretActive = True
-            if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                self.secretTimer -= 1
+                    pg.time.delay(100)
+            #if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                #self.secretTimer -= 1
         else:
             self.shutValve()
             self.shutSecretValve()
