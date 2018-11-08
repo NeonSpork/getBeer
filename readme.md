@@ -21,4 +21,5 @@ WORK IN PROGRESS
 
 ## Code
 Should be able to clone directly into raspberry pi
-Needs to have PyGame library installed. Tested & developed using PyGame 1.9.4
+Needs to have PyGame library installed. Tested & developed using PyGame 1.9.4 
+Currently working on implementing the dispenser in C++ with SFML 2.5.1
