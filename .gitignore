@@ -1,8 +1,3 @@
-# Python stuff
-*.png~
-__pycache__/
-*.pyc
-
 # Prerequisites
 *.d
 
@@ -37,6 +32,16 @@ __pycache__/
 *.out
 *.app
 
+# CMake build directory
+build/
+
 # Others (schematics etc.)
 *.pub
 *.pdf
+*.sublime-project
+*.sublime-workspace
+
+# Python stuff
+*.png~
+__pycache__/
+*.pyc
