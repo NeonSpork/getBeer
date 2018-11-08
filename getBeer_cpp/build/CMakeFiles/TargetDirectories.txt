@@ -1,0 +1,3 @@
+D:/Programs/Coding_sandbox/getBeer/getBeer/getBeer_cpp/build/CMakeFiles/rebuild_cache.dir
+D:/Programs/Coding_sandbox/getBeer/getBeer/getBeer_cpp/build/CMakeFiles/game.dir
+D:/Programs/Coding_sandbox/getBeer/getBeer/getBeer_cpp/build/CMakeFiles/edit_cache.dir
