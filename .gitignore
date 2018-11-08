@@ -32,6 +32,9 @@
 *.out
 *.app
 
+# CMake build directory
+build/
+
 # Others (schematics etc.)
 *.pub
 *.pdf
