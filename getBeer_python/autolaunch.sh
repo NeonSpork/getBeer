@@ -7,7 +7,7 @@
 ### CLI version
 # $ crontab -e
 # add the following line at the bottom:
-# @reboot /home/pi/getBeer/autolaunch.sh > /home/pi/getBeer/beer.log 2>&1
+# @reboot /home/pi/getBeer/getBeer_python/autolaunch.sh > /home/pi/getBeer/getBeer_python/beer.log 2>&1
 
 cd /home/pi/getBeer/getBeer_python
 /usr/bin/python3 getBeer.py
