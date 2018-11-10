@@ -3,7 +3,7 @@
 ### GUI / desktop version
 # $ sudo nano /home/pi/.config/lxsession/LXDE-pi/autostart
 # add the following line at the bottom:
-# @sh /home/pi/getBeer/autolaunch.sh
+# @sh /home/pi/getBeer/getBeer_python/autolaunch.sh
 ### CLI version
 # $ crontab -e
 # add the following line at the bottom:
