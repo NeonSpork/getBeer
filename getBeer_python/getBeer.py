@@ -108,11 +108,11 @@ class BeerDispenser(object):
 
     def openSecretValve(self):
         GPIO.output(6, True)
-        self.dispensing = True
+        self.secretDispenseOn = True
 
     def shutSecretValve(self):
         GPIO.output(6, False)
-        self.dispensing = False
+        self.secretDispenseOn = False
 
     def dispensorDraw(self):
         try:
@@ -272,7 +272,7 @@ class BeerDispenser(object):
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
-                self.secretDispenseOn = True
+                # self.secretDispenseOn = True
                 self.openSecretValve()
                 self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
@@ -299,9 +299,9 @@ class BeerDispenser(object):
         self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispenseOn:
-            self.drawToScreen(SECRET_ICON_ON, (100*RELX), SHEIGHT-(100*RELY))
+            self.drawToScreen(SECRET_ICON_ON, (150*RELX), (150*RELY))
         else:
-            self.drawToScreen(SECRET_ICON_OFF, (100*RELX), SHEIGHT-(100*RELY))
+            self.drawToScreen(SECRET_ICON_OFF, (150*RELX), (150*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
