@@ -287,12 +287,12 @@ class BeerDispenser(object):
                 self.secretActive = False
                 # pg.time.delay(100)
         else:
-            self.secretTimeIdle += 1
-            if self.secretTimeIdle > 600:
-                self.shutSecretValve()
-                self.dispenserDisplay = True
-                self.beerChooser = False
-                self.secretActive = False
+            # self.secretTimeIdle += 1
+            # if self.secretTimeIdle > 600:
+            #     self.shutSecretValve()
+            #     self.dispenserDisplay = True
+            #     self.beerChooser = False
+            #     self.secretActive = False
             self.shutSecretValve()
 
     def secretDraw():
