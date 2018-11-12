@@ -55,12 +55,12 @@ class BeerDispenser(object):
         self.bg_image = 0
         self.dispenserDisplay = True
         self.beerChooser = False
+        self.secretActive = False
         self.tempSensor = W1ThermSensor()
         self.counter = 0
         self.pintsLeft = 0
         self.secretTimer = 0
         self.secretTimeIdle = 0
-        self.secretActive = False
         self.secretDispenseOn = False
 
     def dispensorEvents(self):
@@ -272,9 +272,9 @@ class BeerDispenser(object):
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
-                # self.secretDispenseOn = True
+                self.secretDispenseOn = True
                 self.openSecretValve()
-                self.secretTimeIdle = 0
+                # self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
@@ -288,9 +288,9 @@ class BeerDispenser(object):
                 # pg.time.delay(100)
             if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                 # temp fix to see if the screen freeze is fixed
-                self.dispenserDisplay = False
+                self.dispenserDisplay = True
                 self.beerChooser = False
-                self.secretActive = True
+                self.secretActive = False
                 pg.time.delay(100)
         else:
             # self.secretTimeIdle += 1
@@ -305,9 +305,9 @@ class BeerDispenser(object):
         self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispenseOn:
-            self.drawToScreen(SECRET_ICON_ON, (150*RELX), (150*RELY))
+            self.drawToScreen(SECRET_ICON_ON, (100*RELX), (100*RELY))
         else:
-            self.drawToScreen(SECRET_ICON_OFF, (150*RELX), (150*RELY))
+            self.drawToScreen(SECRET_ICON_OFF, (100*RELX), (100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) <= 9:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
@@ -319,13 +319,13 @@ class BeerDispenser(object):
 
     def run(self):
         self.clock.tick(FPS)
-        if self.dispenserDisplay:
+        if (self.dispenserDisplay and not (self.beerChooser or self.secretActive)):
             self.dispensorEvents()
             self.dispensorDraw()
-        if self.beerChooser:
+        if (self.beerChooser and not (self.dispenserDisplay or self.secretActive)):
             self.beerChooserEvents()
             self.beerChooserDraw()
-        if self.secretActive:
+        if (self.secretActive and not (self.beerChooser or self.dispenserDisplay)):
             self.secretEvents()
             self.secretDraw()
         self.counter += 1
