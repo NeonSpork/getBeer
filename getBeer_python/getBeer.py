@@ -286,6 +286,12 @@ class BeerDispenser(object):
                 self.beerChooser = False
                 self.secretActive = False
                 # pg.time.delay(100)
+            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                # temp fix to see if the screen freeze is fixed
+                self.dispenserDisplay = False
+                self.beerChooser = False
+                self.secretActive = True
+                pg.time.delay(100)
         else:
             # self.secretTimeIdle += 1
             # if self.secretTimeIdle > 600:
