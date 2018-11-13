@@ -63,6 +63,28 @@ class BeerDispenser(object):
         self.secretTimeIdle = 0
         self.secretDispenseOn = False
 
+    def openValve(self):
+        GPIO.output(5, True)
+        self.dispensing = True
+
+    def shutValve(self):
+        GPIO.output(5, False)
+        self.dispensing = False
+
+    def openSecretValve(self):
+        GPIO.output(6, True)
+        self.secretDispenseOn = True
+
+    def shutSecretValve(self):
+        GPIO.output(6, False)
+        self.secretDispenseOn = False
+
+    def drawToScreen(self, image, x, y):
+        self.image = image
+        image_rect = image.get_rect()
+        image_rect.center = (x, y)
+        self.screen.blit(image, image_rect)
+
     def dispensorEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
@@ -98,22 +120,6 @@ class BeerDispenser(object):
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
 
-    def openValve(self):
-        GPIO.output(5, True)
-        self.dispensing = True
-
-    def shutValve(self):
-        GPIO.output(5, False)
-        self.dispensing = False
-
-    def openSecretValve(self):
-        GPIO.output(6, True)
-        self.secretDispenseOn = True
-
-    def shutSecretValve(self):
-        GPIO.output(6, False)
-        self.secretDispenseOn = False
-
     def dispensorDraw(self):
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
@@ -137,12 +143,6 @@ class BeerDispenser(object):
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
-
-    def drawToScreen(self, image, x, y):
-        self.image = image
-        image_rect = image.get_rect()
-        image_rect.center = (x, y)
-        self.screen.blit(image, image_rect)
 
     def beerChooserEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -244,35 +244,13 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def infoDisplay(self):
-        while self.running:
-            try:
-                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
-                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
-            except KeyboardInterrupt:
-                self.running = False
-
-    def kegVolume(self):
-        dryKegWeight = 4025
-        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegWeight
-        if wetKegVolume < 0:
-            wetKegVolume = 0
-        return wetKegVolume
-
-    def kegTemp(self):
-        kegTemperature = self.tempSensor.get_temperature()
-        return kegTemperature
-
-    def pintsCalculation(self):
-        self.pintsLeft = int(self.kegVolume()/500)
-
     def secretEvents():
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
-                self.secretDispenseOn = True
+                # self.secretDispenseOn = True
                 self.openSecretValve()
                 # self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
@@ -299,6 +277,7 @@ class BeerDispenser(object):
             #     self.dispenserDisplay = True
             #     self.beerChooser = False
             #     self.secretActive = False
+            # self.secretDispenseOn = False
             self.shutSecretValve()
 
     def secretDraw():
@@ -316,6 +295,28 @@ class BeerDispenser(object):
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
+
+    def infoDisplay(self):
+        while self.running:
+            try:
+                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
+                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
+            except KeyboardInterrupt:
+                self.running = False
+
+    def kegVolume(self):
+        dryKegWeight = 4025
+        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegWeight
+        if wetKegVolume < 0:
+            wetKegVolume = 0
+        return wetKegVolume
+
+    def kegTemp(self):
+        kegTemperature = self.tempSensor.get_temperature()
+        return kegTemperature
+
+    def pintsCalculation(self):
+        self.pintsLeft = int(self.kegVolume()/500)
 
     def run(self):
         self.clock.tick(FPS)
