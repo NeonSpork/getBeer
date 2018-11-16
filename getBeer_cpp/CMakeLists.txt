@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
 #Change the name "dispenser" to whatever you want
 project(dispenser VERSION 0.1.0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 
 # Specify default build type if none provided (before project() command)
@@ -18,7 +19,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
   ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-  ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+  ${PROJECT_BINARY_DIR}/..)
 
 # Offer the user the choice of overriding the installation directories
 set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
@@ -34,18 +35,20 @@ set(INSTALL_CMAKEDIR ${DEF_INSTALL_CMAKEDIR} CACHE PATH "Installation directory 
 # Report to user
 foreach(p LIB BIN INCLUDE CMAKE)
   file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path )
-  message(STATUS "Installing ${p} components to ${_path}")
+  # message(STATUS "Installing ${p} components to ${_path}")
   unset(_path)
 endforeach()
 
 # Edit the subdirectories as needed
-include_directories(${PROJECT_BINARY_DIR})
+include_directories(
+  ${PROJECT_BINARY_DIR}/include
+  ${PROJECT_BINARY_DIR}/src
+  )
 
 add_executable(dispenser
-  src/Dispenser.cpp
-  include/Dispenser.hpp
-  src/TextureHolder.cpp
-  include/TextureHolder.hpp
+  src/App.cpp
+  include/App.hpp
+  # UPDATE THIS
   main.cpp
   )
 
@@ -75,7 +78,7 @@ else()
   message("-> Make sure the SFML libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
 endif()
 
-
+# add_library(Textures ${TEXTURE_SRC} ${TEXTURE_INCLUDE})
 
 # Linking to all the libraries, for simplicity
 target_link_libraries(dispenser sfml-audio sfml-graphics sfml-network sfml-window sfml-system)

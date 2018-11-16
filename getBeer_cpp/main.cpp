@@ -4,11 +4,20 @@
 // running on a Raspberry Pi, a touch screen, a bunch of
 // electronics and an old fridge.
 
-#include "./include/Dispenser.hpp"
+#include "./include/App.hpp"
+#include <stdexcept>
+#include <iostream>
 
 int main()
 {
-    Dispenser getBeer;
+  try
+  {
+    App getBeer;
     getBeer.run();
-    return 0;
+  }
+  catch (std::exception& e)
+  {
+    std::cout << "\nEXCEPTION:" << e.what();
+  }
+  return 0;
 }
