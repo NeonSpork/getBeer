@@ -1,9 +1,10 @@
 #include "../include/State.hpp"
 #include "../include/StateStack.hpp"
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, BeerDrinker& beerdrinker)
 : window(&window)
 , textures(&textures)
+, beerdrinker(&beerdrinker)
 {
 }
 

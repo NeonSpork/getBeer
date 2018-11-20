@@ -4,7 +4,8 @@
 
 
 App::App()
-: 
+: mWindow()
 {
+  mWindow.setMouseCursorVisible(false);
   // START OVER
 }

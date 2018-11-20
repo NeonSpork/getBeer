@@ -78,9 +78,7 @@ else()
   message("-> Make sure the SFML libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
 endif()
 
-# add_library(Textures ${TEXTURE_SRC} ${TEXTURE_INCLUDE})
-
 # Linking to all the libraries, for simplicity
-target_link_libraries(dispenser sfml-audio sfml-graphics sfml-network sfml-window sfml-system)
+target_link_libraries(dispenser sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()

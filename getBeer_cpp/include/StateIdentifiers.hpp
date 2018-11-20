@@ -6,9 +6,11 @@ namespace States
   enum ID
   {
     None,
-    Beer_dispenser,
-    Beer_menu,
-    Secret_dispenser,
+    DefaultState,
+    TropicalThunder,
+    AngryBabushka,
+    BeerMenu,
+    SecretDispenser,
   };
 }
 

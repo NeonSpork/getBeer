@@ -13,6 +13,7 @@ namespace sf
 }
 
 class StateStack;
+class BeerDrinker;
 
 class State
 {
@@ -20,9 +21,11 @@ public:
   typedef std::unique_ptr<State> Ptr;
   struct Context
   {
-    Context(sf::RenderWindow& window, TextureHolder& textures);
+    Context(sf::RenderWindow& window, TextureHolder& textures, BeerDrinker& beerdrinker);
     sf::RenderWindow* window;
     TextureHolder* textures;
+    BeerDrinker* beerdrinker;
+
   };
 
 public:

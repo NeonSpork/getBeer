@@ -18,7 +18,7 @@ private:
     void processInput();
     void update(sf::Time deltaTime);
     void render();
-    void updateStatistics();
+    void updateStatistics(sf::Time deltaTime);
     void registerStates();
 
 private:
