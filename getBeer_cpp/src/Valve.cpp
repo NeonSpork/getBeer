@@ -1,12 +1,11 @@
 #include "../include/Valve.hpp"
 #include <cmath>
 
-Valve::Valve(Type type, GPIO::DigitalOut valvepin)
+Valve::Valve(Type type, unsigned int pin)
 : mType(type)
-, mValvePin(valvepin)
+, mPin(pin)
 , mIsOpen(false)
 {
   // Valve GPIO pin starts closed
-
-  mValvePin.off()
+  mValvePin(mPin);
 }
