@@ -5,5 +5,48 @@
         <file>Page2Form.ui.qml</file>
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>media/bg/angry_babushka_bg.png</file>
+        <file>media/bg/brick_wall.png</file>
+        <file>media/bg/CMakeLists.txt</file>
+        <file>media/bg/default_background.png</file>
+        <file>media/bg/tropical_thunder_bg.png</file>
+        <file>media/icon/angry_babushka_icon.png</file>
+        <file>media/icon/beer_button_off.png</file>
+        <file>media/icon/beer_button_on.png</file>
+        <file>media/icon/beer_button_red_off.png</file>
+        <file>media/icon/beer_button_red_on.png</file>
+        <file>media/icon/CMakeLists.txt</file>
+        <file>media/icon/coming_soon_icon.png</file>
+        <file>media/icon/cursor.png</file>
+        <file>media/icon/default_icon.png</file>
+        <file>media/icon/exit.png</file>
+        <file>media/icon/ml_icon.png</file>
+        <file>media/icon/pints.png</file>
+        <file>media/icon/secret_off.png</file>
+        <file>media/icon/secret_on.png</file>
+        <file>media/icon/temp_icon.png</file>
+        <file>media/icon/tropical_thunder_icon.png</file>
+        <file>media/num/CMakeLists.txt</file>
+        <file>media/num/num0.png</file>
+        <file>media/num/num1.png</file>
+        <file>media/num/num2.png</file>
+        <file>media/num/num3.png</file>
+        <file>media/num/num4.png</file>
+        <file>media/num/num5.png</file>
+        <file>media/num/num6.png</file>
+        <file>media/num/num7.png</file>
+        <file>media/num/num8.png</file>
+        <file>media/num/num9.png</file>
+        <file>media/CMakeLists.txt</file>
+        <file>CMakeLists.txt</file>
+        <file>main.cpp</file>
+        <file>qml.qrc</file>
+        <file>Page3Form.ui.qml</file>
+        <file>Page4Form.ui.qml</file>
+        <file>Tropical_thunder_button.ui.qml</file>
+        <file>Angry_babushka_button.ui.qml</file>
+        <file>ComingSoon.ui.qml</file>
+        <file>Coming_soon.ui.qml</file>
+        <file>Default_selection.ui.qml</file>
     </qresource>
 </RCC>

@@ -3,31 +3,30 @@ import QtQuick.Controls 2.2
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Tabs")
+    width: 1024
+    height: 600
+    title: qsTr("getBeer")
 
     SwipeView {
         id: swipeView
         anchors.fill: parent
-        currentIndex: tabBar.currentIndex
+        currentIndex:
 
         Page1Form {
+            Flickable: right
+
         }
 
         Page2Form {
+            Flickable: left
+        }
+
+        Page3Form {
+            Flickable: left
+        }
+
+        Page4Form {
+            Flickable: left
         }
     }
-
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-
-        TabButton {
-            text: qsTr("Page 1")
-        }
-        TabButton {
-            text: qsTr("Page 2")
-        }
     }
-}

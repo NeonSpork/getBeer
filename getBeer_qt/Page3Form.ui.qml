@@ -4,6 +4,8 @@ import QtQuick.Controls 2.2
 Page {
     width: 1024
     height: 600
+    property alias flickable: flickable
+    property alias getBeer: getBeer
 
     BorderImage {
         id: borderImage
@@ -11,30 +13,14 @@ Page {
         y: 0
         width: 1024
         height: 600
-        source: "media/bg/default_background.png"
+        source: "media/bg/tropical_thunder_bg.png"
 
         Flickable {
-            id: flickable_left
+            id: flickable
             x: 0
             y: 0
             width: 1024
             height: 600
-
-            Item {
-                id: item2
-                x: 564
-                y: 25
-                width: 272
-                height: 132
-
-                MouseArea {
-                    id: mouseArea
-                    x: 6
-                    y: 0
-                    width: 266
-                    height: 132
-                }
-            }
 
             Item {
                 id: item1
