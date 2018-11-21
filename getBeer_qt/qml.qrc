@@ -48,5 +48,7 @@
         <file>ComingSoon.ui.qml</file>
         <file>Coming_soon.ui.qml</file>
         <file>Default_selection.ui.qml</file>
+        <file>SecretActivationButton.ui.qml</file>
+        <file>BeerButton.ui.qml</file>
     </qresource>
 </RCC>

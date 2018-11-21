@@ -26,7 +26,7 @@ Page {
             height: 600
 
             Default_selection {
-                id: item1
+                id: defaultSelection
                 x: 362
                 y: 37
             }

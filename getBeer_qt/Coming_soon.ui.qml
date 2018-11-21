@@ -7,7 +7,7 @@ Item {
     height: 150
     
     Image {
-        id: image3
+        id: comingSoonIcon
         x: 0
         y: 0
         width: 150

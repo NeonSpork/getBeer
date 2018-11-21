@@ -20,45 +20,16 @@ Page {
             width: 1024
             height: 600
 
-            Item {
-                id: item2
+            SecretActivationButton {
+                id: secretActivationButton
                 x: 564
                 y: 25
-                width: 272
-                height: 132
-
-                MouseArea {
-                    id: mouseArea
-                    x: 6
-                    y: 0
-                    width: 266
-                    height: 132
-                }
             }
 
-            Item {
-                id: item1
+            BeerButton {
+                id: beerButton
                 x: 824
                 y: 400
-                width: 200
-                height: 200
-
-                Image {
-                    id: image
-                    x: 0
-                    y: 0
-                    width: 200
-                    height: 200
-                    source: "media/icon/beer_button_off.png"
-                }
-
-                MouseArea {
-                    id: getBeer
-                    x: 0
-                    y: 0
-                    width: 200
-                    height: 200
-                }
             }
         }
     }
@@ -67,7 +38,7 @@ Page {
             name: "DispesningBeer"
 
             PropertyChanges {
-                target: image
+                target: beerButtonIcon
                 source: "media/icon/beer_button_on.png"
             }
         }
