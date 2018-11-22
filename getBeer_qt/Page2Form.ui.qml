@@ -26,11 +26,50 @@ Page {
                 y: 25
             }
 
-            BeerButton {
+            Item {
                 id: beerButton
                 x: 824
                 y: 400
+                width: 200
+                height: 200
+
+                Image {
+                    id: buttonIcon
+                    x: 0
+                    y: 0
+                    width: 200
+                    height: 200
+                    source: "media/icon/beer_button_off.png"
+                }
+
+                MouseArea {
+                    id: getBeer
+                    x: 0
+                    y: 0
+                    width: 200
+                    height: 200
+                }
             }
+        }
+    }
+
+    Connections {
+        target: secretActivationButton
+        onPressAndHold: secretValve.on();
+        onReleased: secretValve.off();
+    }
+
+    Connections {
+        target: beerButton
+        onPressAndHold: normalValve.on();
+        onReleased: normalValve.off();
+    }
+
+    Connections {
+        target: flickable_left
+        onFlickEnded: {
+            Page2Form.visible = false
+            Page1Form.visible = true
         }
     }
     states: [
@@ -38,7 +77,7 @@ Page {
             name: "DispesningBeer"
 
             PropertyChanges {
-                target: beerButtonIcon
+                target: buttonIcon
                 source: "media/icon/beer_button_on.png"
             }
         }

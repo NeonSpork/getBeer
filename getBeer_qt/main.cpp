@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
     GPIO::GPIOBase::simulation(true);
     Valve normalValve(6);
+    Valve secretValve(5);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);

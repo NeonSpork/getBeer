@@ -2,8 +2,10 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 Page {
+    id: page
     width: 1024
     height: 600
+    property alias page: page
 
     BorderImage {
         id: borderImage
@@ -46,6 +48,21 @@ Page {
             }
         }
     }
+
+    Connections {
+        target: getBeer
+        onPressAndHold: normalValve.on()
+        onReleased: normalValve.off()
+    }
+
+    Connections {
+        target: flickable
+        onFlickEnded: {
+            Page4Form.visible = false
+            Page1Form.visible = true
+        }
+    }
+
     states: [
         State {
             name: "DispesningBeer"

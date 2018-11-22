@@ -48,6 +48,20 @@ Page {
             }
         }
     }
+
+    Connections {
+        target: getBeer
+        onPressAndHold: normalValve.on();
+        onReleased: normalValve.off();
+    }
+
+    Connections {
+        target: flickable
+        onFlickEnded: {
+            Page3Form.visible = false
+            Page1Form.visible = true
+        }
+    }
     states: [
         State {
             name: "DispesningBeer"

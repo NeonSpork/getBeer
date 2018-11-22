@@ -68,4 +68,68 @@ Page {
             }
         }
     }
+
+    Connections {
+        target: tropicalThunder
+        onClicked: {
+            Page1Form.visible = false
+            Page3Form.visible = true
+        }
+    }
+
+    Connections {
+        target: angryBabushka
+        onClicked: {
+            Page1Form.visible = false
+            Page4Form.visible = true
+        }
+    }
+
+    Connections {
+        target: comingSoon
+        onClicked: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
+
+    Connections {
+        target: comingSoon1
+        onClicked: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
+
+    Connections {
+        target: comingSoon2
+        onClicked: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
+
+    Connections {
+        target: comingSoon3
+        onClicked: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
+
+    Connections {
+        target: defaultSelection
+        onClicked: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
+
+    Connections {
+        target: flickable
+        onFlickEnded: {
+            Page1Form.visible = false
+            Page2Form.visible = true
+        }
+    }
 }
