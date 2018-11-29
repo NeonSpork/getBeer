@@ -44,9 +44,9 @@ class BeerDispenser(object):
         lcd.lcd_clear()
 
         # Load sensor
-        self.hx = HX711(dout_pin=2, pd_sck_pin=3, gain_channel_A=64, select_channel='A')
-        self.hx.set_offset(100350, channel='A', gain_A=64)  # This gets calibrated to zero the sensor
-        self.hx.set_scale_ratio(channel='A', gain_A=64, scale_ratio=36.2109)
+        self.hx = HX711(2, 3)
+        self.hx.set_offset(8697600)  # This gets calibrated to zero the sensor
+        self.hx.set_scale(5.7924)
 
         # Parameters for dispenser
         self.running = True
@@ -244,7 +244,7 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def secretEvents():
+    def secretEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
@@ -280,7 +280,7 @@ class BeerDispenser(object):
             # self.secretDispensing = False
             self.shutSecretValve()
 
-    def secretDraw():
+    def secretDraw(self):
         self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispensing:
@@ -306,7 +306,7 @@ class BeerDispenser(object):
 
     def kegVolume(self):
         dryKegWeight = 4025
-        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegWeight
+        wetKegVolume = self.hx.get_grams(times=1) - dryKegWeight
         if wetKegVolume < 0:
             wetKegVolume = 0
         return wetKegVolume
@@ -320,13 +320,13 @@ class BeerDispenser(object):
 
     def run(self):
         self.clock.tick(FPS)
-        if (self.dispenserDisplay and not (self.beerChooser or self.secretActive)):
+        if self.dispenserDisplay:
             self.dispensorEvents()
             self.dispensorDraw()
-        if (self.beerChooser and not (self.dispenserDisplay or self.secretActive)):
+        if self.beerChooser:
             self.beerChooserEvents()
             self.beerChooserDraw()
-        if (self.secretActive and not (self.beerChooser or self.dispenserDisplay)):
+        if self.secretActive:
             self.secretEvents()
             self.secretDraw()
         self.counter += 1
