@@ -55,14 +55,14 @@ Page {
 
     Connections {
         target: secretActivationButton
-        onPressAndHold: secretValve.on();
-        onReleased: secretValve.off();
+        onPressAndHold: secretValve.on()
+        onReleased: secretValve.off()
     }
 
     Connections {
         target: beerButton
-        onPressAndHold: normalValve.on();
-        onReleased: normalValve.off();
+        onPressAndHold: normalValve.on()
+        onReleased: normalValve.off()
     }
 
     Connections {

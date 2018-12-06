@@ -50,5 +50,6 @@
         <file>Default_selection.ui.qml</file>
         <file>SecretActivationButton.ui.qml</file>
         <file>BeerButton.ui.qml</file>
+        <file>Valve.cpp</file>
     </qresource>
 </RCC>

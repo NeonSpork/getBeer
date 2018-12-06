@@ -1,23 +1,25 @@
-#include "Valve.hpp"
+#include <Valve.hpp>
 
-Valve::Valve(unsigned int pinNumber)
-: mIsOpen(false)
-, mPin(pinNumber)
+Valve::Valve(int pinNumber)
+: mPin(pinNumber)
+, status(false)
 {
-    mValve(mPin);
-    shutValve();
+    pinMode(mPin, OUTPUT);
 }
 
-void Valve::openValve()
+void Valve::on()
 {
-    mValve.on();
+    digitalWrite(mPin, HIGH);
+    status = true;
 }
 
-void Valve::shutValve()
+void Valve::off()
 {
-    mValve.off();
+    digitalWrite(mPin, LOW);
+    status = false;
+}
 
-bool Valve::isValveOpen()
+bool Valve::isOpen()
 {
-    return mIsOpen;
+    return status;
 }

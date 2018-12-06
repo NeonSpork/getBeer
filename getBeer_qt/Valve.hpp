@@ -1,19 +1,19 @@
 #ifndef VALVE_HPP
 #define VALVE_HPP
 
-#include <cppgpio.hpp>
+#include <wiringPi.h>
 
 class Valve
 {
 public:
-    Valve(unsigned int pinNumber);
-    void openValve();
-    void shutValve();
-    bool isValveOpen();
+    Valve(int pinNumber);
+    ~Valve(){}
+    void on();
+    void off();
+    bool isOpen();
 private:
-    bool mIsOpen;
-    unsigned int mPin;
-    GPIO::DigitalOut static mValve(unsigned int pinNumber);
+    int mPin;
+    bool status;
 };
 
 #endif // VALVE_HPP
