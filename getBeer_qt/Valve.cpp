@@ -11,14 +11,11 @@ Valve::Valve(unsigned int pinNumber)
 void Valve::openValve()
 {
     mValve.on();
-    mIsOpen = true;
 }
 
 void Valve::shutValve()
 {
     mValve.off();
-    mIsOpen = false;
-}
 
 bool Valve::isValveOpen()
 {
