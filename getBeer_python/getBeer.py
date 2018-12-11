@@ -250,7 +250,6 @@ class BeerDispenser(object):
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
             if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
-                # self.secretDispensing = True
                 self.openSecretValve()
                 # self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
@@ -318,17 +317,26 @@ class BeerDispenser(object):
     def pintsCalculation(self):
         self.pintsLeft = int(self.kegVolume()/500)
 
-    def run(self):
-        self.clock.tick(FPS)
+    def eventUpdate(self):
         if self.dispenserDisplay:
             self.dispensorEvents()
-            self.dispensorDraw()
         if self.beerChooser:
             self.beerChooserEvents()
-            self.beerChooserDraw()
         if self.secretActive:
             self.secretEvents()
+
+    def eventDraw(self):
+        if self.dispenserDisplay:
+            self.dispensorDraw()
+        if self.beerChooser:
+            self.beerChooserDraw()
+        if self.secretActive:
             self.secretDraw()
+
+    def run(self):
+        self.clock.tick(FPS)
+        self.eventUpdate()
+        self.eventDraw()
         self.counter += 1
         if self.counter > 60:
             self.pintsCalculation()

@@ -12,7 +12,7 @@ public:
     void off();
     bool isOpen();
 private:
-    int mPin;
+    const int mPin;
     bool status;
 };
 
