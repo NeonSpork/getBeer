@@ -42,9 +42,9 @@ class BeerDispenser(object):
         lcd.lcd_clear()
 
         # Load sensor
-        self.hx = HX711(dout_pin=2, pd_sck_pin=3, gain_channel_A=64, select_channel='A')
-        self.hx.set_offset(100350, channel='A', gain_A=64)  # This gets calibrated to zero the sensor
-        self.hx.set_scale_ratio(channel='A', gain_A=64, scale_ratio=36.2109)
+        self.hx = HX711(2, 3)
+        self.hx.set_offset(8234508) # This gets calibrated to zero the sensor
+        self.hx.set_scale(-20.9993)
 
         # Parameters for dispenser
         self.running = True
@@ -226,7 +226,7 @@ class BeerDispenser(object):
 
     def kegVolume(self):
         dryKegWeight = 4025
-        wetKegVolume = self.hx.get_weight_mean(times=10) - dryKegWeight
+        wetKegVolume = self.hx.get_grams(times=1) - dryKegWeight
         if wetKegVolume < 0:
             wetKegVolume = 0
         return wetKegVolume

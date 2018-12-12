@@ -1,0 +1,8 @@
+pygame 1.9.4
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Traceback (most recent call last):
+  File "getBeer.py", line 291, in <module>
+    b = BeerDispenser()
+  File "getBeer.py", line 29, in __init__
+    self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
+pygame.error: Unable to open a console terminal
