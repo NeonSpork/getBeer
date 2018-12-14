@@ -45,8 +45,8 @@ class BeerDispenser(object):
 
         # Load sensor
         self.hx = HX711(2, 3)
-        self.hx.set_offset(8697600)  # This gets calibrated to zero the sensor
-        self.hx.set_scale(5.7924)
+        self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+        self.hx.set_scale(-20.9993)
 
         # Parameters for dispenser
         self.running = True
