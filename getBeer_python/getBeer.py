@@ -96,6 +96,7 @@ class BeerDispenser(object):
                 self.dispenserDisplay = False
                 self.secretActive = False
                 self.beerChooser = True
+                print("Switched to beerChooser")
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
@@ -108,6 +109,7 @@ class BeerDispenser(object):
                 self.dispenserDisplay = False
                 self.beerChooser = False
                 self.secretActive = True
+                print("Switched to secretActive")
                 pg.time.delay(100)
             # if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
             #     self.secretTimer -= 1
@@ -151,71 +153,85 @@ class BeerDispenser(object):
         x, y = SWIDTH/2, SHEIGHT/2
         if self.click[0] == 1:
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(150*RELX)) < self.mouse[0] < (x+(150*RELX)) and self.mouse[1] < (150*RELY):
                 self.bg_image = 0  # Default background
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 1
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(150*RELX)) < self.mouse[0] < x and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 2
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if x < self.mouse[0] < (x+(150*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 3
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (150*RELY) < self.mouse[1] < (300*RELY):
                 self.bg_image = 4
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 5
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(150*RELX)) < self.mouse[0] < x and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 6
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if x < self.mouse[0] < (x+(150*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 7
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (300*RELY) < self.mouse[1] < (450*RELY):
                 self.bg_image = 8
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(300*RELX)) < self.mouse[0] < (x-(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 9
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x-(150*RELX)) < self.mouse[0] < x and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 10
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if x < self.mouse[0] < (x+(150*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 11
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
             if (x+(150*RELX)) < self.mouse[0] < (x+(300*RELX)) and (450*RELY) < self.mouse[1] < (600*RELY):
                 self.bg_image = 12
+                print("Switched to dispenserDisplay")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 pg.time.delay(100)
@@ -253,11 +269,13 @@ class BeerDispenser(object):
                 self.openSecretValve()
                 # self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
+                print("Switched to beerChooser")
                 self.dispenserDisplay = False
                 self.beerChooser = True
                 self.secretActive = False
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
+                print("Switched to dispenserDisplay via Beer Button")
                 self.bg_image = 0
                 self.dispenserDisplay = True
                 self.beerChooser = False
@@ -265,6 +283,7 @@ class BeerDispenser(object):
                 # pg.time.delay(100)
             if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                 # temp fix to see if the screen freeze is fixed
+                print("Switched to dispenserDisplay via secret activation button (hidden in palm)")
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
