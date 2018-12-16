@@ -11,7 +11,6 @@ See LCD for wiring 16x2 display
 
 import sys
 import pygame as pg
-from multiprocessing import Process
 from settings import *
 import RPi.GPIO as GPIO
 from hx711 import HX711
@@ -111,16 +110,17 @@ class BeerDispenser(object):
                 self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) < 10:
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
         if int(self.pintsLeft) >= 10:
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
-        self.drawToScreen(TEMP_ICON, (SWIDTH*0.1), (SHEIGHT*0.85))
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
+            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
         if int(self.currentTemp) < 10:
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[0:1])], (SWIDTH*0.28), (SHEIGHT*0.85))
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], (SWIDTH*0.1), (SHEIGHT*0.96))
+            self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(20*RELX)), (SHEIGHT*0.96))
         if int(self.currentTemp) >= 10:
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.85))
-            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.85))
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.1)-(5*RELX)), (SHEIGHT*0.96))
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.1)+(5*RELX)), (SHEIGHT*0.96))
+            self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
@@ -271,34 +271,19 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 self.running = False
-        else:
-            GPIO.cleanup()
-            pg.quit()
-            sys.exit()
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    temp = Process(target=b.kegTemp)
-    volume = Process(target=b.kegVolume)
-    gameLoop = Process(target=b.mainLoop)
-    temp.start()
-    volume.start()
-    gameLoop.start()
     try:
         while b.running:
             try:
-                temp.join()
-                volume.join()
-                gameLoop.join()
+                b.mainLoop()
             except KeyboardInterrupt:
                 b.running = False
     finally:
         b.hx.power_down()
-        temp.join()
-        volume.join()
-        gameLoop.join()
         pg.quit()
         GPIO.cleanup()
         sys.exit()
