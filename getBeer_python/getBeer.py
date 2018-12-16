@@ -28,7 +28,7 @@ class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
         pg.init()
-        self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((SWIDTH, SHEIGHT))
         pg.mouse.set_cursor(*cursor_from_image(CURSOR, 8, (0, 0)))
         self.clock = pg.time.Clock()
 
@@ -45,8 +45,8 @@ class BeerDispenser(object):
 
         # Load sensor
         self.hx = HX711(2, 3)
-        self.hx.set_offset(8697600)  # This gets calibrated to zero the sensor
-        self.hx.set_scale(5.7924)
+        self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+        self.hx.set_scale(-20.9993)
 
         # Parameters for dispenser
         self.running = True
