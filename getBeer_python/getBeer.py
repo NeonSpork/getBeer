@@ -1,6 +1,6 @@
-"""getBeer
+"""getBeer TOP SECRET SIMPLE
 
-Control unit for beer dispensor built into kegerator.
+Control unit for beer dispenser built into kegerator.
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
@@ -16,7 +16,6 @@ from settings import *
 import RPi.GPIO as GPIO
 from hx711 import HX711
 from w1thermsensor import W1ThermSensor
-import lcd
 
 
 GPIO.setwarnings(False)
@@ -33,13 +32,10 @@ class BeerDispenser(object):
 
         # Set up GPIO pins
         GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+        GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic secret valve, starts closed
         GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
         GPIO.setup(2, GPIO.IN)  # Load sensor DT
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
-
-        # LCD
-        lcd.lcd_init()
-        lcd.lcd_clear()
 
         # Load sensor
         self.hx = HX711(2, 3)
@@ -54,16 +50,19 @@ class BeerDispenser(object):
         self.dispenserDisplay = True
         self.beerChooser = False
         self.tempSensor = W1ThermSensor()
+        self.currentTemp = self.kegTemp()
         self.counter = 0
         self.pintsLeft = 0
 
-    def dispensorEvents(self):
+    def dispenserEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.openValve()
+            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                self.openSecretValve()  # Press palm tree to activate secret valve
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
@@ -72,6 +71,7 @@ class BeerDispenser(object):
                 self.running = False
         else:
             self.shutValve()
+            self.shutSecretValve()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
@@ -86,7 +86,15 @@ class BeerDispenser(object):
         GPIO.output(5, False)
         self.dispensing = False
 
-    def dispensorDraw(self):
+    def openSecretValve(self):
+        GPIO.output(6, True)
+        self.dispensing = True
+
+    def shutSecretValve(self):
+        GPIO.output(6, False)
+        self.dispensing = False
+
+    def dispenserDraw(self):
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
         except IndexError:
@@ -102,11 +110,17 @@ class BeerDispenser(object):
             else:
                 self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
-        if int(self.pintsLeft) <= 9:
-            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
-        if int(self.pintsLeft) > 9:
-            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
-            self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
+        if int(self.pintsLeft) < 10:
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
+        if int(self.pintsLeft) >= 10:
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
+        self.drawToScreen(TEMP_ICON, (SWIDTH*0.1), (SHEIGHT*0.85))
+        if int(self.currentTemp) < 10:
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[0:1])], (SWIDTH*0.28), (SHEIGHT*0.85))
+        if int(self.currentTemp) >= 10:
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.85))
+            self.drawToScreen(NEON_NUMBER_SCALED[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.85))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
@@ -216,14 +230,6 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def infoDisplay(self):
-        while self.running:
-            try:
-                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
-                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
-            except KeyboardInterrupt:
-                self.running = False
-
     def kegVolume(self):
         dryKegWeight = 4025
         wetKegVolume = self.hx.get_grams(times=1) - dryKegWeight
@@ -238,16 +244,24 @@ class BeerDispenser(object):
     def pintsCalculation(self):
         self.pintsLeft = int(self.kegVolume()/500)
 
-    def run(self):
-        self.clock.tick(FPS)
+    def eventUpdate(self):
         if self.dispenserDisplay:
-            self.dispensorEvents()
-            self.dispensorDraw()
+            self.dispenserEvents()
         if self.beerChooser:
             self.beerChooserEvents()
+
+    def eventDraw(self):
+        if self.dispenserDisplay:
+            self.dispenserDraw()
+        if self.beerChooser:
             self.beerChooserDraw()
+
+    def run(self):
+        self.clock.tick(FPS)
+        self.eventUpdate()
+        self.eventDraw()
         self.counter += 1
-        if self.counter > 60:
+        if self.counter > 10:
             self.pintsCalculation()
             self.counter = 0
 
@@ -266,22 +280,25 @@ class BeerDispenser(object):
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    littleLCD = Process(target=b.infoDisplay)
+    temp = Process(target=b.kegTemp)
+    volume = Process(target=b.kegVolume)
     gameLoop = Process(target=b.mainLoop)
-    littleLCD.start()
+    temp.start()
+    volume.start()
     gameLoop.start()
     try:
         while b.running:
             try:
-                littleLCD.join()
+                temp.join()
+                volume.join()
                 gameLoop.join()
             except KeyboardInterrupt:
                 b.running = False
     finally:
         b.hx.power_down()
-        littleLCD.join()
+        temp.join()
+        volume.join()
         gameLoop.join()
-        lcd.lcd_clear()
         pg.quit()
         GPIO.cleanup()
         sys.exit()
