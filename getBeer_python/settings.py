@@ -70,9 +70,13 @@ QUIT = pg.transform.scale(quit, (int(50*RELX), int(50*RELY)))
 ml_icon = pg.image.load('img/icon/ml_icon.png')
 ML_ICON = pg.transform.scale(ml_icon, (int(50*RELX), int(50*RELY)))
 temp_icon = pg.image.load('img/icon/temp_icon.png')
-TEMP_ICON = pg.transform.scale(temp_icon, (int(50*RELX), int(50*RELY)))
+TEMP_ICON = pg.transform.scale(temp_icon, (int(30*RELX), int(30*RELY)))  # Was 50x50 before
 pints_icon = pg.image.load('img/icon/pints.png')
 PINTS_ICON = pg.transform.scale(pints_icon, (int(200*RELX), int(100*RELY)))
+secret_icon_on = pg.image.load('img/icon/secret_on.png')
+SECRET_ICON_ON = pg.transform.scale(secret_icon_on, (int(50*RELX), int(50*RELY)))
+secret_icon_off = pg.image.load('img/icon/secret_off.png')
+SECRET_ICON_OFF = pg.transform.scale(secret_icon_off, (int(50*RELX), int(50*RELY)))
 
 # Image files for numbers
 NEON_NUMBER = []
