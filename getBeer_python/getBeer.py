@@ -1,6 +1,6 @@
 """getBeer // TOP SECRET
 
-Control unit for beer dispensor built into kegerator.
+Control unit for beer dispenser built into kegerator.
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
@@ -45,6 +45,7 @@ class BeerDispenser(object):
         # Parameters for dispenser
         self.running = True
         self.dispensing = False
+        self.dispensingSecret = False
         self.buttonDown = False
         self.bg_image = 0
         self.dispenserDisplay = True
@@ -67,11 +68,11 @@ class BeerDispenser(object):
 
     def openSecretValve(self):
         GPIO.output(6, True)
-        self.secretDispensing = True
+        self.dispensingSecret = True
 
     def shutSecretValve(self):
         GPIO.output(6, False)
-        self.secretDispensing = False
+        self.dispensingSecret = False
 
     def drawToScreen(self, image, x, y):
         self.image = image
@@ -79,7 +80,7 @@ class BeerDispenser(object):
         image_rect.center = (x, y)
         self.screen.blit(image, image_rect)
 
-    def dispensorEvents(self):
+    def dispenserEvents(self):
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
@@ -94,29 +95,27 @@ class BeerDispenser(object):
                 pg.time.delay(100)
             if self.mouse[0] > (SWIDTH-(50*RELX)) and self.mouse[1] < (50*RELY):
                 self.running = False
-            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                # self.secretTimer += 1
-                # if self.secretTimer < 180 and self.bg_image == 0:
-                #     self.dispenserDisplay = False
-                #     self.beerChooser = False
-                #     self.secretActive = True
-                self.dispenserDisplay = False
-                self.beerChooser = False
-                self.secretActive = True
-                print("Switched to secretActive")
-                pg.time.delay(100)
-            # if not (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-            #     self.secretTimer -= 1
+            if self.bg_image == 0:
+                if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
+                    self.secretTimer += 1
+                    if self.secretTimer < 180 and self.bg_image == 0:
+                        self.dispenserDisplay = False
+                        self.beerChooser = False
+                        self.secretActive = True
+                        print("Switched to secretActive")
+                        pg.time.delay(100)
         else:
             self.shutValve()
             self.shutSecretValve()
+            if self.secretTimer > 0:
+                self.secretTimer -= 1
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
 
-    def dispensorDraw(self):
+    def dispenserDraw(self):
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
         except IndexError:
@@ -132,11 +131,18 @@ class BeerDispenser(object):
             else:
                 self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
-        if int(self.pintsLeft) <= 9:
+        if int(self.pintsLeft) < 10:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
-        if int(self.pintsLeft) > 9:
+        if int(self.pintsLeft) >= 10:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
+        if int(self.currentTemp) < 10:
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], (SWIDTH*0.1), (SHEIGHT*0.96))
+            self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(20*RELX)), (SHEIGHT*0.96))
+        if int(self.currentTemp) >= 10:
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.1)-(5*RELX)), (SHEIGHT*0.96))
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.1)+(5*RELX)), (SHEIGHT*0.96))
+        self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
@@ -259,9 +265,9 @@ class BeerDispenser(object):
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
         if self.click[0] == 1:
-            if self.mouse[0] < (200*RELX) and self.mouse[1] > (400*RELY):
+            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                 self.openSecretValve()
-                # self.secretTimeIdle = 0
+                self.secretTimeIdle = 0
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 print("Switched to beerChooser")
                 self.dispenserDisplay = False
@@ -274,47 +280,36 @@ class BeerDispenser(object):
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
-                # pg.time.delay(100)
-            if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                # temp fix to see if the screen freeze is fixed
-                print("Switched to dispenserDisplay via secret activation button (hidden in palm)")
+        else:
+            self.secretTimeIdle += 1
+            if self.secretTimeIdle > 600:
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
-                pg.time.delay(100)
-        else:
-            # self.secretTimeIdle += 1
-            # if self.secretTimeIdle > 600:
-            #     self.shutSecretValve()
-            #     self.dispenserDisplay = True
-            #     self.beerChooser = False
-            #     self.secretActive = False
-            # self.secretDispensing = False
             self.shutSecretValve()
 
     def secretDraw(self):
         self.drawToScreen(DEFAULT_BACKGROUND, SWIDTH/2, SHEIGHT/2)
         self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
         if self.secretDispensing:
-            self.drawToScreen(SECRET_ICON_ON, (100*RELX), (100*RELY))
+            self.drawToScreen(SECRET_ICON_ON, (525*RELX), (75*RELY))
         else:
-            self.drawToScreen(SECRET_ICON_OFF, (100*RELX), (100*RELY))
+            self.drawToScreen(SECRET_ICON_OFF, (525*RELX), (75*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
-        if int(self.pintsLeft) <= 9:
+        if int(self.pintsLeft) < 10:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
-        if int(self.pintsLeft) > 9:
+        if int(self.pintsLeft) >= 10:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[0:1])], ((SWIDTH*0.28)-(30*RELX)), (SHEIGHT*0.9))
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft)[1:2])], ((SWIDTH*0.28)+(30*RELX)), (SHEIGHT*0.9))
+        if int(self.currentTemp) < 10:
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], (SWIDTH*0.1), (SHEIGHT*0.96))
+            self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(20*RELX)), (SHEIGHT*0.96))
+        if int(self.currentTemp) >= 10:
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.1)-(5*RELX)), (SHEIGHT*0.96))
+            self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.1)+(5*RELX)), (SHEIGHT*0.96))
+        self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
-
-    def infoDisplay(self):
-        while self.running:
-            try:
-                lcd.lcd_string('{} ml'.format(int(self.kegVolume())), 1)
-                lcd.lcd_string('{} Celcius'.format(self.kegTemp()), 2)
-            except KeyboardInterrupt:
-                self.running = False
 
     def kegVolume(self):
         dryKegWeight = 4025
@@ -327,12 +322,13 @@ class BeerDispenser(object):
         kegTemperature = self.tempSensor.get_temperature()
         return kegTemperature
 
-    def pintsCalculation(self):
+    def updateWeightTemp(self):
         self.pintsLeft = int(self.kegVolume()/500)
+        self.currentTemp = int(self.kegTemp())
 
     def eventUpdate(self):
         if self.dispenserDisplay:
-            self.dispensorEvents()
+            self.dispenserEvents()
         if self.beerChooser:
             self.beerChooserEvents()
         if self.secretActive:
@@ -340,7 +336,7 @@ class BeerDispenser(object):
 
     def eventDraw(self):
         if self.dispenserDisplay:
-            self.dispensorDraw()
+            self.dispenserDraw()
         if self.beerChooser:
             self.beerChooserDraw()
         if self.secretActive:
@@ -352,7 +348,7 @@ class BeerDispenser(object):
         self.eventDraw()
         self.counter += 1
         if self.counter > 60:
-            self.pintsCalculation()
+            self.updateWeightTemp()
             self.counter = 0
 
     def mainLoop(self):
@@ -361,31 +357,14 @@ class BeerDispenser(object):
                 self.run()
             except KeyboardInterrupt:
                 self.running = False
-        else:
-            GPIO.cleanup()
-            pg.quit()
-            sys.exit()
 
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    b.pintsCalculation()
-    littleLCD = Process(target=b.infoDisplay)
-    gameLoop = Process(target=b.mainLoop)
-    littleLCD.start()
-    gameLoop.start()
-    try:
-        while b.running:
-            try:
-                littleLCD.join()
-                gameLoop.join()
-            except KeyboardInterrupt:
-                b.running = False
-    finally:
-        b.hx.power_down()
-        littleLCD.join()
-        gameLoop.join()
-        lcd.lcd_clear()
-        pg.quit()
-        GPIO.cleanup()
-        sys.exit()
+    b.updateWeightTemp()
+    while b.running:
+        b.mainLoop()
+    b.hx.power_down()
+    pg.quit()
+    GPIO.cleanup()
+    sys.exit()
