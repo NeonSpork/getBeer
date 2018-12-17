@@ -242,8 +242,9 @@ class BeerDispenser(object):
         kegTemperature = self.tempSensor.get_temperature()
         return kegTemperature
 
-    def pintsCalculation(self):
+    def updateWeightTemp(self):
         self.pintsLeft = int(self.kegVolume()/500)
+        self.currentTemp = int(self.kegTemp())
 
     def eventUpdate(self):
         if self.dispenserDisplay:
@@ -262,8 +263,8 @@ class BeerDispenser(object):
         self.eventUpdate()
         self.eventDraw()
         self.counter += 1
-        if self.counter > 10:
-            self.pintsCalculation()
+        if self.counter > 60:
+            self.updateWeightTemp()
             self.counter = 0
 
     def mainLoop(self):
