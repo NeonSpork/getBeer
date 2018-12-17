@@ -9,8 +9,8 @@ ActiveBeer::ActiveBeer(sf::RenderWindow& window)
 , mTextures()
 , mSceneGraph()
 , mSceneLayers()
-, mNormalValve(nullptr)
-, mSecretValve(nullptr)
+, mNormalValve(Valve::Type::Normal, 5)
+, mSecretValve(Valve::Type::Secret, 6)
 // DON'T FORGET ABOUT BUTTONS AND PINT NUMBERS AND STUFF
 {
   loadTextures();
@@ -75,5 +75,5 @@ void ActiveBeer::loadTextures()
 void ActiveBeer::adaptDispenserStatus()
 {
   // Should adjust valve to open or shut depending on button state
-  mNormalValve->setStatus()
+  mNormalValve.setStatus()
 }

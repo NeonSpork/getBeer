@@ -15,7 +15,7 @@ public:
     Normal,
     Secret,
   };
-  Valve(Type type, unsigned int mPin);
+  Valve(Type type, unsigned int mPin){};
   virtual unsigned int getCategory() const;
 private:
   // functions to open and close valves

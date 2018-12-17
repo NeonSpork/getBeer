@@ -45,8 +45,8 @@ private:
   SceneNode mSceneGraph;
   std::array<SceneNode*, BackgroundCount> mSceneLayers;
   CommandQueue mCommandQueue;
-  Valve* mNormalValve;
-  Valve* mSecretValve;
+  Valve mNormalValve;
+  Valve mSecretValve;
   // DON'T FORGET ABOUT THE BUTTONS AND PINT NUMBERS
 };
 
