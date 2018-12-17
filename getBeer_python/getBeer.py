@@ -44,6 +44,7 @@ class BeerDispenser(object):
         # Parameters for dispenser
         self.running = True
         self.dispensing = False
+        self.dispensingSecret = False
         self.buttonDown = False
         self.bg_image = 0
         self.dispenserDisplay = True
@@ -88,11 +89,11 @@ class BeerDispenser(object):
 
     def openSecretValve(self):
         GPIO.output(6, True)
-        self.dispensing = True
+        self.dispensingSecret = True
 
     def shutSecretValve(self):
         GPIO.output(6, False)
-        self.dispensing = False
+        self.dispensingSecret = False
 
     def dispenserDraw(self):
         try:
@@ -104,6 +105,8 @@ class BeerDispenser(object):
                 self.drawToScreen(RED_BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             else:
                 self.drawToScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+        if self.dispensingSecret:
+            self.drawToScreen(SECRET_ICON_ON, (525*RELX), (75*RELY))
         if not self.dispensing:
             if self.bg_image == 2:
                 self.drawToScreen(RED_BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
