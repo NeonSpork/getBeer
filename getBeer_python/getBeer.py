@@ -49,7 +49,7 @@ class BeerDispenser(object):
         self.dispenserDisplay = True
         self.beerChooser = False
         self.tempSensor = W1ThermSensor()
-        self.currentTemp = self.kegTemp()
+        self.currentTemp = 0
         self.counter = 0
         self.pintsLeft = 0
 
@@ -278,14 +278,9 @@ class BeerDispenser(object):
 if __name__ == '__main__':
     b = BeerDispenser()
     b.pintsCalculation()
-    try:
-        while b.running:
-            try:
-                b.mainLoop()
-            except KeyboardInterrupt:
-                b.running = False
-    finally:
-        b.hx.power_down()
-        pg.quit()
-        GPIO.cleanup()
-        sys.exit()
+    while b.running:
+        b.mainLoop()
+    b.hx.power_down()
+    pg.quit()
+    GPIO.cleanup()
+    sys.exit()
