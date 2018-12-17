@@ -12,12 +12,10 @@ See LCD for wiring 16x2 display
 
 import sys
 import pygame as pg
-from multiprocessing import Process
 from settings import *
 import RPi.GPIO as GPIO
 from hx711 import HX711
 from w1thermsensor import W1ThermSensor
-import lcd
 
 
 GPIO.setwarnings(False)
@@ -38,10 +36,6 @@ class BeerDispenser(object):
         GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
         GPIO.setup(2, GPIO.IN)  # Load sensor DT
         GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
-
-        # LCD
-        lcd.lcd_init()
-        lcd.lcd_clear()
 
         # Load sensor
         self.hx = HX711(2, 3)
