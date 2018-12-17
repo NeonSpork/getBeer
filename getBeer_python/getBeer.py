@@ -286,6 +286,7 @@ class BeerDispenser(object):
                 self.dispenserDisplay = True
                 self.beerChooser = False
                 self.secretActive = False
+                self.secretTimeIdle = 0
             self.shutSecretValve()
 
     def secretDraw(self):
