@@ -277,7 +277,7 @@ class BeerDispenser(object):
 
 if __name__ == '__main__':
     b = BeerDispenser()
-    b.pintsCalculation()
+    b.updateWeightTemp()
     while b.running:
         b.mainLoop()
     b.hx.power_down()
