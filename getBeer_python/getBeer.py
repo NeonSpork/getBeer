@@ -61,7 +61,8 @@ class BeerDispenser(object):
             if self.mouse[0] > (SWIDTH-(200*RELX)) and self.mouse[1] > (SHEIGHT-(200*RELY)):
                 self.openValve()
             if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                self.openSecretValve()  # Press palm tree to activate secret valve
+                if self.bg_image == 0:
+                    self.openSecretValve()  # Press palm tree to activate secret valve
             if self.mouse[0] < (100*RELX) and self.mouse[1] < (100*RELY):
                 self.dispenserDisplay = False
                 self.beerChooser = True
