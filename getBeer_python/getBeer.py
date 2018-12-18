@@ -98,7 +98,7 @@ class BeerDispenser(object):
             if self.bg_image == 0:
                 if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
                     self.secretTimer += 1
-                    if self.secretTimer < 180 and self.bg_image == 0:
+                    if self.secretTimer > 180 and self.bg_image == 0:
                         self.dispenserDisplay = False
                         self.beerChooser = False
                         self.secretActive = True
