@@ -261,7 +261,7 @@ class BeerDispenser(object):
         pg.display.flip()
 
     def secretEvents(self):
-        self.secretTimer = 
+        self.secretTimer = 0
         self.mouse = pg.mouse.get_pos()
         self.click = pg.mouse.get_pressed()
         self.keys = pg.key.get_pressed()
