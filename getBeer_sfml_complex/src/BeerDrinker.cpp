@@ -9,8 +9,7 @@
 
 struct ValveOperator
 {
-  ValveOperator(GPIO::DigitalOut valveName, int GPIOpin)
-  : GPIO::DigitalOut normalValve(10)
+  ValveOperator(Valve valveName, int GPIOpin)
   {
 
   }
