@@ -98,15 +98,16 @@ class BeerDispenser(object):
                     self.secretTimer += 1
                     if self.secretTimer > 180:
                         self.secretActive = True
-                        self.secretTimer = 200
+                        self.secretTimeIdle = 0
                         self.openSecretValve()
         else:
             self.shutValve()
             self.shutSecretValve()
-            if self.secretTimer > 0:
-                self.secretTimer -= 1
-            if self.secretTimer < 180:
+            self.secretTimeIdle += 1
+
+            if self.secretTimeIdle > 180:
                 self.secretActive = False
+                self.secretTimer = 0
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
