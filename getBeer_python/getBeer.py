@@ -103,7 +103,8 @@ class BeerDispenser(object):
         else:
             self.shutValve()
             self.shutSecretValve()
-            self.secretTimeIdle += 1
+            if self.secretTimeIdle < 200:
+                self.secretTimeIdle += 1
 
             if self.secretTimeIdle > 180:
                 self.secretActive = False
