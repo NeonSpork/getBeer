@@ -46,17 +46,15 @@ class BeerDispenser(object):
         self.running = True
         self.dispensing = False
         self.dispensingSecret = False
-        self.buttonDown = False
         self.bg_image = 0
         self.dispenserDisplay = True
         self.beerChooser = False
         self.secretActive = False
-        self.tempSensor = W1ThermSensor()
-        self.counter = 0
-        self.pintsLeft = 0
         self.secretTimer = 0
         self.secretTimeIdle = 0
-        self.secretDispensing = False
+        self.pintsLeft = 0
+        self.tempSensor = W1ThermSensor()
+        self.counter = 0
 
     def openValve(self):
         GPIO.output(5, True)
