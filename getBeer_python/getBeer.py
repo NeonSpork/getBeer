@@ -107,7 +107,7 @@ class BeerDispenser(object):
                 self.running = False
             if self.bg_image == 0:
                 if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                    if self.secretTimer < (FPS*3):
+                    if self.secretTimer <= (FPS*3):
                         self.secretTimer += 1
                     if self.secretTimer > (FPS*3):
                         self.secretActive = True
@@ -116,7 +116,7 @@ class BeerDispenser(object):
         else:
             self.shutValve()
             self.shutSecretValve()
-            if self.secretTimeIdle < (FPS*3):
+            if self.secretTimeIdle <= (FPS*3):
                 self.secretTimeIdle += 1
             if self.secretTimeIdle > (FPS*3):
                 self.secretActive = False
