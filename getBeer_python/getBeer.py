@@ -51,7 +51,7 @@ class BeerDispenser(object):
     def __init__(self):
         super(BeerDispenser, self).__init__()
         pg.init()
-        self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((SWIDTH, SHEIGHT))
         pg.mouse.set_cursor(*cursor_from_image(CURSOR, 8, (0, 0)))
         self.clock = pg.time.Clock()
 
