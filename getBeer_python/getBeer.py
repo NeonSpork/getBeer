@@ -20,6 +20,31 @@ from w1thermsensor import W1ThermSensor
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
+# Set up GPIO pins
+GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
+GPIO.setup(2, GPIO.IN)  # Load sensor DT
+GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
+# Load sensor
+self.hx = HX711(2, 3)
+self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+self.hx.set_scale(-20.9993)
+# Temp sensor
+self.tempSensor = W1ThermSensor()
+
+
+def kegVolume():
+    dryKegWeight = 4025
+    wetKegVolume = hx.get_grams(times=1) - dryKegWeight
+    if wetKegVolume < 0:
+        wetKegVolume = 0
+    return wetKegVolume
+
+
+def kegTemp():
+    kegTemperature = tempSensor.get_temperature()
+    return kegTemperature
 
 
 class BeerDispenser(object):
@@ -29,18 +54,6 @@ class BeerDispenser(object):
         self.screen = pg.display.set_mode((SWIDTH, SHEIGHT), pg.FULLSCREEN)
         pg.mouse.set_cursor(*cursor_from_image(CURSOR, 8, (0, 0)))
         self.clock = pg.time.Clock()
-
-        # Set up GPIO pins
-        GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
-        GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
-        GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
-        GPIO.setup(2, GPIO.IN)  # Load sensor DT
-        GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
-
-        # Load sensor
-        self.hx = HX711(2, 3)
-        self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
-        self.hx.set_scale(-20.9993)
 
         # Parameters for dispenser
         self.running = True
@@ -53,7 +66,6 @@ class BeerDispenser(object):
         self.secretTimer = 0
         self.secretTimeIdle = 0
         self.pintsLeft = 0
-        self.tempSensor = W1ThermSensor()
         self.counter = 0
 
     def openValve(self):
@@ -95,19 +107,18 @@ class BeerDispenser(object):
                 self.running = False
             if self.bg_image == 0:
                 if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                    if self.secretTimer < 200:
+                    if self.secretTimer < (FPS*3):
                         self.secretTimer += 1
-                    if self.secretTimer > 180:
+                    if self.secretTimer > (FPS*3):
                         self.secretActive = True
                         self.secretTimeIdle = 0
                         self.openSecretValve()
         else:
             self.shutValve()
             self.shutSecretValve()
-            if self.secretTimeIdle < 200:
+            if self.secretTimeIdle < (FPS*3):
                 self.secretTimeIdle += 1
-
-            if self.secretTimeIdle > 180:
+            if self.secretTimeIdle > (FPS*3):
                 self.secretActive = False
                 self.secretTimer = 0
         for event in pg.event.get():
@@ -267,20 +278,9 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def kegVolume(self):
-        dryKegWeight = 4025
-        wetKegVolume = self.hx.get_grams(times=1) - dryKegWeight
-        if wetKegVolume < 0:
-            wetKegVolume = 0
-        return wetKegVolume
-
-    def kegTemp(self):
-        kegTemperature = self.tempSensor.get_temperature()
-        return kegTemperature
-
     def updateWeightTemp(self):
-        self.pintsLeft = int(self.kegVolume()/500)
-        self.currentTemp = int(self.kegTemp())
+        self.pintsLeft = int(kegVolume()/500)
+        self.currentTemp = int(kegTemp())
 
     def eventUpdate(self):
         if self.dispenserDisplay:
@@ -296,10 +296,11 @@ class BeerDispenser(object):
 
     def run(self):
         self.clock.tick(FPS)
+        print(self.clock.get_fps())
         self.eventUpdate()
         self.eventDraw()
         self.counter += 1
-        if self.counter > 60:
+        if self.counter > FPS:
             self.updateWeightTemp()
             self.counter = 0
 

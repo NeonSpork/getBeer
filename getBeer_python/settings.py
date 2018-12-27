@@ -7,7 +7,7 @@ import pygame as pg
 
 
 # Screen parameters
-FPS = 60
+FPS = 12
 # for testing:
 # SWIDTH = 1024
 # SHEIGHT = 600
