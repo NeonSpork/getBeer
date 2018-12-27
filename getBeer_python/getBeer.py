@@ -27,11 +27,11 @@ GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
 GPIO.setup(2, GPIO.IN)  # Load sensor DT
 GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
 # Load sensor
-self.hx = HX711(2, 3)
-self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
-self.hx.set_scale(-20.9993)
+hx = HX711(2, 3)
+hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+hx.set_scale(-20.9993)
 # Temp sensor
-self.tempSensor = W1ThermSensor()
+tempSensor = W1ThermSensor()
 
 
 def kegVolume():
