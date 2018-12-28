@@ -27,11 +27,11 @@ GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
 GPIO.setup(2, GPIO.IN)  # Load sensor DT
 GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
 # Load sensor
-self.hx = HX711(2, 3)
-self.hx.set_offset(8234508)  # This gets calibrated to zero the sensor
-self.hx.set_scale(-20.9993)
+hx = HX711(2, 3)
+hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+hx.set_scale(-20.9993)
 # Temp sensor
-self.tempSensor = W1ThermSensor()
+tempSensor = W1ThermSensor()
 
 
 def kegVolume():
@@ -107,7 +107,7 @@ class BeerDispenser(object):
                 self.running = False
             if self.bg_image == 0:
                 if (575*RELX) < self.mouse[0] < (825*RELX) and (25*RELY) < self.mouse[1] < (125*RELY):
-                    if self.secretTimer < (FPS*3):
+                    if self.secretTimer <= (FPS*3):
                         self.secretTimer += 1
                     if self.secretTimer > (FPS*3):
                         self.secretActive = True
@@ -116,7 +116,7 @@ class BeerDispenser(object):
         else:
             self.shutValve()
             self.shutSecretValve()
-            if self.secretTimeIdle < (FPS*3):
+            if self.secretTimeIdle <= (FPS*3):
                 self.secretTimeIdle += 1
             if self.secretTimeIdle > (FPS*3):
                 self.secretActive = False
