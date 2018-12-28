@@ -40,15 +40,23 @@ foreach(p LIB BIN INCLUDE CMAKE)
 endforeach()
 
 # Edit the subdirectories as needed
+
+set(MAINSRC main.cpp)
+set(executable getBeerX)
 include_directories(
-  ${PROJECT_BINARY_DIR}/include
-  ${PROJECT_BINARY_DIR}/src
+  "${PROJECT_SOURCE_DIR}/include"
+  "${PROJECT_SOURCE_DIR}/src"
   )
 
-add_executable(dispenser
-  #######################
-  ## UPDATE THIS       ##
-  #######################
+add_executable(${executable}
+  include/ValveOperator.hpp
+  src/ValveOperator.cpp
+  include/ResourceHolder.hpp
+  include/ResourceHolder.inl
+  include/ResourceIdentifiers.hpp
+  include/StateIdentifiers.hpp
+  include/App.hpp
+  src/App.cpp
   main.cpp
   )
 
@@ -61,7 +69,7 @@ endif()
 # Configuration options
 # Remember to specify -DSFML_DIR="D:/lib/SFML" (install directory of SFML)
 
-set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
+# set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
 
 # Add directory containing FindSFML.cmake to module path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/;${CMAKE_MODULE_PATH}")
@@ -79,6 +87,6 @@ else()
 endif()
 
 # Linking to all the libraries, for simplicity
-target_link_libraries(dispenser sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
+target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()

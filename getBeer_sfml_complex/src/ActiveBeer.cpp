@@ -60,16 +60,16 @@ void ActiveBeer::loadTextures()
   mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
   mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
   // Number images
-  mTextures.load(Textures::num0, "media/icon/num0.png");
-  mTextures.load(Textures::num1, "media/icon/num1.png");
-  mTextures.load(Textures::num2, "media/icon/num2.png");
-  mTextures.load(Textures::num3, "media/icon/num3.png");
-  mTextures.load(Textures::num4, "media/icon/num4.png");
-  mTextures.load(Textures::num5, "media/icon/num5.png");
-  mTextures.load(Textures::num6, "media/icon/num6.png");
-  mTextures.load(Textures::num7, "media/icon/num7.png");
-  mTextures.load(Textures::num8, "media/icon/num8.png");
-  mTextures.load(Textures::num9, "media/icon/num9.png");
+  mTextures.load(Textures::num0, "media/num/num0.png");
+  mTextures.load(Textures::num1, "media/num/num1.png");
+  mTextures.load(Textures::num2, "media/num/num2.png");
+  mTextures.load(Textures::num3, "media/num/num3.png");
+  mTextures.load(Textures::num4, "media/num/num4.png");
+  mTextures.load(Textures::num5, "media/num/num5.png");
+  mTextures.load(Textures::num6, "media/num/num6.png");
+  mTextures.load(Textures::num7, "media/num/num7.png");
+  mTextures.load(Textures::num8, "media/num/num8.png");
+  mTextures.load(Textures::num9, "media/num/num9.png");
 }
 
 void ActiveBeer::adaptDispenserStatus()
