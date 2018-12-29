@@ -137,7 +137,7 @@ void App::events()
   }
 }
 
-void App::update(const sf::Time& TimePerFrame)
+void App::update()
 {
   if (mState == State::ID::AngryBabushka)
   {
