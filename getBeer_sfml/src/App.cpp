@@ -20,7 +20,7 @@ App::App()
 , mIcon11()
 , mIcon12()
 , mState()
-, TimePerFrame(sf::seconds(1.f/60.f))
+, TimePerFrame(sf::seconds(1.f/15.f))
 {
   setState(State::ID::Default);
   ValveOperator vo;
