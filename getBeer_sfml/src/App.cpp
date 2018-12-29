@@ -68,6 +68,12 @@ App::App()
   mIcon12.setPosition(((wWidth/2)+150), 450);
 }
 
+App::~App()
+{
+  vo.openValve(Valve::beer, false);
+  vo.openValve(Valve::secret, false);
+}
+
 void App::run()
 {
   // sf::Clock clock;

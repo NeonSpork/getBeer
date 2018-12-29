@@ -12,6 +12,7 @@ class App
 {
 public:
   App();
+  ~App();
   void run();
   const int wWidth{1024};
   const int wHeight{600};
