@@ -51,6 +51,8 @@ include_directories(
 add_executable(${executable}
   include/ValveOperator.hpp
   src/ValveOperator.cpp
+  include/Valve.hpp
+  src/Valve.cpp
   include/ResourceHolder.hpp
   include/ResourceHolder.inl
   include/ResourceIdentifiers.hpp

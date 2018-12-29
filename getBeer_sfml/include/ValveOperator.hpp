@@ -1,7 +1,7 @@
-#ifndef VALVE_HPP
-#define VALVE_HPP
+#ifndef VALVEOPERATOR_HPP
+#define VALVEOPERATOR_HPP
 
-#include <cppgpio.hpp>
+#include "Valve.hpp"
 
 class ValveOperator
 {
@@ -13,12 +13,10 @@ public:
   bool getBeerStatus();
   bool getSecretStatus();
 private:
-  // static const int beerPin = 5;
-  // static const int secretPin = 6;
-  // GPIO::DigitalOut beerGPIO(beerPin);
-  // GPIO::DigitalOut secretGPIO(secretPin);
+  Valve beer(5);
+  Valve secret(6);
   bool beerDispensing;
   bool secretDispensing;
 };
 
-#endif
+#endif // VALVEOPERATOR_HPP

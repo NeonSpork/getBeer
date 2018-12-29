@@ -1,19 +1,11 @@
 #include "../include/ValveOperator.hpp"
 
-struct Valve : protected GPIO::DigitalOut
-{
-  static constexpr int beerPin{5};
-  static constexpr int secretPin{6};
-  GPIO::DigitalOut beer(int beerPin);
-  GPIO::DigitalOut secret(int secretPin);
-};
-
 ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
 {
-  // beerGPIO(5);
-  // secretGPIO(6);
+  beer.off();
+  secret.off();
 }
 
 void ValveOperator::beerValve(bool on)
@@ -21,11 +13,11 @@ void ValveOperator::beerValve(bool on)
   // GPIO::DigitalOut beer(beerPin);
   if (on)
   {
-    Valve::beer.on();  
+    beer.on();  
   }
   if (!on)
   {
-    Valve::beer.off();
+    beer.off();
   }
   beerDispensing = on;
 }
@@ -34,11 +26,11 @@ void ValveOperator::secretValve(bool on)
   // GPIO::DigitalOut secret(secretPin);
   if (on)
   {
-    Valve::secret.on();  
+    secret.on();  
   }
   if (!on)
   {
-    Valve::secret.off();
+    secret.off();
   }
   secretDispensing = on;
 }
