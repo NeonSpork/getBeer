@@ -1,5 +1,5 @@
 #include "../include/Valve.hpp"
 
-Valve::Valve(int pin)
+explicit Valve::Valve(int pin)
 : mPin{pin}
 {}

@@ -4,8 +4,8 @@ ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
 {
-  beer(5);
-  secret(6);
+  Valve beer(5);
+  Valve secret(6);
 }
 
 void ValveOperator::beerValve(bool state)
