@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
 #Change the name "dispenser" to whatever you want
 project(dispenser VERSION 0.1.0 LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 
 # Specify default build type if none provided (before project() command)
@@ -74,7 +74,7 @@ endif()
 # Add directory containing FindSFML.cmake to module path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/;${CMAKE_MODULE_PATH}")
 
-find_package(SFML 2.5 COMPONENTS audio graphics window network system REQUIRED)
+find_package(SFML 2.5.1 COMPONENTS audio graphics window network system REQUIRED)
 
 # If found, include and link; otherwise output error message
 if(SFML_FOUND)
