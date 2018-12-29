@@ -23,9 +23,12 @@ App::App()
 , TimePerFrame(sf::seconds(1.f/60.f))
 {
   setState(State::ID::Default);
+
   ValveOperator vo;
-  vo.beerValve(false);
-  vo.secretValve(false);
+  vo.openValve(Valve::beer, false);
+  vo.status('b', false);
+  vo.openValve(Valve::secret, false);
+  vo.status('s', false);
   loadTextures();
   mBackground.setTexture(mTextures.get(Textures::default_background));
   mBackground.setPosition(0.f, 0.f);
@@ -108,16 +111,20 @@ void App::events()
       //   break;
       case sf::Event::MouseButtonReleased:
         handleInput(event.mouseButton.button, false);
-        vo.beerValve(false);
-        vo.secretValve(false);
+        vo.openValve(Valve::beer, false);
+        vo.status('b', false);
+        vo.openValve(Valve::secret, false);
+        vo.status('s', false);
         break;
       case sf::Event::TouchBegan:
         handleInput(event.touch.finger, true);
         break;
       case sf::Event::TouchEnded:
         handleInput(event.touch.finger, false);
-        vo.beerValve(false);
-        vo.secretValve(false);
+        vo.openValve(Valve::beer, false);
+        vo.status('b', false);
+        vo.openValve(Valve::secret, false);
+        vo.status('s', false);
         break;
       case sf::Event::TouchMoved:
         swipe(origTouchPos.x, event.touch.x);
@@ -128,7 +135,7 @@ void App::events()
 
 void App::update(const sf::Time& TimePerFrame)
 {
-  if (vo.getState("beer"))
+  if (vo.getBeerStatus())
   {
     if (mState == State::ID::AngryBabushka)
     {
@@ -139,7 +146,7 @@ void App::update(const sf::Time& TimePerFrame)
       mButton.setTexture(mTextures.get(Textures::beer_button_on));
     }
   }
-  if (!vo.getState("beer"))
+  if (!vo.getBeerStatus())
   {
     if (mState == State::ID::AngryBabushka)
     {
@@ -179,7 +186,7 @@ void App::render()
     mWindow.draw(mButton);
     mWindow.draw(mXicon);
   }
-  if (vo.getState("secret"))
+  if (vo.getSecretStatus())
   {
     mWindow.draw(mSecretIcon);
   }
@@ -223,7 +230,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
         mState = State::ID::BeerMenu;
       if ((pos.x > (wWidth-200)) && (pos.y > (wHeight-200)))
       {
-        vo.beerValve(isPressed);
+        vo.openValve(Valve::beer, isPressed);
         if (isPressed)
         {
           std::cout << "Button pressed!\n";
@@ -238,7 +245,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       {
         if (((pos.x > 575) && (pos.x < 825)) && ((pos.y > 25) && (pos.y < 125)))
         {
-          vo.secretValve(isPressed);
+          vo.openValve(Valve::secret, isPressed);
           if (isPressed)
           {
             std::cout << "Secret pressed!!\n";
@@ -337,7 +344,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
       mWindow.close();
   if (pos0.x > (wHeight-200) && pos0.y > (wWidth-200))
   {
-    vo.beerValve(isPressed);
+    vo.openValve(Valve::beer, isPressed);
     std::cout << "Button pressed!\n";
   }
   if ((pos0.x > 575 && pos0.x < 825) && (pos0.y > 25 && pos0.y < 125))
@@ -345,7 +352,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
     sf::Vector2i pos1 = sf::Touch::getPosition(1, mWindow);
     if ((pos1.x > 250 && pos1.x < 500) && (pos1.y > 100 && pos1.y < 200))
     {
-      vo.secretValve(isPressed);
+      vo.openValve(Valve::secret, isPressed);
       std::cout << "Secret pressed!!\n";
     }
   }

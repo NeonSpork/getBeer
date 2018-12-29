@@ -3,36 +3,31 @@
 ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
+{}
+
+void ValveOperator::openValve(const GPIO::DigitalOut &valve, bool state)
 {
-  Valve beer(5);
-  Valve secret(6);
+  if (state)
+  {
+    valve.on();
+  }
+  if (!state)
+  {
+    valve.off();
+  }
 }
 
-void ValveOperator::beerValve(bool state)
+void ValveOperator::status(char name, bool state)
 {
-  // GPIO::DigitalOut beer(beerPin);
-  if (state)
+  switch (name)
   {
-    beer.on();  
+    case 'b':
+      beerDispensing = state;
+      break;
+    case 's':
+      secretDispensing = state;
+      break;
   }
-  if (!state)
-  {
-    beer.off();
-  }
-  beerDispensing = state;
-}
-void ValveOperator::secretValve(bool state)
-{
-  // GPIO::DigitalOut secret(secretPin);
-  if (state)
-  {
-    secret.on();  
-  }
-  if (!state)
-  {
-    secret.off();
-  }
-  secretDispensing = state;
 }
 
 bool ValveOperator::getBeerStatus()

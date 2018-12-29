@@ -1,20 +1,27 @@
 #ifndef VALVEOPERATOR_HPP
 #define VALVEOPERATOR_HPP
 
-#include "Valve.hpp"
+#include <string>
+#include <cppgpio.hpp>
+
+namespace Valve
+{
+  static constexpr unsigned int beerPin = 5;
+  static const GPIO::DigitalOut beer(beerPin);
+  static constexpr unsigned int secretPin = 6;
+  static const GPIO::DigitalOut secret(secretPin);
+}
 
 class ValveOperator
 {
 public:
   ValveOperator();
   ~ValveOperator(){};
-  void beerValve(bool on);
-  void secretValve(bool on);
+  void openValve(const GPIO::DigitalOut &valve, bool state);
+  void status(char name, bool state);
   bool getBeerStatus();
   bool getSecretStatus();
 private:
-  Valve beer(int pin);
-  Valve secret(int pin);
   bool beerDispensing;
   bool secretDispensing;
 };
