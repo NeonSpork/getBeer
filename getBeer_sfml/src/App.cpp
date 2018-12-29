@@ -1,7 +1,7 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::None)
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
 , mBackground()
 , mButton()
 , mXicon()
@@ -23,7 +23,6 @@ App::App()
 , TimePerFrame(sf::seconds(1.f/60.f))
 {
   setState(State::ID::Default);
-
   ValveOperator vo;
   vo.openValve(Valve::beer, false);
   vo.status('b', false);
@@ -231,6 +230,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       if ((pos.x > (wWidth-200)) && (pos.y > (wHeight-200)))
       {
         vo.openValve(Valve::beer, isPressed);
+        vo.status('b', isPressed);
         if (isPressed)
         {
           std::cout << "Button pressed!\n";
@@ -246,6 +246,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
         if (((pos.x > 575) && (pos.x < 825)) && ((pos.y > 25) && (pos.y < 125)))
         {
           vo.openValve(Valve::secret, isPressed);
+          vo.status('s', isPressed);
           if (isPressed)
           {
             std::cout << "Secret pressed!!\n";
@@ -345,6 +346,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
   if (pos0.x > (wHeight-200) && pos0.y > (wWidth-200))
   {
     vo.openValve(Valve::beer, isPressed);
+    vo.status('b', isPressed);
     std::cout << "Button pressed!\n";
   }
   if ((pos0.x > 575 && pos0.x < 825) && (pos0.y > 25 && pos0.y < 125))
@@ -353,6 +355,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
     if ((pos1.x > 250 && pos1.x < 500) && (pos1.y > 100 && pos1.y < 200))
     {
       vo.openValve(Valve::secret, isPressed);
+      vo.status('s', isPressed);
       std::cout << "Secret pressed!!\n";
     }
   }
