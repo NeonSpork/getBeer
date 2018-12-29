@@ -4,35 +4,35 @@ ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
 {
-  beer.off();
-  secret.off();
+  beer(5);
+  secret(6);
 }
 
-void ValveOperator::beerValve(bool on)
+void ValveOperator::beerValve(bool state)
 {
   // GPIO::DigitalOut beer(beerPin);
-  if (on)
+  if (state)
   {
     beer.on();  
   }
-  if (!on)
+  if (!state)
   {
     beer.off();
   }
-  beerDispensing = on;
+  beerDispensing = state;
 }
-void ValveOperator::secretValve(bool on)
+void ValveOperator::secretValve(bool state)
 {
   // GPIO::DigitalOut secret(secretPin);
-  if (on)
+  if (state)
   {
     secret.on();  
   }
-  if (!on)
+  if (!state)
   {
     secret.off();
   }
-  secretDispensing = on;
+  secretDispensing = state;
 }
 
 bool ValveOperator::getBeerStatus()

@@ -1,10 +1,11 @@
 #ifndef VALVE_HPP
 #define VALVE_HPP
 
-#include <cppgpio.hpp>
+#include "../../getBeer_Qt/CppGPIO/include/cppgpio/gpio.hpp"
 
-class Valve : protected GPIO::DigitalOut
+class Valve
 {
+friend class GPIO::DigitalOut;
 public:
   Valve();
 private:

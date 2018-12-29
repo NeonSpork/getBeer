@@ -13,8 +13,8 @@ public:
   bool getBeerStatus();
   bool getSecretStatus();
 private:
-  Valve beer(5);
-  Valve secret(6);
+  Valve beer(int pin);
+  Valve secret(int pin);
   bool beerDispensing;
   bool secretDispensing;
 };
