@@ -70,18 +70,19 @@ App::App()
 
 void App::run()
 {
-  sf::Clock clock;
-  sf::Time timeSinceLastUpdate = sf::Time::Zero;
+  // sf::Clock clock;
+  // sf::Time timeSinceLastUpdate = sf::Time::Zero;
   while (mWindow.isOpen())
   {
     events();
-    timeSinceLastUpdate += clock.restart();
-    while (timeSinceLastUpdate > TimePerFrame)
-    {
-      timeSinceLastUpdate -= TimePerFrame;
-      events();
-      update(TimePerFrame);
-    }
+    uodate();
+    // timeSinceLastUpdate += clock.restart();
+    // while (timeSinceLastUpdate > TimePerFrame)
+    // {
+    //   timeSinceLastUpdate -= TimePerFrame;
+    //   events();
+    //   update(TimePerFrame);
+    // }
     render();
   }
 }
