@@ -3,9 +3,10 @@
 App::App()
 : mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
 , mBackground()
-, mButton()
+, mButtonOff()
+, mButtonOn()
 , mXicon()
-, mSecretIcon()
+, mSecretIconOn()
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -31,12 +32,14 @@ App::App()
   loadTextures();
   mBackground.setTexture(mTextures.get(Textures::default_background));
   mBackground.setPosition(0.f, 0.f);
-  mButton.setTexture(mTextures.get(Textures::beer_button_off));
-  mButton.setPosition((wWidth-200), (wHeight-200));
+  mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
+  mButtonOff.setPosition((wWidth-200), (wHeight-200));
+  mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
+  mButtonOn.setPosition((wWidth-200), (wHeight-200));
   mXicon.setTexture(mTextures.get(Textures::exit));
   mXicon.setPosition(0.f, 0.f);
-  mSecretIcon.setTexture(mTextures.get(Textures::secret_on));
-  mSecretIcon.setPosition(525, 75);
+  mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
+  mSecretIconOn.setPosition(525, 75);
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
   mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
@@ -134,27 +137,15 @@ void App::events()
 
 void App::update(const sf::Time& TimePerFrame)
 {
-  if (vo.getBeerStatus())
+  if (mState == State::ID::AngryBabushka)
   {
-    if (mState == State::ID::AngryBabushka)
-    {
-      mButton.setTexture(mTextures.get(Textures::beer_button_red_on));
-    }
-    else
-    {
-      mButton.setTexture(mTextures.get(Textures::beer_button_on));
-    }
+    mButtonOff.setTexture(mTextures.get(Textures::beer_button_red_off));
+    mButtonOn.setTexture(mTextures.get(Textures::beer_button_red_on));
   }
-  if (!vo.getBeerStatus())
+  else
   {
-    if (mState == State::ID::AngryBabushka)
-    {
-      mButton.setTexture(mTextures.get(Textures::beer_button_red_off));
-    }
-    else
-    {
-      mButton.setTexture(mTextures.get(Textures::beer_button_off));
-    }
+    mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
+    mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
   }
   switch (mState)
   {
@@ -182,12 +173,19 @@ void App::render()
   mWindow.draw(mBackground);
   if (mState != State::ID::BeerMenu)
   {
-    mWindow.draw(mButton);
     mWindow.draw(mXicon);
-  }
-  if (vo.getSecretStatus())
-  {
-    mWindow.draw(mSecretIcon);
+    if (vo.getBeerStatus())
+    {
+      mWindow.draw(mButtonOn);
+    }
+    if (!vo.getBeerStatus())
+    {
+      mWindow.draw(mButtonOff)
+    }
+    if (vo.getSecretStatus())
+    {
+      mWindow.draw(mSecretIcon);
+    }
   }
   if (mState == State::ID::BeerMenu)
   {

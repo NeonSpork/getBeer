@@ -20,9 +20,10 @@ private:
   sf::RenderWindow mWindow;
   TextureHolder mTextures;
   sf::Sprite mBackground;
-  sf::Sprite mButton;
+  sf::Sprite mButtonOff;
+  sf::Sprite mButtonOn;
   sf::Sprite mXicon;
-  sf::Sprite mSecretIcon;
+  sf::Sprite mSecretIconOn;
   sf::Sprite mIcon0;
   sf::Sprite mIcon1;
   sf::Sprite mIcon2;
