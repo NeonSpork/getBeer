@@ -2,9 +2,11 @@
 
 struct Valve
 {
-  GPIO::DigitalOut beer(5);
-  GPIO::DigitalOut secret(6);
-}
+  constexpr int beerPin{5};
+  constexpr int secretPin{6};
+  GPIO::DigitalOut beer(int beerPin);
+  GPIO::DigitalOut secret(int secretPin);
+};
 
 ValveOperator::ValveOperator()
 : beerDispensing{false}
