@@ -1,5 +1,11 @@
 #include "../include/ValveOperator.hpp"
 
+struct Valve
+{
+  GPIO::DigitalOut beer(5);
+  GPIO::DigitalOut secret(6);
+}
+
 ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
@@ -10,43 +16,37 @@ ValveOperator::ValveOperator()
 
 void ValveOperator::beerValve(bool on)
 {
-  GPIO::DigitalOut beer(beerPin);
+  // GPIO::DigitalOut beer(beerPin);
   if (on)
   {
-    beer.on();  
+    Valve::beer.on();  
   }
   if (!on)
   {
-    beer.off();
+    Valve::beer.off();
   }
   beerDispensing = on;
 }
 void ValveOperator::secretValve(bool on)
 {
-  GPIO::DigitalOut secret(secretPin);
+  // GPIO::DigitalOut secret(secretPin);
   if (on)
   {
-    secret.on();  
+    Valve::secret.on();  
   }
   if (!on)
   {
-    secret.off();
+    Valve::secret.off();
   }
   secretDispensing = on;
 }
 
-bool ValveOperator::getState(std::string name)
+bool ValveOperator::getBeerStatus()
 {
-  if (name == "beer")
-  {
-    return beerDispensing;
-  }
-  if (name == "secret")
-  {
-    return secretDispensing;
-  }
-  else
-  {
-    return false;
-  }
+  return beerDispensing;
+}
+
+bool ValveOperator::getSecretStatus()
+{
+  return secretDispensing;
 }
