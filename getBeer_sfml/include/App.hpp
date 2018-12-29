@@ -40,6 +40,7 @@ private:
   State::ID mState;
   const sf::Time TimePerFrame;
   void events();
+  void update();
   void update(const sf::Time& TimePerFrame);
   void render();
   void handleInput(sf::Keyboard::Key key, bool isPressed);
