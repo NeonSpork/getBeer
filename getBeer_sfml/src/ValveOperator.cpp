@@ -1,6 +1,6 @@
 #include "../include/ValveOperator.hpp"
 
-namespace Valve
+struct Valve : protected GPIO::DigitalOut
 {
   static constexpr int beerPin{5};
   static constexpr int secretPin{6};
