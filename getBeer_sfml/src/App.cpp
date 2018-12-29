@@ -75,7 +75,7 @@ void App::run()
   while (mWindow.isOpen())
   {
     events();
-    uodate();
+    update();
     // timeSinceLastUpdate += clock.restart();
     // while (timeSinceLastUpdate > TimePerFrame)
     // {
