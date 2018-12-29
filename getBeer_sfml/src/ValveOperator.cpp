@@ -2,8 +2,8 @@
 
 struct Valve
 {
-  constexpr int beerPin{5};
-  constexpr int secretPin{6};
+  static constexpr int beerPin{5};
+  static constexpr int secretPin{6};
   GPIO::DigitalOut beer(int beerPin);
   GPIO::DigitalOut secret(int secretPin);
 };
