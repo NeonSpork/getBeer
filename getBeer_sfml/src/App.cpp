@@ -180,11 +180,11 @@ void App::render()
     }
     if (!vo.getBeerStatus())
     {
-      mWindow.draw(mButtonOff)
+      mWindow.draw(mButtonOff);
     }
     if (vo.getSecretStatus())
     {
-      mWindow.draw(mSecretIcon);
+      mWindow.draw(mSecretIconOn);
     }
   }
   if (mState == State::ID::BeerMenu)
