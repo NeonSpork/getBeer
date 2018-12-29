@@ -1,6 +1,6 @@
 #include "../include/ValveOperator.hpp"
 
-struct Valve
+namespace Valve
 {
   static constexpr int beerPin{5};
   static constexpr int secretPin{6};
