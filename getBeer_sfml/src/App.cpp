@@ -21,7 +21,7 @@ App::App()
 , mIcon11()
 , mIcon12()
 , mState()
-, TimePerFrame(sf::seconds(1.f/15.f))
+, TimePerFrame(sf::seconds(1.f/60.f))
 {
   setState(State::ID::Default);
   ValveOperator vo;
@@ -84,6 +84,7 @@ void App::run()
     //   update(TimePerFrame);
     // }
     render();
+    std::cout << "Frame.\n";
   }
 }
 
