@@ -70,8 +70,8 @@ App::App()
 
 App::~App()
 {
-  vo.openValve(Valve::beer, false);
-  vo.openValve(Valve::secret, false);
+  Valve::beer.clear();
+  Valve::secret.clear();
 }
 
 void App::run()
