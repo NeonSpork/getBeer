@@ -70,8 +70,8 @@ App::App()
 
 App::~App()
 {
-  Valve::beer.clear();
-  Valve::secret.clear();
+  Valve::beer.off();
+  Valve::secret.off();
 }
 
 void App::run()
