@@ -5,12 +5,11 @@ readme.md
 WORK IN PROGRESS
 
 ## Equipment
-* Raspberry Pi Zero
-* Button from AliExpress
-* Flow meter
-* GPIO pins
+* Raspberry Pi 3
+* HX711 weight sensor (to calculate volume)
+* DS18B20 temperature sensor
 * 1024*600 7" touch screen (HDMI)
-* 16*2 LCD mini display
+* 16*2 LCD mini display (optional - we opted out)
 * Some wire
 * Beer
 * Daydreams about beer dispensors
