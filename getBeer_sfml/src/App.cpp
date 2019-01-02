@@ -238,7 +238,7 @@ void App::updateStatistics(sf::Time elapsedTime)
   {
     mStatisticsText.setString(
       "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
-      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + "microsec");
+      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
     mStatisticsUpdateTime -= sf::seconds(1.0f);
     mStatisticsNumFrames = 0;
   }
