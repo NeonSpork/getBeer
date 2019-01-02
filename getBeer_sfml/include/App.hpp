@@ -50,6 +50,7 @@ private:
   void swipe(int oldX, int newX);
   void setState(State::ID name);
   void loadTextures();
+  void placeTextures();
   void switchButtonTexture();
   void switchBackgroundTexture();
 

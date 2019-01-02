@@ -36,42 +36,7 @@ App::App()
   vo.openValve('b', false);
   vo.openValve('s', false);
   loadTextures();
-  mBackground.setTexture(mTextures.get(Textures::default_background));
-  mBackground.setPosition(0.f, 0.f);
-  mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
-  mButtonOff.setPosition((wWidth-200), (wHeight-200));
-  mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
-  mButtonOn.setPosition((wWidth-200), (wHeight-200));
-  mXicon.setTexture(mTextures.get(Textures::exit));
-  mXicon.setPosition(0.f, 0.f);
-  mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
-  mSecretIconOn.setPosition(525, 75);
-  mIcon0.setTexture(mTextures.get(Textures::default_icon));
-  mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
-  mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
-  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon5.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon6.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon7.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon8.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon9.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon10.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon11.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon12.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon0.setPosition(((wWidth/2)-150), 0);
-  mIcon1.setPosition(((wWidth/2)-300), 150);
-  mIcon2.setPosition(((wWidth/2)-150), 150);
-  mIcon3.setPosition(((wWidth/2)), 150);
-  mIcon4.setPosition(((wWidth/2)+150), 150);
-  mIcon5.setPosition(((wWidth/2)-300), 300);
-  mIcon6.setPosition(((wWidth/2)-150), 300);
-  mIcon7.setPosition(((wWidth/2)), 300);
-  mIcon8.setPosition(((wWidth/2)+150), 300);
-  mIcon9.setPosition(((wWidth/2)-300), 450);
-  mIcon10.setPosition(((wWidth/2)-150), 450);
-  mIcon11.setPosition(((wWidth/2)), 450);
-  mIcon12.setPosition(((wWidth/2)+150), 450);
+  placeTextures();
 
   // FPS and TimePerFrame display, will be removed in final version
   mFont.loadFromFile("media/Sansation.ttf");
@@ -445,4 +410,44 @@ void App::loadTextures()
   mTextures.load(Textures::num7, "media/num/num7.png");
   mTextures.load(Textures::num8, "media/num/num8.png");
   mTextures.load(Textures::num9, "media/num/num9.png");
+}
+
+void App::placeTextures()
+{
+  mBackground.setTexture(mTextures.get(Textures::default_background));
+  mBackground.setPosition(0.f, 0.f);
+  mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
+  mButtonOff.setPosition((wWidth-200), (wHeight-200));
+  mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
+  mButtonOn.setPosition((wWidth-200), (wHeight-200));
+  mXicon.setTexture(mTextures.get(Textures::exit));
+  mXicon.setPosition(0.f, 0.f);
+  mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
+  mSecretIconOn.setPosition(525, 75);
+  mIcon0.setTexture(mTextures.get(Textures::default_icon));
+  mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
+  mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
+  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon5.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon6.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon7.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon8.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon9.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon10.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon11.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon12.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon0.setPosition(((wWidth/2)-150), 0);
+  mIcon1.setPosition(((wWidth/2)-300), 150);
+  mIcon2.setPosition(((wWidth/2)-150), 150);
+  mIcon3.setPosition(((wWidth/2)), 150);
+  mIcon4.setPosition(((wWidth/2)+150), 150);
+  mIcon5.setPosition(((wWidth/2)-300), 300);
+  mIcon6.setPosition(((wWidth/2)-150), 300);
+  mIcon7.setPosition(((wWidth/2)), 300);
+  mIcon8.setPosition(((wWidth/2)+150), 300);
+  mIcon9.setPosition(((wWidth/2)-300), 450);
+  mIcon10.setPosition(((wWidth/2)-150), 450);
+  mIcon11.setPosition(((wWidth/2)), 450);
+  mIcon12.setPosition(((wWidth/2)+150), 450);
 }
