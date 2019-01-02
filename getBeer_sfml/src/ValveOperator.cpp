@@ -17,14 +17,16 @@ void ValveOperator::openValve(const GPIO::DigitalOut &valve, bool state)
   }
 }
 
-void ValveOperator::status(char name, bool state)
+void ValveOperator::setStatus(char name, bool state)
 {
   switch (name)
   {
     case 'b':
+      // Beer valve
       beerDispensing = state;
       break;
     case 's':
+      // Secret valve
       secretDispensing = state;
       break;
   }

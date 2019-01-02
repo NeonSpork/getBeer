@@ -18,7 +18,7 @@ public:
   ValveOperator();
   ~ValveOperator(){};
   void openValve(const GPIO::DigitalOut &valve, bool state);
-  void status(char name, bool state);
+  void setStatus(char name, bool state);
   bool getBeerStatus();
   bool getSecretStatus();
 private:
