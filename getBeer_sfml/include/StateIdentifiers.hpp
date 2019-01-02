@@ -1,16 +1,15 @@
 #ifndef STATEIDENTIFIERS_HPP
 #define STATEIDENTIFIERS_HPP
 
-namespace States
+namespace State
 {
   enum ID
   {
     None,
-    DefaultState,
+    Default,
     TropicalThunder,
     AngryBabushka,
     BeerMenu,
-    SecretDispenser,
   };
 }
 

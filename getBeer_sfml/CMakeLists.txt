@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
 #Change the name "dispenser" to whatever you want
 project(dispenser VERSION 0.1.0 LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 
 # Specify default build type if none provided (before project() command)
@@ -40,15 +40,23 @@ foreach(p LIB BIN INCLUDE CMAKE)
 endforeach()
 
 # Edit the subdirectories as needed
+
+set(MAINSRC main.cpp)
+set(executable getBeerX)
 include_directories(
-  ${PROJECT_BINARY_DIR}/include
-  ${PROJECT_BINARY_DIR}/src
+  "${PROJECT_SOURCE_DIR}/include"
+  "${PROJECT_SOURCE_DIR}/src"
   )
 
-add_executable(dispenser
-  src/App.cpp
+add_executable(${executable}
+  include/ValveOperator.hpp
+  src/ValveOperator.cpp
+  include/ResourceHolder.hpp
+  include/ResourceHolder.inl
+  include/ResourceIdentifiers.hpp
+  include/StateIdentifiers.hpp
   include/App.hpp
-  # UPDATE THIS
+  src/App.cpp
   main.cpp
   )
 
@@ -61,12 +69,12 @@ endif()
 # Configuration options
 # Remember to specify -DSFML_DIR="D:/lib/SFML" (install directory of SFML)
 
-set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
+# set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
 
 # Add directory containing FindSFML.cmake to module path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/;${CMAKE_MODULE_PATH}")
 
-find_package(SFML 2.5 COMPONENTS audio graphics window network system REQUIRED)
+find_package(SFML 2.5.1 COMPONENTS audio graphics window network system REQUIRED)
 
 # If found, include and link; otherwise output error message
 if(SFML_FOUND)
@@ -79,6 +87,6 @@ else()
 endif()
 
 # Linking to all the libraries, for simplicity
-target_link_libraries(dispenser sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
+target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()
