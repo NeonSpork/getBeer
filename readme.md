@@ -20,5 +20,9 @@ WORK IN PROGRESS
 
 ## Code
 Should be able to clone directly into raspberry pi
-Needs to have PyGame library installed. Tested & developed using PyGame 1.9.4 
-Currently working on implementing the dispenser in C++ with SFML 2.5.1
+### Dependencies - Python
+PyGame 1.9.4 
+W1ThermSensor
+### Dependencies - CPP
+SFML 2.5.1 (be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML)
+CppGPIO (https://github.com/JoachimSchurig/CppGPIO, may decide to use WiringPi library instead.)
