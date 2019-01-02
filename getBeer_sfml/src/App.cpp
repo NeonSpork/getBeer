@@ -23,6 +23,10 @@ App::App()
 , mState()
 , mOldState()
 , TimePerFrame(sf::seconds(1.f/60.f))
+, mFont()
+, mStatisticsText()
+, mStatisticsUpdateTime()
+, mStatisticsNumFrames(0)
 {
   setState(State::ID::Default);
   mOldState = mState;
@@ -66,6 +70,12 @@ App::App()
   mIcon10.setPosition(((wWidth/2)-150), 450);
   mIcon11.setPosition(((wWidth/2)), 450);
   mIcon12.setPosition(((wWidth/2)+150), 450);
+
+  // FPS and TimePerFrame display, will be removed in final version
+  mFont.loadFromFile("media/Sansation.ttf");
+  mStatisticsText.setFont(mFont);
+  mStatisticsText.setPosition(5.f, 5.f);
+  mStatisticsText.setCharacterSize(10);
 }
 
 App::~App()
@@ -81,15 +91,16 @@ void App::run()
   while (mWindow.isOpen())
   {
     events();
-    timeSinceLastUpdate += clock.restart();
+    sf::Time elapsedTime = clock.restart();
+    timeSinceLastUpdate += elapsedTime;
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
       events();
       update(TimePerFrame);
     }
+    updateStatistics(elapsedTime);
     render();
-    std::cout << "Frame.\n";
   }
 }
 
@@ -214,6 +225,20 @@ void App::render()
     mWindow.draw(mIcon12);
   }
   mWindow.display();
+}
+
+void App::updateStatistics(sf::Time elapsedTime)
+{
+  mStatisticsUpdateTime += elapsedTime;
+  mStatisticsNumFrames += 1;
+  if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+  {
+    mStatisticsText.setString(
+      "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
+      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + "microsec");
+    mStatisticsUpdateTime -= sf::seconds(1.0f);
+    mStatisticsNumFrames = 0;
+  }
 }
 
 void App::handleInput(sf::Keyboard::Key key, bool isPressed)

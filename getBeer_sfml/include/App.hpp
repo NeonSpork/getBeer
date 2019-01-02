@@ -52,6 +52,13 @@ private:
   void loadTextures();
   void switchButtonTexture();
   void switchBackgroundTexture();
+
+  // FPS and TimePerFrame display, will be removed in final version
+  void updateStatistics(sf::Time elapsedTime);
+  sf::Font mFont;
+  sf::Text mStatisticsText;
+  sf::Time mStatisticsUpdateTime;
+  std::size_t mStatisticsNumFrames;
 };
 
 #endif // APP_HPP
