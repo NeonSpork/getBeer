@@ -1,7 +1,7 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::Fullscreen)
 , mBackground()
 , mButtonOff()
 , mButtonOn()
@@ -126,10 +126,10 @@ void App::events()
       // case sf::Event::MouseButtonPressed:
       //   handleInput(event.mouseButton.button, true);
       //   break;
-      // case sf::Event::MouseMoved:
-      //   if (event.mouseButton.button == sf::Mouse::Left)
-      //     swipe(origMousePos.x, event.mouseMove.x);
-      //   break;
+      // // case sf::Event::MouseMoved:
+      // //   if (event.mouseButton.button == sf::Mouse::Left)
+      // //     swipe(origMousePos.x, event.mouseMove.x);
+      // //   break;
       // case sf::Event::MouseButtonReleased:
       //   handleInput(event.mouseButton.button, false);
       //   vo.openValve('b', false);
@@ -225,6 +225,7 @@ void App::render()
     mWindow.draw(mIcon11);
     mWindow.draw(mIcon12);
   }
+  mWindow.draw(mStatisticsText);
   mWindow.display();
 }
 
