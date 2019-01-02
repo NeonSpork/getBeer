@@ -14,8 +14,8 @@ public:
   App();
   ~App();
   void run();
-  const int wWidth{1024};
-  const int wHeight{600};
+  static constexpr int wWidth{1024};
+  static constexpr int wHeight{600};
 private:
   ValveOperator vo;
   sf::RenderWindow mWindow;
