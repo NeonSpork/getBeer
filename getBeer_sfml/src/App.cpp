@@ -27,10 +27,8 @@ App::App()
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
-  vo.openValve(Valve::beer, false);
-  vo.setStatus('b', false);
-  vo.openValve(Valve::secret, false);
-  vo.setStatus('s', false);
+  vo.openValve('b', false);
+  vo.openValve('s', false);
   loadTextures();
   mBackground.setTexture(mTextures.get(Textures::default_background));
   mBackground.setPosition(0.f, 0.f);
@@ -122,10 +120,8 @@ void App::events()
       //   break;
       // case sf::Event::MouseButtonReleased:
       //   handleInput(event.mouseButton.button, false);
-      //   vo.openValve(Valve::beer, false);
-      //   vo.setStatus('b', false);
-      //   vo.openValve(Valve::secret, false);
-      //   vo.setStatus('s', false);
+      //   vo.openValve('b', false);
+      //   vo.openValve('s', false);
       //   break;
       case sf::Event::TouchBegan:
         std::cout << "Touch began.\n";      
@@ -134,10 +130,8 @@ void App::events()
       case sf::Event::TouchEnded:
         std::cout << "Touch ended.\n";      
         handleInput(event.touch.finger, false);
-        vo.openValve(Valve::beer, false);
-        vo.setStatus('b', false);
-        vo.openValve(Valve::secret, false);
-        vo.setStatus('s', false);
+        vo.openValve('b', false);
+        vo.openValve('s', false);
         break;
       case sf::Event::TouchMoved:
         std::cout << "Touch moved.\n";      
@@ -243,8 +237,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
         mState = State::ID::BeerMenu;
       if ((pos.x > (wWidth-200)) && (pos.y > (wHeight-200)))
       {
-        vo.openValve(Valve::beer, isPressed);
-        vo.setStatus('b', isPressed);
+        vo.openValve('b', isPressed);
         if (isPressed)
         {
           std::cout << "Button pressed!\n";
@@ -259,8 +252,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       {
         if (((pos.x > 575) && (pos.x < 825)) && ((pos.y > 25) && (pos.y < 125)))
         {
-          vo.openValve(Valve::secret, isPressed);
-          vo.setStatus('s', isPressed);
+          vo.openValve('s', isPressed);
           if (isPressed)
           {
             std::cout << "Secret pressed!!\n";
@@ -359,8 +351,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
       mWindow.close();
   if (pos0.x > (wHeight-200) && pos0.y > (wWidth-200))
   {
-    vo.openValve(Valve::beer, isPressed);
-    vo.setStatus('b', isPressed);
+    vo.openValve('b', isPressed);
     std::cout << "Button pressed!\n";
   }
   if ((pos0.x > 575 && pos0.x < 825) && (pos0.y > 25 && pos0.y < 125))
@@ -368,8 +359,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
     sf::Vector2i pos1 = sf::Touch::getPosition(1, mWindow);
     if ((pos1.x > 250 && pos1.x < 500) && (pos1.y > 100 && pos1.y < 200))
     {
-      vo.openValve(Valve::secret, isPressed);
-      vo.setStatus('s', isPressed);
+      vo.openValve('s', isPressed);
       std::cout << "Secret pressed!!\n";
     }
   }

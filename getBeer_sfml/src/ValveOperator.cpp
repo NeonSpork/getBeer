@@ -17,18 +17,30 @@ void ValveOperator::openValve(const GPIO::DigitalOut &valve, bool state)
   }
 }
 
-void ValveOperator::setStatus(char name, bool state)
+void ValveOperator::openValve(char name, bool state)
+  // \brief Sets the state of valve to open (true) or closed (false)
+  // \param name 'b' for beer valve or 's' for secret valve
+  // \param state true or false
 {
+  const GPIO::DigitalOut *valve;
   switch (name)
   {
     case 'b':
-      // Beer valve
+      valve = &Valve::beer;
       beerDispensing = state;
       break;
     case 's':
-      // Secret valve
+      valve = &Valve::secret;
       secretDispensing = state;
       break;
+  }
+  if (state)
+  {
+    valve->on();
+  }
+  if (!state)
+  {
+    valve->off();
   }
 }
 
