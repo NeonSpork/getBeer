@@ -26,6 +26,5 @@ Should be able to clone directly into raspberry pi
 ### Dependencies - CPP
 * SFML 2.5.1
   * Be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML
-* CppGPIO 
-  * https://github.com/JoachimSchurig/CppGPIO
-  * May decide to use WiringPi library instead.)
+* wiringPi
+  * http://wiringpi.com/
