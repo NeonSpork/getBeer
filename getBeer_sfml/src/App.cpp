@@ -21,9 +21,11 @@ App::App()
 , mIcon11()
 , mIcon12()
 , mState()
+, mOldState()
 , TimePerFrame(sf::seconds(1.f/60.f))
 {
   setState(State::ID::Default);
+  mOldState = mState;
   ValveOperator vo;
   vo.openValve(Valve::beer, false);
   vo.setStatus('b', false);
@@ -76,19 +78,18 @@ App::~App()
 
 void App::run()
 {
-  // sf::Clock clock;
-  // sf::Time timeSinceLastUpdate = sf::Time::Zero;
+  sf::Clock clock;
+  sf::Time timeSinceLastUpdate = sf::Time::Zero;
   while (mWindow.isOpen())
   {
     events();
-    update();
-    // timeSinceLastUpdate += clock.restart();
-    // while (timeSinceLastUpdate > TimePerFrame)
-    // {
-    //   timeSinceLastUpdate -= TimePerFrame;
-    //   events();
-    //   update(TimePerFrame);
-    // }
+    timeSinceLastUpdate += clock.restart();
+    while (timeSinceLastUpdate > TimePerFrame)
+    {
+      timeSinceLastUpdate -= TimePerFrame;
+      events();
+      update(TimePerFrame);
+    }
     render();
     std::cout << "Frame.\n";
   }
@@ -146,35 +147,39 @@ void App::events()
   }
 }
 
-void App::update()
+void App::update(const sf::Time& TimePerFrame)
 {
-  if (mState == State::ID::AngryBabushka)
+  if (mOldState != mState)
   {
-    mButtonOff.setTexture(mTextures.get(Textures::beer_button_red_off));
-    mButtonOn.setTexture(mTextures.get(Textures::beer_button_red_on));
-  }
-  else
-  {
-    mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
-    mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
-  }
-  switch (mState)
-  {
-    case State::ID::None: case State::ID::Default:
-      mBackground.setTexture(mTextures.get(Textures::default_background));
-      break;
-    case State::ID::TropicalThunder:
-      mBackground.setTexture(mTextures.get(Textures::tropical_thunder_bg));
-      break;
-    case State::ID::AngryBabushka:
-      mBackground.setTexture(mTextures.get(Textures::angry_babushka_bg));
-      break;
-    case State::ID::BeerMenu:
-      mBackground.setTexture(mTextures.get(Textures::brick_wall));
-      break;
-    default:
-      mBackground.setTexture(mTextures.get(Textures::default_background));
-      break;
+    if (mState == State::ID::AngryBabushka)
+    {
+      mButtonOff.setTexture(mTextures.get(Textures::beer_button_red_off));
+      mButtonOn.setTexture(mTextures.get(Textures::beer_button_red_on));
+    }
+    else
+    {
+      mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
+      mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
+    }
+    switch (mState)
+    {
+      case State::ID::None: case State::ID::Default:
+        mBackground.setTexture(mTextures.get(Textures::default_background));
+        break;
+      case State::ID::TropicalThunder:
+        mBackground.setTexture(mTextures.get(Textures::tropical_thunder_bg));
+        break;
+      case State::ID::AngryBabushka:
+        mBackground.setTexture(mTextures.get(Textures::angry_babushka_bg));
+        break;
+      case State::ID::BeerMenu:
+        mBackground.setTexture(mTextures.get(Textures::brick_wall));
+        break;
+      default:
+        mBackground.setTexture(mTextures.get(Textures::default_background));
+        break;
+    }
+    mOldState = mState;
   }
 }
 

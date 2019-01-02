@@ -39,10 +39,10 @@ private:
   sf::Sprite mIcon11;
   sf::Sprite mIcon12;
   State::ID mState;
+  State::ID mOldState;
   const sf::Time TimePerFrame;
   void events();
-  void update();
-  // void update(const sf::Time& TimePerFrame);
+  void update(const sf::Time& TimePerFrame);
   void render();
   void handleInput(sf::Keyboard::Key key, bool isPressed);
   void handleInput(sf::Mouse::Button button, bool isPressed);
