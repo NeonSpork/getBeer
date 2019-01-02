@@ -50,6 +50,8 @@ private:
   void swipe(int oldX, int newX);
   void setState(State::ID name);
   void loadTextures();
+  void switchButtonTexture();
+  void switchBackgroundTexture();
 };
 
 #endif // APP_HPP

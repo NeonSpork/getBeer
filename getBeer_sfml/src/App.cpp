@@ -26,9 +26,9 @@ App::App()
   setState(State::ID::Default);
   ValveOperator vo;
   vo.openValve(Valve::beer, false);
-  vo.status('b', false);
+  vo.setStatus('b', false);
   vo.openValve(Valve::secret, false);
-  vo.status('s', false);
+  vo.setStatus('s', false);
   loadTextures();
   mBackground.setTexture(mTextures.get(Textures::default_background));
   mBackground.setPosition(0.f, 0.f);
@@ -112,31 +112,34 @@ void App::events()
       case sf::Event::KeyReleased:
         handleInput(event.key.code, false);
         break;
-      case sf::Event::MouseButtonPressed:
-        handleInput(event.mouseButton.button, true);
-        break;
+      // case sf::Event::MouseButtonPressed:
+      //   handleInput(event.mouseButton.button, true);
+      //   break;
       // case sf::Event::MouseMoved:
       //   if (event.mouseButton.button == sf::Mouse::Left)
       //     swipe(origMousePos.x, event.mouseMove.x);
       //   break;
-      case sf::Event::MouseButtonReleased:
-        handleInput(event.mouseButton.button, false);
-        vo.openValve(Valve::beer, false);
-        vo.status('b', false);
-        vo.openValve(Valve::secret, false);
-        vo.status('s', false);
-        break;
+      // case sf::Event::MouseButtonReleased:
+      //   handleInput(event.mouseButton.button, false);
+      //   vo.openValve(Valve::beer, false);
+      //   vo.setStatus('b', false);
+      //   vo.openValve(Valve::secret, false);
+      //   vo.setStatus('s', false);
+      //   break;
       case sf::Event::TouchBegan:
+        std::cout << "Touch began.\n";      
         handleInput(event.touch.finger, true);
         break;
       case sf::Event::TouchEnded:
+        std::cout << "Touch ended.\n";      
         handleInput(event.touch.finger, false);
         vo.openValve(Valve::beer, false);
-        vo.status('b', false);
+        vo.setStatus('b', false);
         vo.openValve(Valve::secret, false);
-        vo.status('s', false);
+        vo.setStatus('s', false);
         break;
       case sf::Event::TouchMoved:
+        std::cout << "Touch moved.\n";      
         swipe(origTouchPos.x, event.touch.x);
         break;
     }
@@ -236,7 +239,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       if ((pos.x > (wWidth-200)) && (pos.y > (wHeight-200)))
       {
         vo.openValve(Valve::beer, isPressed);
-        vo.status('b', isPressed);
+        vo.setStatus('b', isPressed);
         if (isPressed)
         {
           std::cout << "Button pressed!\n";
@@ -252,7 +255,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
         if (((pos.x > 575) && (pos.x < 825)) && ((pos.y > 25) && (pos.y < 125)))
         {
           vo.openValve(Valve::secret, isPressed);
-          vo.status('s', isPressed);
+          vo.setStatus('s', isPressed);
           if (isPressed)
           {
             std::cout << "Secret pressed!!\n";
@@ -352,7 +355,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
   if (pos0.x > (wHeight-200) && pos0.y > (wWidth-200))
   {
     vo.openValve(Valve::beer, isPressed);
-    vo.status('b', isPressed);
+    vo.setStatus('b', isPressed);
     std::cout << "Button pressed!\n";
   }
   if ((pos0.x > 575 && pos0.x < 825) && (pos0.y > 25 && pos0.y < 125))
@@ -361,7 +364,7 @@ void App::handleInput(unsigned int touch, bool isPressed)
     if ((pos1.x > 250 && pos1.x < 500) && (pos1.y > 100 && pos1.y < 200))
     {
       vo.openValve(Valve::secret, isPressed);
-      vo.status('s', isPressed);
+      vo.setStatus('s', isPressed);
       std::cout << "Secret pressed!!\n";
     }
   }
