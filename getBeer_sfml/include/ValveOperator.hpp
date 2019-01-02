@@ -1,7 +1,7 @@
 #ifndef VALVEOPERATOR_HPP
 #define VALVEOPERATOR_HPP
 
-#include <string>
+#include <iostream>
 #include <cppgpio.hpp>
 
 namespace Valve
@@ -17,8 +17,7 @@ class ValveOperator
 public:
   ValveOperator();
   ~ValveOperator(){};
-  void openValve(const GPIO::DigitalOut &valve, bool state);
-  void openValve(char name, bool state);
+  void openValve(const GPIO::DigitalOut &valve, char name, bool state);
   bool getBeerStatus();
   bool getSecretStatus();
 private:
