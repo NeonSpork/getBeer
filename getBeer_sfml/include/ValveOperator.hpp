@@ -17,6 +17,7 @@ class ValveOperator
 public:
   ValveOperator();
   ~ValveOperator(){};
+  void openValve(const GPIO::DigitalOut &valve, bool state);
   void openValve(char name, bool state);
   bool getBeerStatus();
   bool getSecretStatus();
