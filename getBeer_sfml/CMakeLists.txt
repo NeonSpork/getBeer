@@ -20,7 +20,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     message(STATUS "Using compiler optimizations for Raspberry Pi 3")
   endif()
 else()
-  message(STATUS "Test2")
+  message(STATUS "Raspberry Pi 3 compiler optimizations inactive.")
 endif()
 
 # Install setup (TODO)
