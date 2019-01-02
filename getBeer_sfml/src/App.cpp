@@ -29,6 +29,7 @@ App::App()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 {
+  mWindow.setMouseCursorVisible(false);
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
@@ -134,7 +135,7 @@ void App::events()
       //   handleInput(event.mouseButton.button, false);
       //   vo.openValve('b', false);
       //   vo.openValve('s', false);
-      //   break;
+        break;
       case sf::Event::TouchBegan:
         std::cout << "Touch began.\n";      
         handleInput(event.touch.finger, true);
