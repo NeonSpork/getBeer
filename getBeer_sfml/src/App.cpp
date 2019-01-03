@@ -1,7 +1,7 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::Fullscreen)
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
 , mBackground()
 , mButtonOff()
 , mButtonOn()
@@ -52,8 +52,8 @@ App::App()
 
 App::~App()
 {
-  digitalWrite(5, false);
-  digitalWrite(6, false);
+  // digitalWrite(5, false);
+  // digitalWrite(6, false);
 }
 
 void App::run()
@@ -227,15 +227,15 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
   sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
   if (button ==  sf::Mouse::Left)
   {
-    if (pos.x > (wWidth-(100*xRel)) && pos.y < (100*yRel))
+    if (pos.x > (wWidth-(50*xRel)) && pos.y < (50*yRel))
     {
       mWindow.close();
     }
     if (mState != State::ID::BeerMenu)
     {
-      if (pos.x < (100*xRel) && pos.y < (100*yRel))
+      if (pos.x < (50*xRel) && pos.y < (50*yRel))
         mState = State::ID::BeerMenu;
-      if ((pos.x > (wWidth-(200*xRel))) && (pos.y > (wHeight-(200*yRel))))
+      if ((pos.x > (wWidth-(100*xRel))) && (pos.y > (wHeight-(100*yRel))))
       {
         vo.openValve('b', isPressed);
         if (isPressed)
@@ -250,7 +250,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       // THIS ONE IS ONLY FOR TESTING. DOUBLE TOUCH WILL BE IN THE LIVE VERSION
       if (mState == State::ID::Default)
       {
-        if (((pos.x > (575*xRel)) && (pos.x < (825*xRel))) && ((pos.y > (25*yRel)) && (pos.y < (125*yRel))))
+        if (((pos.x > (287*xRel)) && (pos.x < (412*xRel))) && ((pos.y > (12*yRel)) && (pos.y < (62*yRel))))
         {
           vo.openValve('s', isPressed);
           if (isPressed)
@@ -279,67 +279,67 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       */
       // To be updated with graphics as more beers get added to repetoire
       int xx = (wWidth)/2;
-      if ((pos.x > (xx-(150*xRel)) && pos.x < (xx+(150*xRel))) && (pos.y < (150)*yRel))
+      if ((pos.x > (xx-(75*xRel)) && pos.x < (xx+(75*xRel))) && (pos.y < (75)*yRel))
       // 00
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < (xx-(75*xRel))) && (pos.y > (75*yRel) && pos.y < (150*yRel)))
       // 1
       {
         mState = State::ID::TropicalThunder;
       }
-      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
+      if ((pos.x > (xx-(75*xRel)) && pos.x < xx) && (pos.y > (75*yRel) && pos.y < (150*yRel)))
       // 2
       {
         mState = State::ID::AngryBabushka;
       }
-      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
+      if ((pos.x > xx && pos.x < (xx+(75*xRel))) && (pos.y > (75*yRel) && pos.y < (150*yRel)))
       // 3
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
+      if ((pos.x > (xx+(75*xRel)) && pos.x < (xx+(150*xRel))) && (pos.y > (75*yRel) && pos.y < (150*yRel)))
       // 4
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < (xx-(75*xRel))) && (pos.y > (150*yRel) && pos.y < (225*yRel)))
       // 5
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
+      if ((pos.x > (xx-(75*xRel)) && pos.x < xx) && (pos.y > (150*yRel) && pos.y < (225*yRel)))
       // 6
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
+      if ((pos.x > xx && pos.x < (xx+(75*xRel))) && (pos.y > (150*yRel) && pos.y < (225*yRel)))
       // 7
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
+      if ((pos.x > (xx+(75*xRel)) && pos.x < (xx+(150*xRel))) && (pos.y > (150*yRel) && pos.y < (225*yRel)))
       // 8
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < (xx-(75*xRel))) && (pos.y > (225*yRel) && pos.y < (600*yRel)))
       // 9
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
+      if ((pos.x > (xx-(75*xRel)) && pos.x < xx) && (pos.y > (225*yRel) && pos.y < (600*yRel)))
       // 10
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
+      if ((pos.x > xx && pos.x < (xx+(75*xRel))) && (pos.y > (225*yRel) && pos.y < (600*yRel)))
       // 11
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
+      if ((pos.x > (xx+(75*xRel)) && pos.x < (xx+(150*xRel))) && (pos.y > (225*yRel) && pos.y < (600*yRel)))
       // 12
       {
         mState = State::ID::Default;
@@ -352,17 +352,17 @@ void App::handleInput(unsigned int touch, bool isPressed)
 // TODO update this when get hands on touch screen
 {
   sf::Vector2i pos0 = sf::Touch::getPosition(0, mWindow);
-  if (pos0.x > (wWidth-(100*xRel)) && pos0.y < (100*yRel))
+  if (pos0.x > (wWidth-(50*xRel)) && pos0.y < (50*yRel))
       mWindow.close();
-  if (pos0.x > (wWidth-(200*xRel)) && pos0.y > (wHeight-(200*yRel)))
+  if (pos0.x > (wWidth-(100*xRel)) && pos0.y > (wHeight-(100*yRel)))
   {
     vo.openValve('b', isPressed);
     std::cout << "Button pressed!\n";
   }
-  if ((pos0.x > (575*xRel) && pos0.x < (825*xRel)) && (pos0.y > (25*yRel) && pos0.y < (125*yRel)))
+  if ((pos0.x > (287*xRel) && pos0.x < (412*xRel)) && (pos0.y > (12*yRel) && pos0.y < (62*yRel)))
   {
     sf::Vector2i pos1 = sf::Touch::getPosition(1, mWindow);
-    if ((pos1.x > (250*xRel) && pos1.x < (500*xRel)) && (pos1.y > (100*yRel) && pos1.y < (200*yRel)))
+    if ((pos1.x > (125*xRel) && pos1.x < (250*xRel)) && (pos1.y > (50*yRel) && pos1.y < (100*yRel)))
     {
       vo.openValve('s', isPressed);
       std::cout << "Secret pressed!!\n";
@@ -439,10 +439,10 @@ void App::placeTextures()
   mBackground.setPosition(0.f, 0.f);
   mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
   mButtonOff.scale(xRel, yRel);
-  mButtonOff.setPosition((wWidth-(200*xRel)), (wHeight-(200*yRel)));
+  mButtonOff.setPosition((wWidth-(100*xRel)), (wHeight-(100*yRel)));
   mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
   mButtonOn.scale(xRel, yRel);
-  mButtonOn.setPosition((wWidth-(200*xRel)), (wHeight-(200*yRel)));
+  mButtonOn.setPosition((wWidth-(100*xRel)), (wHeight-(100*yRel)));
   mXicon.setTexture(mTextures.get(Textures::exit));
   mXicon.scale(xRel, yRel);
   mXicon.setPosition(0.f, 0.f);
@@ -475,17 +475,17 @@ void App::placeTextures()
   mIcon11.scale(xRel, yRel);
   mIcon12.setTexture(mTextures.get(Textures::coming_soon_icon));
   mIcon12.scale(xRel, yRel);
-  mIcon0.setPosition(((wWidth/2)-(150*xRel)), 0);
-  mIcon1.setPosition(((wWidth/2)-(300*xRel)), (150*yRel));
-  mIcon2.setPosition(((wWidth/2)-(150*xRel)), (150*yRel));
-  mIcon3.setPosition((wWidth/2), (150*yRel));
-  mIcon4.setPosition(((wWidth/2)+(150*xRel)), (150*yRel));
-  mIcon5.setPosition(((wWidth/2)-(300*xRel)), (300*yRel));
-  mIcon6.setPosition(((wWidth/2)-(150*xRel)), (300*yRel));
-  mIcon7.setPosition(((wWidth/2)), (300*yRel));
-  mIcon8.setPosition(((wWidth/2)+(150*xRel)), (300*yRel));
-  mIcon9.setPosition(((wWidth/2)-(300*xRel)), (450*yRel));
-  mIcon10.setPosition(((wWidth/2)-(150*xRel)), (450*yRel));
-  mIcon11.setPosition(((wWidth/2)), (450*yRel));
-  mIcon12.setPosition(((wWidth/2)+(150*xRel)), (450*yRel));
+  mIcon0.setPosition(((wWidth/2)-(75*xRel)), 0);
+  mIcon1.setPosition(((wWidth/2)-(150*xRel)), (75*yRel));
+  mIcon2.setPosition(((wWidth/2)-(75*xRel)), (75*yRel));
+  mIcon3.setPosition((wWidth/2), (75*yRel));
+  mIcon4.setPosition(((wWidth/2)+(75*xRel)), (75*yRel));
+  mIcon5.setPosition(((wWidth/2)-(150*xRel)), (150*yRel));
+  mIcon6.setPosition(((wWidth/2)-(75*xRel)), (150*yRel));
+  mIcon7.setPosition(((wWidth/2)), (150*yRel));
+  mIcon8.setPosition(((wWidth/2)+(75*xRel)), (150*yRel));
+  mIcon9.setPosition(((wWidth/2)-(150*xRel)), (225*yRel));
+  mIcon10.setPosition(((wWidth/2)-(75*xRel)), (225*yRel));
+  mIcon11.setPosition(((wWidth/2)), (225*yRel));
+  mIcon12.setPosition(((wWidth/2)+(75*xRel)), (225*yRel));
 }

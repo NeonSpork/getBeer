@@ -74,6 +74,8 @@ add_executable(${executable}
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(STATUS "Configuring on/for Windows")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
+else()
+  set(LINUXLINKERS "-lwiringPi -lcrypt")
 endif()
 
 
@@ -97,7 +99,8 @@ else()
   message("-> Make sure the SFML libraries with the same configuration (Release/Debug, Static/Dynamic) exist.\n")
 endif()
 
+
 # Linking to all the libraries, for simplicity
-target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lwiringPi -lcrypt)
+target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system ${LINUXLINKERS})
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()
