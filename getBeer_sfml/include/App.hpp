@@ -7,6 +7,7 @@
 #include "ResourceIdentifiers.hpp"
 #include "StateIdentifiers.hpp"
 #include "ValveOperator.hpp"
+#include "hx711.h"
 
 class App
 {
@@ -17,6 +18,9 @@ public:
   static constexpr int wWidth{1024};
   static constexpr int wHeight{600};
 private:
+  static constexpr uint8_t pDout = 2;
+  static constexpr uint8_t pSlk = 3;
+  HX711 hx;
   ValveOperator vo;
   sf::RenderWindow mWindow;
   TextureHolder mTextures;
@@ -51,8 +55,10 @@ private:
   void setState(State::ID name);
   void loadTextures();
   void placeTextures();
-  void switchButtonTexture();
-  void switchBackgroundTexture();
+  float checkWeight(byte times = 32);
+  float mWeight;
+  float checkTemp(); //sensor?
+  float mTemp;
 
   // FPS and TimePerFrame display, will be removed in final version
   void updateStatistics(sf::Time elapsedTime);
