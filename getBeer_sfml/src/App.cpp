@@ -30,8 +30,8 @@ App::App()
 , mStatisticsNumFrames(0)
 // , hx(2, 3)
 {
-  mWindow.setMouseCursorVisible(false);
-  mWindow.setFramerateLimit(15);
+  // mWindow.setMouseCursorVisible(false);
+  // mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
@@ -448,7 +448,7 @@ void App::placeTextures()
   mXicon.setPosition(0.f, 0.f);
   mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
   mSecretIconOn.scale(xRel, yRel);
-  mSecretIconOn.setPosition((525*xRel), (75*yRel));
+  mSecretIconOn.setPosition((262*xRel), (37*yRel));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));

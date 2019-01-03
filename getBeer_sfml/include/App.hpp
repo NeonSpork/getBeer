@@ -16,10 +16,10 @@ public:
   App();
   ~App();
   void run();
-  static constexpr int wWidth{640};
-  static constexpr int wHeight{480};
-  static constexpr float xRel{1.25};
-  static constexpr float yRel{1.6};
+  static constexpr int wWidth{640}; //original was 1024
+  static constexpr int wHeight{480}; //original was 600
+  static constexpr float xRel{1.25}; // 1024/640 (adjust for real screen)
+  static constexpr float yRel{1.6}; // 600/480 (adjust for real screen)
 private:
   static constexpr uint8_t pDout = 2;
   static constexpr uint8_t pSlk = 3;
