@@ -1,7 +1,7 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::Fullscreen)
 , mBackground()
 , mButtonOff()
 , mButtonOn()
