@@ -399,37 +399,37 @@ void App::setState(State::ID name)
 void App::loadTextures()
 {
   // Backgrounds
-  mTextures.load(Textures::default_background, "media/bg/default_background.png");
-  mTextures.load(Textures::tropical_thunder_bg, "media/bg/tropical_thunder_bg.png");
-  mTextures.load(Textures::angry_babushka_bg, "media/bg/angry_babushka_bg.png");
-  mTextures.load(Textures::brick_wall, "media/bg/brick_wall.png");
+  mTextures.load(Textures::default_background, "media8bit/bg/default_background.png");
+  mTextures.load(Textures::tropical_thunder_bg, "media8bit/bg/tropical_thunder_bg.png");
+  mTextures.load(Textures::angry_babushka_bg, "media8bit/bg/angry_babushka_bg.png");
+  mTextures.load(Textures::brick_wall, "media8bit/bg/brick_wall.png");
   // Icons
-  mTextures.load(Textures::angry_babushka_icon, "media/icon/angry_babushka_icon.png");
-  mTextures.load(Textures::beer_button_off, "media/icon/beer_button_off.png");
-  mTextures.load(Textures::beer_button_on, "media/icon/beer_button_on.png");
-  mTextures.load(Textures::beer_button_red_off, "media/icon/beer_button_red_off.png");
-  mTextures.load(Textures::beer_button_red_on, "media/icon/beer_button_red_on.png");
-  mTextures.load(Textures::coming_soon_icon, "media/icon/coming_soon_icon.png");
-  // mTextures.load(Textures::cursor, "media/icon/cursor.png");
-  mTextures.load(Textures::default_icon, "media/icon/default_icon.png");
-  mTextures.load(Textures::exit, "media/icon/exit.png");
-  mTextures.load(Textures::ml_icon, "media/icon/ml_icon.png");
-  mTextures.load(Textures::pints, "media/icon/pints.png");
-  mTextures.load(Textures::secret_off, "media/icon/secret_off.png");
-  mTextures.load(Textures::secret_on, "media/icon/secret_on.png");
-  mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
-  mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
+  mTextures.load(Textures::angry_babushka_icon, "media8bit/icon/angry_babushka_icon.png");
+  mTextures.load(Textures::beer_button_off, "media8bit/icon/beer_button_off.png");
+  mTextures.load(Textures::beer_button_on, "media8bit/icon/beer_button_on.png");
+  mTextures.load(Textures::beer_button_red_off, "media8bit/icon/beer_button_red_off.png");
+  mTextures.load(Textures::beer_button_red_on, "media8bit/icon/beer_button_red_on.png");
+  mTextures.load(Textures::coming_soon_icon, "media8bit/icon/coming_soon_icon.png");
+  // mTextures.load(Textures::cursor, "media8bit/icon/cursor.png");
+  mTextures.load(Textures::default_icon, "media8bit/icon/default_icon.png");
+  mTextures.load(Textures::exit, "media8bit/icon/exit.png");
+  mTextures.load(Textures::ml_icon, "media8bit/icon/ml_icon.png");
+  mTextures.load(Textures::pints, "media8bit/icon/pints.png");
+  mTextures.load(Textures::secret_off, "media8bit/icon/secret_off.png");
+  mTextures.load(Textures::secret_on, "media8bit/icon/secret_on.png");
+  mTextures.load(Textures::temp_icon, "media8bit/icon/temp_icon.png");
+  mTextures.load(Textures::tropical_thunder_icon, "media8bit/icon/tropical_thunder_icon.png");
   // Number images
-  mTextures.load(Textures::num0, "media/num/num0.png");
-  mTextures.load(Textures::num1, "media/num/num1.png");
-  mTextures.load(Textures::num2, "media/num/num2.png");
-  mTextures.load(Textures::num3, "media/num/num3.png");
-  mTextures.load(Textures::num4, "media/num/num4.png");
-  mTextures.load(Textures::num5, "media/num/num5.png");
-  mTextures.load(Textures::num6, "media/num/num6.png");
-  mTextures.load(Textures::num7, "media/num/num7.png");
-  mTextures.load(Textures::num8, "media/num/num8.png");
-  mTextures.load(Textures::num9, "media/num/num9.png");
+  mTextures.load(Textures::num0, "media8bit/num/num0.png");
+  mTextures.load(Textures::num1, "media8bit/num/num1.png");
+  mTextures.load(Textures::num2, "media8bit/num/num2.png");
+  mTextures.load(Textures::num3, "media8bit/num/num3.png");
+  mTextures.load(Textures::num4, "media8bit/num/num4.png");
+  mTextures.load(Textures::num5, "media8bit/num/num5.png");
+  mTextures.load(Textures::num6, "media8bit/num/num6.png");
+  mTextures.load(Textures::num7, "media8bit/num/num7.png");
+  mTextures.load(Textures::num8, "media8bit/num/num8.png");
+  mTextures.load(Textures::num9, "media8bit/num/num9.png");
 }
 
 void App::placeTextures()
