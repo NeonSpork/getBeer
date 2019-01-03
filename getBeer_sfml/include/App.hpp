@@ -16,10 +16,10 @@ public:
   App();
   ~App();
   void run();
-  static constexpr float xRel{1024/640};
-  static constexpr float yRel{600/400};
-  static constexpr int wWidth{640};
-  static constexpr int wHeight{400};
+  static constexpr float xRel{1024/800};
+  static constexpr float yRel{600/600};
+  static constexpr int wWidth{800};
+  static constexpr int wHeight{600};
 private:
   static constexpr uint8_t pDout = 2;
   static constexpr uint8_t pSlk = 3;
