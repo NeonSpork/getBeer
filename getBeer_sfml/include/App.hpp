@@ -7,7 +7,8 @@
 #include "ResourceIdentifiers.hpp"
 #include "StateIdentifiers.hpp"
 #include "ValveOperator.hpp"
-#include "hx711.h"
+// #include "hx711.h"
+// #include "ds18b20.h"
 
 class App
 {
@@ -20,7 +21,7 @@ public:
 private:
   static constexpr uint8_t pDout = 2;
   static constexpr uint8_t pSlk = 3;
-  HX711 hx;
+  // HX711 hx;
   ValveOperator vo;
   sf::RenderWindow mWindow;
   TextureHolder mTextures;
@@ -55,10 +56,10 @@ private:
   void setState(State::ID name);
   void loadTextures();
   void placeTextures();
-  float checkWeight(byte times = 32);
-  float mWeight;
-  float checkTemp(); //sensor?
-  float mTemp;
+  // float checkWeight(byte times = 32);
+  // float mWeight;
+  // float checkTemp(); //sensor?
+  // float mTemp;
 
   // FPS and TimePerFrame display, will be removed in final version
   void updateStatistics(sf::Time elapsedTime);

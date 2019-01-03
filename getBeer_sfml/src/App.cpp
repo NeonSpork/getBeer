@@ -28,7 +28,7 @@ App::App()
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
-, hx(2, 3)
+// , hx(2, 3)
 {
   mWindow.setMouseCursorVisible(false);
   mWindow.setFramerateLimit(15);
@@ -40,8 +40,8 @@ App::App()
   loadTextures();
   placeTextures();
 
-  mWeight = hx.getGrams();
-  mTemp = sensor.getCurrentTempInC();
+  // mWeight = hx.getGrams();
+  // mTemp = sensor.getCurrentTempInC();
 
   // FPS and TimePerFrame display, will be removed in final version
   mFont.loadFromFile("media/Sansation.ttf");
@@ -158,8 +158,8 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
-  checkWeight();
-  checkTemp();
+  // checkWeight();
+  // checkTemp();
 }
 
 void App::render()
@@ -383,18 +383,18 @@ void App::setState(State::ID name)
   mState = name;
 }
 
-float App::checkWeight(byte times)
-{
-  float dryWeight = 4025;
-  float wetWeight = hx.getGrams(times);
-  return wetWeight-dryWeight;
-}
+// float App::checkWeight(byte times)
+// {
+//   float dryWeight = 4025;
+//   float wetWeight = hx.getGrams(times);
+//   return wetWeight-dryWeight;
+// }
 
-float App::checkTemp()
-{
-  float temp = 0;
-  return temp;
-}
+// float App::checkTemp()
+// {
+//   float temp = 0;
+//   return temp;
+// }
 
 void App::loadTextures()
 {
