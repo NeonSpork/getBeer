@@ -22,7 +22,7 @@ App::App()
 , mIcon12()
 , mState()
 , mOldState()
-, TimePerFrame(sf::seconds(1.f/60.f))
+, TimePerFrame(sf::seconds(1.f/15.f))
 // FPS and TimePerFrame display, will be removed in final version
 , mFont()
 , mStatisticsText()
@@ -30,6 +30,7 @@ App::App()
 , mStatisticsNumFrames(0)
 {
   mWindow.setMouseCursorVisible(false);
+  mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
@@ -89,17 +90,17 @@ void App::events()
       case sf::Event::KeyReleased:
         handleInput(event.key.code, false);
         break;
-      // case sf::Event::MouseButtonPressed:
-      //   handleInput(event.mouseButton.button, true);
+      case sf::Event::MouseButtonPressed:
+        handleInput(event.mouseButton.button, true);
+        break;
+      // case sf::Event::MouseMoved:
+      //   if (event.mouseButton.button == sf::Mouse::Left)
+      //     swipe(origMousePos.x, event.mouseMove.x);
       //   break;
-      // // case sf::Event::MouseMoved:
-      // //   if (event.mouseButton.button == sf::Mouse::Left)
-      // //     swipe(origMousePos.x, event.mouseMove.x);
-      // //   break;
-      // case sf::Event::MouseButtonReleased:
-      //   handleInput(event.mouseButton.button, false);
-      //   vo.openValve('b', false);
-      //   vo.openValve('s', false);
+      case sf::Event::MouseButtonReleased:
+        handleInput(event.mouseButton.button, false);
+        vo.openValve('b', false);
+        vo.openValve('s', false);
         break;
       case sf::Event::TouchBegan:
         std::cout << "Touch began.\n";      
