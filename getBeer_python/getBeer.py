@@ -160,7 +160,7 @@ class BeerDispenser(object):
         if int(self.currentTemp) >= 10:
             self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[0:1])], ((SWIDTH*0.1)-(5*RELX)), (SHEIGHT*0.96))
             self.drawToScreen(NEON_NUMBER_SCALED_MINI[int(str(self.currentTemp)[1:2])], ((SWIDTH*0.1)+(5*RELX)), (SHEIGHT*0.96))
-        self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
+            self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
