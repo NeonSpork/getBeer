@@ -17,10 +17,10 @@ public:
   App();
   ~App();
   void run();
-  static constexpr int wWidth{512}; //original was 1024 (8bit resized to 512)
-  static constexpr int wHeight{300}; //original was 600 (8bit resized to 300)
-  static constexpr float xRel{1}; // 512/x (adjust for real screen)
-  static constexpr float yRel{1}; // 300/y (adjust for real screen);
+  static constexpr int wWidth{640}; //original was 1024 (8bit resized to 512)
+  static constexpr int wHeight{480}; //original was 600 (8bit resized to 300)
+  static constexpr float xRel{1.25}; // 512/x (adjust for real screen)
+  static constexpr float yRel{1.6}; // 300/y (adjust for real screen);
 private:
   ValveOperator vo;
   sf::RenderWindow mWindow;
