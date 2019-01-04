@@ -2,9 +2,10 @@
 
 namespace Pint
 {
-  void initializeHX()
+  HX711 initializeHX(name)
   {
-    HX711 hx(2, 3);
+    HX711 name(2, 3);
+    return name;
   }
 
   int calculate()
