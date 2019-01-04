@@ -2,6 +2,6 @@
 
 namespace Pint
 {
-  HX711 initilizeHX(name);
+  HX711 initilizeHX(HX711 name, unsigned int dout, unsigned int slk);
   int calculate();
 }

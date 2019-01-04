@@ -6,7 +6,7 @@ int main(int argc, char const *argv[])
   wiringPiSetupGpio();
   pinMode(5, OUTPUT); // Beer valve
   pinMode(6, OUTPUT); // Secret valve
-  Pint::initializeHX();
+  HX711 hx = Pint::initializeHX(hx, 2, 3);
 
   App getBeer;
   getBeer.run();
