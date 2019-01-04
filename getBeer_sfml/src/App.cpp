@@ -8,8 +8,8 @@ App::App()
 , mXicon()
 , mSecretIconOn()
 , mPintsIcon()
-  , mPintDigit_1()
-  , mPintDigit_2()
+, mPintDigit_1()
+, mPintDigit_2()
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -42,7 +42,7 @@ App::App()
   loadTextures();
   placeTextures();
 
-  mPints = 99
+  mPints = 99;
   // mTemp = sensor.getCurrentTempInC();
 
   // FPS and TimePerFrame display, will be removed in final version
