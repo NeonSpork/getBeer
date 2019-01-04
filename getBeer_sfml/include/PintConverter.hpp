@@ -1,4 +1,6 @@
+#include <wiringPi.h>
 #include "hx711.h"
+
 
 namespace Pint
 {
