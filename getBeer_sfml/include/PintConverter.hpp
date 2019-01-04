@@ -2,6 +2,7 @@
 
 namespace Pint
 {
+  HX711 hx;
   void initilizeHX();
   int calculate();
 }

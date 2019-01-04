@@ -66,10 +66,10 @@ add_executable(${executable}
   include/ResourceHolder.inl
   include/ResourceIdentifiers.hpp
   include/StateIdentifiers.hpp
-  # include/PintConverter.hpp
-  # src/PintConverter.cpp
-  # include/hx711.h
-  # src/hx711.cpp
+  include/PintConverter.hpp
+  src/PintConverter.cpp
+  include/hx711.h
+  src/hx711.cpp
   include/App.hpp
   src/App.cpp
   main.cpp
