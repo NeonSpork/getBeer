@@ -1,8 +1,11 @@
 #include "../include/PintConverter.hpp"
-// wiringPiSetupGpio();
+
 namespace Pint
 {
-  HX711 hx(2, 3);
+  void initializeHX()
+  {
+    HX711 hx(2, 3);
+  }
 
   int calculate()
   {

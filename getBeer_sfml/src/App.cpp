@@ -42,7 +42,7 @@ App::App()
   loadTextures();
   placeTextures();
 
-  mPints = Pint::calculate();
+  mPints = 99
   // mTemp = sensor.getCurrentTempInC();
 
   // FPS and TimePerFrame display, will be removed in final version
@@ -160,7 +160,7 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
-  mPints = Pint::calculate();
+  // mPints = Pint::calculate();
   if (mPints < 10)
   {
     mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
