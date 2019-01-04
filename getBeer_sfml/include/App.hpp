@@ -7,7 +7,8 @@
 #include "ResourceIdentifiers.hpp"
 #include "StateIdentifiers.hpp"
 #include "ValveOperator.hpp"
-// #include "hx711.h"
+#include "PintConverter.hpp"
+#include "hx711.h"
 // #include "ds18b20.h"
 
 class App
@@ -16,14 +17,11 @@ public:
   App();
   ~App();
   void run();
-  static constexpr int wWidth{640}; //original was 1024
-  static constexpr int wHeight{480}; //original was 600
-  static constexpr float xRel{1.25}; // 1024/640 (adjust for real screen)
-  static constexpr float yRel{1.6}; // 600/480 (adjust for real screen)
+  static constexpr int wWidth{512}; //original was 1024 (8bit resized to 512)
+  static constexpr int wHeight{300}; //original was 600 (8bit resized to 300)
+  static constexpr float xRel{1}; // 512/x (adjust for real screen)
+  static constexpr float yRel{1}; // 300/y (adjust for real screen);
 private:
-  static constexpr uint8_t pDout = 2;
-  static constexpr uint8_t pSlk = 3;
-  // HX711 hx;
   ValveOperator vo;
   sf::RenderWindow mWindow;
   TextureHolder mTextures;
@@ -32,6 +30,9 @@ private:
   sf::Sprite mButtonOn;
   sf::Sprite mXicon;
   sf::Sprite mSecretIconOn;
+  sf::Sprite mPintsIcon;
+  sf::Sprite mPintDigit_1;
+  sf::Sprite mPintDigit_2;
   sf::Sprite mIcon0;
   sf::Sprite mIcon1;
   sf::Sprite mIcon2;
@@ -58,8 +59,7 @@ private:
   void setState(State::ID name);
   void loadTextures();
   void placeTextures();
-  // float checkWeight(byte times = 32);
-  // float mWeight;
+  int mPints;
   // float checkTemp(); //sensor?
   // float mTemp;
 

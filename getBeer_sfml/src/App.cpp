@@ -28,10 +28,9 @@ App::App()
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
-// , hx(2, 3)
 {
-  // mWindow.setMouseCursorVisible(false);
-  // mWindow.setFramerateLimit(15);
+  mWindow.setMouseCursorVisible(false);
+  mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
@@ -40,7 +39,7 @@ App::App()
   loadTextures();
   placeTextures();
 
-  // mWeight = hx.getGrams();
+  mPints = Pint::calculate();
   // mTemp = sensor.getCurrentTempInC();
 
   // FPS and TimePerFrame display, will be removed in final version
@@ -52,8 +51,8 @@ App::App()
 
 App::~App()
 {
-  // digitalWrite(5, false);
-  // digitalWrite(6, false);
+  digitalWrite(5, false);
+  digitalWrite(6, false);
 }
 
 void App::run()
@@ -158,7 +157,23 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
-  // checkWeight();
+  mPints = Pint::calculate();
+  if (mPints < 10)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+  }
+  if (mPints >= 10 && mPints < 100)
+  {
+    int first = ((mPints/10)%10);
+    int second = (mPints%10);
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+    mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+  }
+  if (mPints >= 100)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+    mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+  }
   // checkTemp();
 }
 
@@ -169,6 +184,7 @@ void App::render()
   if (mState != State::ID::BeerMenu)
   {
     mWindow.draw(mXicon);
+    mWindow.draw(mPintsIcon);
     if (vo.getBeerStatus())
     {
       mWindow.draw(mButtonOn);
@@ -180,6 +196,15 @@ void App::render()
     if (vo.getSecretStatus())
     {
       mWindow.draw(mSecretIconOn);
+    }
+    if (mPints < 10)
+    {
+      mWindow.draw(mPintDigit_1);
+    }
+    if (mPints >= 10)
+    {
+      mWindow.draw(mPintDigit_1);
+      mWindow.draw(mPintDigit_2);
     }
   }
   if (mState == State::ID::BeerMenu)
@@ -383,13 +408,6 @@ void App::setState(State::ID name)
   mState = name;
 }
 
-// float App::checkWeight(byte times)
-// {
-//   float dryWeight = 4025;
-//   float wetWeight = hx.getGrams(times);
-//   return wetWeight-dryWeight;
-// }
-
 // float App::checkTemp()
 // {
 //   float temp = 0;
@@ -449,6 +467,15 @@ void App::placeTextures()
   mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
   mSecretIconOn.scale(xRel, yRel);
   mSecretIconOn.setPosition((262*xRel), (37*yRel));
+  mPintsIcon.setTexture(mTextures.get(Textures::pints));
+  mPintsIcon.scale(xRel, xRel);
+  mPintsIcon.setPosition(0.f, (wHeight-(50*yRel)));
+  mPintDigit_1.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_1.scale(xRel, yRel);
+  mPintDigit_1.setPosition(90*xRel, (wHeight-(50*yRel)));
+  mPintDigit_2.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_2.scale(xRel, yRel);
+  mPintDigit_2.setPosition(115*xRel, (wHeight-(50*yRel)));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));

@@ -2,7 +2,7 @@
 #define VALVEOPERATOR_HPP
 
 #include <iostream>
-// #include <wiringPi.h>
+#include <wiringPi.h>
 
 
 class ValveOperator
