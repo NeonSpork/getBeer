@@ -4,6 +4,7 @@ HX711::HX711(uint8_t pin_dout, uint8_t pin_slk)
 : _pin_dout(pin_dout)
 , _pin_slk(pin_slk)
 {
+  wiringPiSetupGpio();
   pinMode(_pin_slk, OUTPUT);
   pinMode(_pin_dout, INPUT);
   digitalWrite(_pin_slk, HIGH);
