@@ -14,7 +14,7 @@ typedef uint8_t byte;
 class HX711
 {
 public:
-  HX711(uint8_t pin_dout, uint8_t pin_slk);
+  HX711(unsigned int pin_dout, unsigned int pin_slk);
   virtual ~HX711();
   long getValue();
   long averageValue(byte times = 32);
@@ -22,8 +22,8 @@ public:
   void setScale(float scale);
   float getGrams(byte times = 32);
 private:
-  const uint8_t _pin_dout;
-  const uint8_t _pin_slk;
+  const unsigned int _pin_dout;
+  const unsigned int _pin_slk;
   long _offset;
   float _scale;
 };

@@ -10,6 +10,17 @@ namespace Textures
 {
   enum ID
   {
+    // Number images
+    num0,
+    num1,
+    num2,
+    num3,
+    num4,
+    num5,
+    num6,
+    num7,
+    num8,
+    num9,
     // Backgrounds
     default_background,
     tropical_thunder_bg,
@@ -31,17 +42,6 @@ namespace Textures
     secret_on,
     temp_icon,
     tropical_thunder_icon,
-    // Number images
-    num0,
-    num1,
-    num2,
-    num3,
-    num4,
-    num5,
-    num6,
-    num7,
-    num8,
-    num9,
   };
 }
 

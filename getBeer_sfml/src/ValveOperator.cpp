@@ -4,6 +4,8 @@ ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
 {
+  pinMode(5, OUTPUT); // Beer valve
+  pinMode(6, OUTPUT); // Secret valve
   digitalWrite(5, false);
   digitalWrite(6, false);
 }

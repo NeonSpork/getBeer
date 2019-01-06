@@ -7,8 +7,9 @@
 #include "ResourceIdentifiers.hpp"
 #include "StateIdentifiers.hpp"
 #include "ValveOperator.hpp"
-// #include "hx711.h"
-// #include "ds18b20.h"
+#include "Sensor.hpp"
+
+class Sensor;
 
 class App
 {
@@ -16,15 +17,11 @@ public:
   App();
   ~App();
   void run();
-  static constexpr float xRel{640/512};
-  static constexpr float yRel{480/300};
-  static constexpr int wWidth{640};
-  static constexpr int wHeight{480};
+  static constexpr int wWidth{1024};
+  static constexpr int wHeight{600};
+  static constexpr float xRel{1};
+  static constexpr float yRel{1};
 private:
-  static constexpr uint8_t pDout = 2;
-  static constexpr uint8_t pSlk = 3;
-  // HX711 hx;
-  ValveOperator vo;
   sf::RenderWindow mWindow;
   TextureHolder mTextures;
   sf::Sprite mBackground;
@@ -45,6 +42,11 @@ private:
   sf::Sprite mIcon10;
   sf::Sprite mIcon11;
   sf::Sprite mIcon12;
+  ValveOperator vo;
+  Sensor sensor;
+  int mPints;
+  int checkPints();
+
   State::ID mState;
   State::ID mOldState;
   const sf::Time TimePerFrame;
@@ -58,10 +60,6 @@ private:
   void setState(State::ID name);
   void loadTextures();
   void placeTextures();
-  // float checkWeight(byte times = 32);
-  // float mWeight;
-  // float checkTemp(); //sensor?
-  // float mTemp;
 
   // FPS and TimePerFrame display, will be removed in final version
   void updateStatistics(sf::Time elapsedTime);
@@ -70,5 +68,7 @@ private:
   sf::Time mStatisticsUpdateTime;
   std::size_t mStatisticsNumFrames;
 };
+
+
 
 #endif // APP_HPP
