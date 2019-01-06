@@ -187,7 +187,7 @@ void App::render()
   if (mState != State::ID::BeerMenu)
   {
     mWindow.draw(mXicon);
-    mWindow.draw(mPintsIcon);
+    // mWindow.draw(mPintsIcon);
     if (vo.getBeerStatus())
     {
       mWindow.draw(mButtonOn);
@@ -200,15 +200,15 @@ void App::render()
     {
       mWindow.draw(mSecretIconOn);
     }
-    if (mPints < 10)
-    {
-      mWindow.draw(mPintDigit_1);
-    }
-    if (mPints >= 10)
-    {
-      mWindow.draw(mPintDigit_1);
-      mWindow.draw(mPintDigit_2);
-    }
+    // if (mPints < 10)
+    // {
+    //   mWindow.draw(mPintDigit_1);
+    // }
+    // if (mPints >= 10)
+    // {
+    //   mWindow.draw(mPintDigit_1);
+    //   mWindow.draw(mPintDigit_2);
+    // }
   }
   if (mState == State::ID::BeerMenu)
   {
