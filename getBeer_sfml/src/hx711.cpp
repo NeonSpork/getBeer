@@ -1,4 +1,5 @@
 #include "../include/hx711.h"
+
 HX711::HX711(unsigned int pin_dout, unsigned int pin_slk)
 : _pin_dout(pin_dout)
 , _pin_slk(pin_slk)
