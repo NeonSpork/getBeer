@@ -40,7 +40,7 @@ App::App()
 , mStatisticsNumFrames(0)
 {
   mWindow.setMouseCursorVisible(false);
-  mWindow.setFramerateLimit(15);
+  // mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
   mOldPints = mPints;
@@ -202,6 +202,8 @@ void App::update(const sf::Time& TimePerFrame)
     mOldPints = mPints;
     mRenderScreen = true;
   }
+  mNewButtonState = vo.getBeerStatus();
+  mNewSecretState = vo.getSecretStatus();
 }
 
 void App::stateCheck()
