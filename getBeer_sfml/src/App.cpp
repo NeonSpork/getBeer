@@ -169,6 +169,22 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
+  if (mPints < 10)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+  }
+  if (mPints >= 10 && mPints < 100)
+  {
+    int first = ((mPints/10)%10);
+    int second = (mPints%10);
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+    mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+  }
+  if (mPints >= 100)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+    mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+  }
 }
 
 void App::render()
