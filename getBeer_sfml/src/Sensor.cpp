@@ -1,7 +1,7 @@
 #include "../include/Sensor.hpp"
 
 Sensor::Sensor()
-: hx(2, 3)
+// : hx(2, 3)
 {
 
 }
@@ -11,7 +11,8 @@ int Sensor::checkWeight()
   try
   {
     int dryWeight = 4025;
-    int wetWeight = hx.getGrams();
+    // int wetWeight = hx.getGrams();
+    int wetWeight = -999999999;
     if (wetWeight == -999999.)
     {
       throw SensorFail{};
@@ -35,6 +36,7 @@ int Sensor::checkWeight()
 
 float Sensor::checkTemp()
 {
-  float tempC = temp.getTemp();
+  // float tempC = temp.getTemp();
+  float tempC = 0;
   return tempC;
 }

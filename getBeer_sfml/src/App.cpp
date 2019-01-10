@@ -1,12 +1,14 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::Fullscreen)
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
 , mBackground()
 , mButtonOff()
 , mButtonOn()
 , mXicon()
 , mSecretIconOn()
+, mPintsIcon()
+, 
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -31,8 +33,8 @@ App::App()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 {
-  mWindow.setMouseCursorVisible(false);
-  mWindow.setFramerateLimit(15);
+  // mWindow.setMouseCursorVisible(false);
+  // mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
   ValveOperator vo;
@@ -51,8 +53,8 @@ App::App()
 
 App::~App()
 {
-  digitalWrite(5, false);
-  digitalWrite(6, false);
+  // digitalWrite(5, false);
+  // digitalWrite(6, false);
 }
 
 void App::run()
@@ -74,7 +76,7 @@ void App::run()
     updateStatistics(elapsedTime);
     sf::Time sensorTimer = clock.restart();
     timeSinceSensorUpdate += sensorTimer;
-    if (timeSinceSensorUpdate.asSeconds() > 10)
+    if (timeSinceSensorUpdate.asSeconds() > 1)
     {
       mPints = checkPints();
       mTemp = checkTemp();
