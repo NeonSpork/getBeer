@@ -27,6 +27,11 @@ App::App()
 , mTemp(0)
 , mState()
 , mOldState()
+, mNewButtonState(false)
+, mOldButtonState(false)
+, mNewSecretState(false)
+, mOldSecretState(false)
+, mRenderScreen(true)
 , TimePerFrame(sf::seconds(1.f/15.f))
 // FPS and TimePerFrame display, will be removed in final version
 , mFont()
@@ -38,6 +43,7 @@ App::App()
   mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
+  mOldPints = mPints;
   ValveOperator vo;
   Sensor sensor;
   vo.openValve('b', false);
@@ -77,13 +83,18 @@ void App::run()
     updateStatistics(elapsedTime);
     sf::Time sensorTimer = clock.restart();
     timeSinceSensorUpdate += sensorTimer;
-    if (timeSinceSensorUpdate.asSeconds() > 10)
+    if (timeSinceSensorUpdate.asSeconds() > 1)
     {
       mPints = checkPints();
       mTemp = checkTemp();
       timeSinceSensorUpdate = sf::Time::Zero;
     }
-    render();
+    stateCheck();
+    if (mRenderScreen)
+    {
+      render();
+      mRenderScreen = false;
+    }
   }
 }
 
@@ -168,22 +179,42 @@ void App::update(const sf::Time& TimePerFrame)
         break;
     }
     mOldState = mState;
+    mRenderScreen = true;
   }
-  if (mPints < 10)
+  if (mOldPints != mPints)
   {
-    mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+    if (mPints < 10)
+    {
+      mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+    }
+    if (mPints >= 10 && mPints < 100)
+    {
+      int first = ((mPints/10)%10);
+      int second = (mPints%10);
+      mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+      mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+    }
+    if (mPints >= 100)
+    {
+      mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+      mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+    }
+    mOldPints = mPints;
+    mRenderScreen = true;
   }
-  if (mPints >= 10 && mPints < 100)
+}
+
+void App::stateCheck()
+{
+  if (mNewButtonState != mOldButtonState)
   {
-    int first = ((mPints/10)%10);
-    int second = (mPints%10);
-    mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
-    mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+    mRenderScreen = true;
+    mOldButtonState = mNewButtonState;
   }
-  if (mPints >= 100)
+  if (mNewSecretState != mOldSecretState)
   {
-    mPintDigit_1.setTexture(mTextures.get(Textures::num9));
-    mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+    mRenderScreen = true;
+    mOldSecretState = mNewSecretState;
   }
 }
 
@@ -235,6 +266,7 @@ void App::render()
   }
   mWindow.draw(mStatisticsText);
   mWindow.display();
+  mRenderScreen = false;
 }
 
 int App::checkPints()
