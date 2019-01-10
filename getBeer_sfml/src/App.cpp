@@ -280,8 +280,8 @@ int App::checkPints()
 
 int App::checkTemp()
 {
-  int temp = (int) sensor.checkTemp();
-  return temp;
+  // int temp = (int) sensor.checkTemp();
+  return 0;
 }
 
 void App::updateStatistics(sf::Time elapsedTime)

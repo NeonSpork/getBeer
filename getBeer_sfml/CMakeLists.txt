@@ -57,6 +57,7 @@ set(executable getBeerX)
 include_directories(
   "${PROJECT_SOURCE_DIR}/include"
   "${PROJECT_SOURCE_DIR}/src"
+  "/usr/include/python3.6m"
   )
 
 add_executable(${executable}
@@ -104,6 +105,6 @@ else()
 endif()
 
 # Linking to all the libraries, for simplicity
-target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lwiringPi -lcrypt)
+target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lwiringPi -lcrypt -lpython2.7)
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()

@@ -2,7 +2,7 @@
 
 Sensor::Sensor()
 : hx(2, 3)
-, temp()
+// , temp()
 {
 
 }
@@ -34,9 +34,9 @@ int Sensor::checkWeight()
   }
 } 
 
-float Sensor::checkTemp()
-{
-  float tempC = temp.getTemp();
-  std::cout << "Sensor::checkTemp(): " << tempC << std::endl;
-  return tempC;
-}
+// float Sensor::checkTemp()
+// {
+//   float tempC = temp.getTemp();
+//   std::cout << "Sensor::checkTemp(): " << tempC << std::endl;
+//   return tempC;
+// }

@@ -1,6 +1,7 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include <Python.h>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "ResourceHolder.hpp"
