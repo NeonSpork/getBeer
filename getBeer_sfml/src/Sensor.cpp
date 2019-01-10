@@ -36,5 +36,6 @@ int Sensor::checkWeight()
 float Sensor::checkTemp()
 {
   float tempC = temp.getTemp();
+  std::cout << "Sensor::checkTemp(): " << tempC << std::endl;
   return tempC;
 }
