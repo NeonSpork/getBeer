@@ -2,6 +2,7 @@
 
 Sensor::Sensor()
 : hx(2, 3)
+, temp()
 {
 
 }
