@@ -202,6 +202,8 @@ void App::update(const sf::Time& TimePerFrame)
     mOldPints = mPints;
     mRenderScreen = true;
   }
+  mNewButtonState = vo.getBeerStatus();
+  mNewSecretState = vo.getSecretStatus();
 }
 
 void App::stateCheck()
