@@ -26,6 +26,7 @@ private:
   char devPath[128]; // Path to device
   char buf[256];     // Data from device
   char tmpData[6];   // Temp C * 1000 reported by device 
+  static constexpr char path[] = "/sys/bus/w1/devices";
   ssize_t numRead;
 };
 

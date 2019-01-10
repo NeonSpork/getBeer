@@ -40,6 +40,7 @@ float Ds18b20::getTemp()
 {
   try
   {
+    sprintf(devPath, "%s/%s/w1_slave", path, dev);
     int fd = open(devPath, O_RDONLY);
     if(fd == -1)
     {
@@ -50,9 +51,7 @@ float Ds18b20::getTemp()
     {
      strncpy(tmpData, strstr(buf, "t=") + 2, 5); 
      tempC = strtof(tmpData, NULL);
-     // printf("Device: %s  - ", dev); 
      printf("Temp: %.3f C  \n", tempC / 1000);
-     // printf("%.3f F\n\n", (tempC / 1000) * 9 / 5 + 32);
     }
     close(fd);
     return tempC / 1000;
