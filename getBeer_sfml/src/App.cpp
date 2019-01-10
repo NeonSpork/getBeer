@@ -484,6 +484,15 @@ void App::placeTextures()
   mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
   mSecretIconOn.scale(xRel, yRel);
   mSecretIconOn.setPosition((525*xRel), (75*yRel));
+  mPintsIcon.setTexture(mTextures.get(Textures::pints));
+  mPintsIcon.scale(xRel, xRel);
+  mPintsIcon.setPosition(0.f, (wHeight-(100*yRel)));
+  mPintDigit_1.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_1.scale(xRel, yRel);
+  mPintDigit_1.setPosition(180*xRel, (wHeight-(100*yRel)));
+  mPintDigit_2.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_2.scale(xRel, yRel);
+  mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
