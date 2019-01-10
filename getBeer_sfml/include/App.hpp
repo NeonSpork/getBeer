@@ -29,6 +29,9 @@ private:
   sf::Sprite mButtonOn;
   sf::Sprite mXicon;
   sf::Sprite mSecretIconOn;
+  sf::Sprite mPintsIcon;
+  sf::Sprite mPintDigit_1;
+  sf::Sprite mPintDigit_2;
   sf::Sprite mIcon0;
   sf::Sprite mIcon1;
   sf::Sprite mIcon2;
