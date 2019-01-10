@@ -8,7 +8,8 @@ App::App()
 , mXicon()
 , mSecretIconOn()
 , mPintsIcon()
-, 
+, mPintDigit_1()
+, mPintDigit_2()
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -76,7 +77,7 @@ void App::run()
     updateStatistics(elapsedTime);
     sf::Time sensorTimer = clock.restart();
     timeSinceSensorUpdate += sensorTimer;
-    if (timeSinceSensorUpdate.asSeconds() > 1)
+    if (timeSinceSensorUpdate.asSeconds() > 10)
     {
       mPints = checkPints();
       mTemp = checkTemp();
@@ -168,6 +169,22 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
+  if (mPints < 10)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+  }
+  if (mPints >= 10 && mPints < 100)
+  {
+    int first = ((mPints/10)%10);
+    int second = (mPints%10);
+    mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+    mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+  }
+  if (mPints >= 100)
+  {
+    mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+    mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+  }
 }
 
 void App::render()
@@ -188,6 +205,16 @@ void App::render()
     if (vo.getSecretStatus())
     {
       mWindow.draw(mSecretIconOn);
+    }
+    mWindow.draw(mPintsIcon);
+    if (mPints < 10)
+    {
+      mWindow.draw(mPintDigit_1);
+    }
+    if (mPints >= 10)
+    {
+      mWindow.draw(mPintDigit_1);
+      mWindow.draw(mPintDigit_2);
     }
   }
   if (mState == State::ID::BeerMenu)
@@ -457,6 +484,15 @@ void App::placeTextures()
   mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
   mSecretIconOn.scale(xRel, yRel);
   mSecretIconOn.setPosition((525*xRel), (75*yRel));
+  mPintsIcon.setTexture(mTextures.get(Textures::pints));
+  mPintsIcon.scale(xRel, xRel);
+  mPintsIcon.setPosition(0.f, (wHeight-(100*yRel)));
+  mPintDigit_1.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_1.scale(xRel, yRel);
+  mPintDigit_1.setPosition(180*xRel, (wHeight-(100*yRel)));
+  mPintDigit_2.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_2.scale(xRel, yRel);
+  mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
