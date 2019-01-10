@@ -290,7 +290,7 @@ int App::checkTemp()
 
 float App::callPython()
 {
-  PyObject* pluginModule = PyImport_Import(PyUnicode_FromString(PLUGIN_NAME));
+  PyObject* pluginModule = PyImport_Import(PyString_FromString(PLUGIN_NAME));
   PyObject* getTemp = PyObject_GetAttrString(pluginModule, "getTemp");
   PyObject* args = Py_BuildValue("(s)");
   PyObject* result = PyObject_CallObject(getTemp, args);

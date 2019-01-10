@@ -57,7 +57,7 @@ set(executable getBeerX)
 include_directories(
   "${PROJECT_SOURCE_DIR}/include"
   "${PROJECT_SOURCE_DIR}/src"
-  "/usr/include/python3.6m"
+  "/usr/include/python2.7"
   )
 
 add_executable(${executable}
