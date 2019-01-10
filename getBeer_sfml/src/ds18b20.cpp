@@ -38,8 +38,7 @@ void Ds18b20::init()
 
 float Ds18b20::getTemp()
 {
-  try
-  {
+
     sprintf(devPath, "%s/%s/w1_slave", path, dev);
     int fd = open(devPath, O_RDONLY);
     if(fd == -1)
@@ -55,10 +54,5 @@ float Ds18b20::getTemp()
     }
     close(fd);
     return tempC / 1000;
-  }
-  catch(NoRead)
-  {
-    std::cout << "No temp to read.\n";
-    return 0;
-  }
+
 }
