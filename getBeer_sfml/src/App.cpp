@@ -32,7 +32,7 @@ App::App()
 , mNewSecretState(false)
 , mOldSecretState(false)
 , mRenderScreen(true)
-, TimePerFrame(sf::seconds(1.f/15.f))
+, TimePerFrame(sf::seconds(1.f/60.f))
 // FPS and TimePerFrame display, will be removed in final version
 , mFont()
 , mStatisticsText()
@@ -73,23 +73,23 @@ void App::run()
   {
     events();
     sf::Time elapsedTime = clock.restart();
+    sf::Time sensorTimer = clock.restart();
     timeSinceLastUpdate += elapsedTime;
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
       events();
       update(TimePerFrame);
+      timeSinceSensorUpdate += sensorTimer;
+      if (timeSinceSensorUpdate.asSeconds() > 1)
+      {
+        mPints = checkPints();
+        mTemp = checkTemp();
+        timeSinceSensorUpdate = sf::Time::Zero;
+      }
+      stateCheck();
     }
     updateStatistics(elapsedTime);
-    sf::Time sensorTimer = clock.restart();
-    timeSinceSensorUpdate += sensorTimer;
-    if (timeSinceSensorUpdate.asSeconds() > 1)
-    {
-      mPints = checkPints();
-      mTemp = checkTemp();
-      timeSinceSensorUpdate = sf::Time::Zero;
-    }
-    stateCheck();
     if (mRenderScreen)
     {
       render();
