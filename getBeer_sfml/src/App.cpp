@@ -68,6 +68,7 @@ void App::run()
     events();
     sf::Time elapsedTime = clock.restart();
     timeSinceLastUpdate += elapsedTime;
+    timeSinceSensorUpdate += elapsedTime;
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
@@ -75,9 +76,7 @@ void App::run()
       update(TimePerFrame);
     }
     updateStatistics(elapsedTime);
-    sf::Time sensorTimer = clock.restart();
-    timeSinceSensorUpdate += sensorTimer;
-    if (timeSinceSensorUpdate.asSeconds() > 10)
+    if (timeSinceSensorUpdate.asSeconds() > 1)
     {
       mPints = checkPints();
       mTemp = checkTemp();

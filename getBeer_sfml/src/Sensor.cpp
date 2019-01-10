@@ -12,7 +12,7 @@ int Sensor::checkWeight()
   {
     int dryWeight = 4025;
     // int wetWeight = hx.getGrams();
-    int wetWeight = -999999999;
+    int wetWeight = -999999.;
     if (wetWeight == -999999.)
     {
       throw SensorFail{};
