@@ -60,18 +60,20 @@ include_directories(
   )
 
 add_executable(${executable}
-  include/ValveOperator.hpp
-  src/ValveOperator.cpp
+  include/App.hpp
+  include/ds18b20.h
+  include/hx711.h
   include/ResourceHolder.hpp
   include/ResourceHolder.inl
   include/ResourceIdentifiers.hpp
-  include/StateIdentifiers.hpp
-  include/hx711.h
-  src/hx711.cpp
   include/Sensor.hpp
-  src/Sensor.cpp
-  include/App.hpp
+  include/StateIdentifiers.hpp
+  include/ValveOperator.hpp
   src/App.cpp
+  src/ds18b20.cpp
+  src/hx711.cpp
+  src/Sensor.cpp
+  src/ValveOperator.cpp
   main.cpp
   )
 

@@ -45,7 +45,9 @@ private:
   ValveOperator vo;
   Sensor sensor;
   int mPints;
+  int mTemp;
   int checkPints();
+  int checkTemp();
 
   State::ID mState;
   State::ID mOldState;

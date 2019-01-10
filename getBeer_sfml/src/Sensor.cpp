@@ -8,15 +8,33 @@ Sensor::Sensor()
 
 int Sensor::checkWeight()
 {
-  int dryWeight = 4025;
-  int wetWeight = hx.getGrams();
-  int beerWeight = wetWeight-dryWeight;
-  if (beerWeight > 0)
+  try
   {
-    return beerWeight;
+    int dryWeight = 4025;
+    int wetWeight = hx.getGrams();
+    if (wetWeight == -999999.)
+    {
+      throw SensorFail{};
+    }
+    int beerWeight = wetWeight-dryWeight;
+    if (beerWeight > 0)
+    {
+      return beerWeight;
+    }
+    else
+    {
+      return 0;
+    }
   }
-  else
+  catch (SensorFail)
   {
+    std::cout << "HX711 not working.\n";
     return 0;
   }
+} 
+
+float Sensor::checkTemp()
+{
+  float tempC = temp.getTemp();
+  return tempC;
 }

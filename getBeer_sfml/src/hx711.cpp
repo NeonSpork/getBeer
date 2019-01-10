@@ -63,6 +63,13 @@ void HX711::setScale(float scale)
 
 float HX711::getGrams(byte times)
 {
-  long val = (averageValue(times) - _offset);
-  return (float) val/_scale;
+  try
+  {
+    long val = (averageValue(times) - _offset);
+    return (float) val/_scale;
+  }
+  catch (...)
+  {
+    return -999999.;
+  }
 }

@@ -21,6 +21,7 @@ App::App()
 , mIcon11()
 , mIcon12()
 , mPints(0)
+, mTemp(0)
 , mState()
 , mOldState()
 , TimePerFrame(sf::seconds(1.f/15.f))
@@ -161,7 +162,7 @@ void App::update(const sf::Time& TimePerFrame)
     mOldState = mState;
   }
   mPints = checkPints();
-  // checkTemp();
+  mTemp = checkTemp();
 }
 
 void App::render()
@@ -209,6 +210,12 @@ int App::checkPints()
   int ml = sensor.checkWeight();
   int pints = ml/500;
   return pints;
+}
+
+int App::checkTemp()
+{
+  int temp = (int) sensor.checkTemp();
+  return temp;
 }
 
 void App::updateStatistics(sf::Time elapsedTime)

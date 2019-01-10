@@ -2,7 +2,7 @@
 #define SENSOR_HPP
 
 #include "hx711.h"
-// #include "TEMPSENSOR"
+#include "ds18b20.h"
 
 class App;
 
@@ -11,10 +11,11 @@ class Sensor
 public:
   Sensor();
   int checkWeight();
-  // float checkTemp();
+  float checkTemp();
+  class SensorFail{};
 private:
   HX711 hx;
-  // static const TEMPSENSOR temp;
+  Ds18b20 temp;
 };
 
 #endif

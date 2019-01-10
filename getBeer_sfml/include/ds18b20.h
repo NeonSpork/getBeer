@@ -1,26 +1,32 @@
-/*
- * ds18b20.h
- *
- *  Created on: Sep 14, 2013
- *      Author: agu
- */
-
 #ifndef DS18B20_H_
 #define DS18B20_H_
 
-#include "OneWire.h"
+#include <stdio.h>
+#include <dirent.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <iostream>
 
-class Ds18b20 {
+class Ds18b20
+{
 public:
-  Ds18b20(uint8_t pin);
+  Ds18b20();
   virtual ~Ds18b20();
-  void init();
-  void convert();
-  int16_t getValue();
-
+  int init();
+  float getTemp();
+  class NoDir{};
+  class NoInit{};
+  class NoRead{};
 private:
-  uint8_t _address[8];
-  OneWire _ds;
+  DIR *dir;
+  struct dirent *dirent;
+  char dev[16];      // Dev ID
+  char devPath[128]; // Path to device
+  char buf[256];     // Data from device
+  char tmpData[6];   // Temp C * 1000 reported by device 
+  ssize_t numRead;
 };
 
 #endif /* DS18B20_H_ */
