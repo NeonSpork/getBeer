@@ -48,6 +48,7 @@ private:
   ValveOperator vo;
   Sensor sensor;
   int mPints;
+  int mOldPints;
   int mTemp;
   int checkPints();
   int checkTemp();
@@ -58,10 +59,12 @@ private:
   bool mOldButtonState;
   bool mNewSecretState;
   bool mOldSecretState;
+  bool mRenderScreen;
 
   const sf::Time TimePerFrame;
   void events();
   void update(const sf::Time& TimePerFrame);
+  void stateCheck();
   void render();
   void handleInput(sf::Keyboard::Key key, bool isPressed);
   void handleInput(sf::Mouse::Button button, bool isPressed);
