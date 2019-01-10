@@ -33,6 +33,7 @@ App::App()
 , mOldSecretState(false)
 , mRenderScreen(true)
 , TimePerFrame(sf::seconds(1.f/60.f))
+, TimePerSensorUpdate(sf::seconds(1.f))
 // FPS and TimePerFrame display, will be removed in final version
 , mFont()
 , mStatisticsText()
@@ -78,10 +79,10 @@ void App::run()
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
+      timeSinceSensorUpdate -= sensorTimer;
       events();
       update(TimePerFrame);
-      timeSinceSensorUpdate += sensorTimer;
-      if (timeSinceSensorUpdate.asSeconds() > 1)
+      if (timeSinceSensorUpdate.asSeconds() > TimePerSensorUpdate)
       {
         mPints = checkPints();
         mTemp = checkTemp();

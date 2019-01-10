@@ -62,6 +62,7 @@ private:
   bool mRenderScreen;
 
   const sf::Time TimePerFrame;
+  const sf::Time TimePerSensorUpdate;
   void events();
   void update(const sf::Time& TimePerFrame);
   void stateCheck();
