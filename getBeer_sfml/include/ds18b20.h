@@ -27,7 +27,7 @@ private:
   char buf[256];     // Data from device
   char tmpData[6];   // Temp C * 1000 reported by device 
   ssize_t numRead;
-  char path[] = "/sys/bus/w1/devices";
+  char path[64] = "/sys/bus/w1/devices";
 };
 
 #endif /* DS18B20_H_ */
