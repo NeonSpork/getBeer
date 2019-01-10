@@ -1,9 +1,8 @@
 #!/bin/sh
 
 cd ~/getBeer/
-# /usr/bin/git stash
 /usr/bin/git pull
-/usr/bin/git checkout 8bit
+/usr/bin/git checkout secret
 /usr/bin/git pull
 
 cd ~/getBeer/getBeer_sfml/build
