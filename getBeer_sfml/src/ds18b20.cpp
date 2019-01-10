@@ -2,25 +2,14 @@
 
 Ds18b20::Ds18b20()
 {
-  try
-  {
-    int status = init();
-    if (status == 1)
-    {
-      throw NoInit{};
-    }
-  }
-  catch (NoInit)
-  {
-    std::cout << "DS18B20 could not be initialized.\n";
-  }
+  init();
 }
 
 Ds18b20::~Ds18b20()
 {
 }
 
-int Ds18b20::init()
+void Ds18b20::init()
 {
   try
   {
@@ -40,12 +29,10 @@ int Ds18b20::init()
       }
       (void) closedir (dir);
     }
-    return 0;
   }
   catch(NoDir)
   {
     std::cout << "Couldn't open the w1 devices directory\n";
-    return 1;
   }
 }
 

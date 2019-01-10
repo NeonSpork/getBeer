@@ -14,7 +14,7 @@ class Ds18b20
 public:
   Ds18b20();
   virtual ~Ds18b20();
-  int init();
+  void init();
   float getTemp();
   class NoDir{};
   class NoInit{};
