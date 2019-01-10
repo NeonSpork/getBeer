@@ -206,6 +206,16 @@ void App::render()
     {
       mWindow.draw(mSecretIconOn);
     }
+    mWindow.draw(mPintsIcon);
+    if (mPints < 10)
+    {
+      mWindow.draw(mPintDigit_1);
+    }
+    if (mPints >= 10)
+    {
+      mWindow.draw(mPintDigit_1);
+      mWindow.draw(mPintDigit_2);
+    }
   }
   if (mState == State::ID::BeerMenu)
   {
