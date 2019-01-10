@@ -30,7 +30,6 @@ App::App()
 , mStatisticsText()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
-// , hx(2, 3)
 {
   mWindow.setMouseCursorVisible(false);
   mWindow.setFramerateLimit(15);
@@ -42,9 +41,6 @@ App::App()
   vo.openValve('s', false);
   loadTextures();
   placeTextures();
-
-  // mWeight = hx.getGrams();
-  // mTemp = sensor.getCurrentTempInC();
 
   // FPS and TimePerFrame display, will be removed in final version
   mFont.loadFromFile("media/Sansation.ttf");
@@ -63,6 +59,7 @@ void App::run()
 {
   sf::Clock clock;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
+  sf::Time timeSinceSensorUpdate = sf::Time::Zero;
   while (mWindow.isOpen())
   {
     events();
@@ -75,6 +72,14 @@ void App::run()
       update(TimePerFrame);
     }
     updateStatistics(elapsedTime);
+    sf::Time sensorTimer = clock.restart();
+    timeSinceSensorUpdate += sensorTimer;
+    if (timeSinceSensorUpdate.asSeconds() > 10)
+    {
+      mPints = checkPints();
+      mTemp = checkTemp();
+      timeSinceSensorUpdate = sf::Time::Zero;
+    }
     render();
   }
 }
@@ -161,8 +166,6 @@ void App::update(const sf::Time& TimePerFrame)
     }
     mOldState = mState;
   }
-  mPints = checkPints();
-  mTemp = checkTemp();
 }
 
 void App::render()

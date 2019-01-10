@@ -51,6 +51,11 @@ private:
 
   State::ID mState;
   State::ID mOldState;
+  bool mNewButtonState;
+  bool mOldButtonState;
+  bool mNewSecretState;
+  bool mOldSecretState;
+
   const sf::Time TimePerFrame;
   void events();
   void update(const sf::Time& TimePerFrame);
