@@ -13,7 +13,7 @@ void Ds18b20::init()
 {
   try
   {
-    dir = opendir ("/sys/bus/w1/devices");
+    dir = opendir (path);
     if (dir == NULL)
     {
       throw NoDir{};
