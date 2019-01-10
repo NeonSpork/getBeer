@@ -54,6 +54,9 @@ private:
   int checkPints();
   int checkTemp();
 
+  const char *PLUGIN_NAME;
+  float callPython();
+
   State::ID mState;
   State::ID mOldState;
   bool mNewButtonState;

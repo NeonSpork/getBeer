@@ -52,6 +52,7 @@ App::App()
   loadTextures();
   placeTextures();
 
+  PLUGIN_NAME = "PyTemp";
   // FPS and TimePerFrame display, will be removed in final version
   mFont.loadFromFile("media/Sansation.ttf");
   mStatisticsText.setFont(mFont);
@@ -280,8 +281,20 @@ int App::checkPints()
 
 int App::checkTemp()
 {
-  // int temp = (int) sensor.checkTemp();
-  return 0;
+  float temp = callPython();
+  float roundedTemp = std::round(temp);
+  int intTemp = static_cast<int>(roundedTemp);
+  std::cout << "intTemp: " << intTemp << std::endl;
+  return intTemp;
+}
+
+float App::callPython()
+{
+  PyObject* pluginModule = PyImport_Import(PyUnicode_FromString(PLUGIN_NAME));
+  PyObject* getTemp = PyObject_GetAttrString(pluginModule, "getTemp");
+  PyObject* args = Py_BuildValue("(s)");
+  PyObject* result = PyObject_CallObject(getTemp, args);
+  return PyFloat_AsDouble(result);
 }
 
 void App::updateStatistics(sf::Time elapsedTime)
