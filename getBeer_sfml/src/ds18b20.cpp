@@ -25,7 +25,7 @@ void Ds18b20::init()
       if (dirent->d_type == DT_LNK && strstr(dirent->d_name, "28-") != NULL)
       { 
         strcpy(dev, dirent->d_name);
-        printf("\nDevice: %s\n", dev);
+        printf("\nDevice: %s\nJB wuz here", dev);
       }
       (void) closedir (dir);
     }
