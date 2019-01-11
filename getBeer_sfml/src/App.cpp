@@ -10,6 +10,9 @@ App::App()
 , mPintsIcon()
 , mPintDigit_1()
 , mPintDigit_2()
+, mTempIcon()
+, mTempDigit_1()
+, mTempDigit_2()
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -467,6 +470,17 @@ void App::setState(State::ID name)
 
 void App::loadTextures()
 {
+  // Number images
+  mTextures.load(Textures::num0, "media/num/num0.png");
+  mTextures.load(Textures::num1, "media/num/num1.png");
+  mTextures.load(Textures::num2, "media/num/num2.png");
+  mTextures.load(Textures::num3, "media/num/num3.png");
+  mTextures.load(Textures::num4, "media/num/num4.png");
+  mTextures.load(Textures::num5, "media/num/num5.png");
+  mTextures.load(Textures::num6, "media/num/num6.png");
+  mTextures.load(Textures::num7, "media/num/num7.png");
+  mTextures.load(Textures::num8, "media/num/num8.png");
+  mTextures.load(Textures::num9, "media/num/num9.png");
   // Backgrounds
   mTextures.load(Textures::default_background, "media/bg/default_background.png");
   mTextures.load(Textures::tropical_thunder_bg, "media/bg/tropical_thunder_bg.png");
@@ -488,17 +502,6 @@ void App::loadTextures()
   mTextures.load(Textures::secret_on, "media/icon/secret_on.png");
   mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
   mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
-  // Number images
-  mTextures.load(Textures::num0, "media/num/num0.png");
-  mTextures.load(Textures::num1, "media/num/num1.png");
-  mTextures.load(Textures::num2, "media/num/num2.png");
-  mTextures.load(Textures::num3, "media/num/num3.png");
-  mTextures.load(Textures::num4, "media/num/num4.png");
-  mTextures.load(Textures::num5, "media/num/num5.png");
-  mTextures.load(Textures::num6, "media/num/num6.png");
-  mTextures.load(Textures::num7, "media/num/num7.png");
-  mTextures.load(Textures::num8, "media/num/num8.png");
-  mTextures.load(Textures::num9, "media/num/num9.png");
 }
 
 void App::placeTextures()
@@ -527,6 +530,15 @@ void App::placeTextures()
   mPintDigit_2.setTexture(mTextures.get(Textures::num0));
   mPintDigit_2.scale(xRel, yRel);
   mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
+  mTempIcon.setTexture(mTextures.get(Textures::temp_icon));
+  mTempIcon.scale(xRel, xRel);
+  mTempIcon.setPosition(50*xRel, (wHeight-(50*yRel)));
+  mTempDigit_1.setTexture(mTextures.get(Textures::num0));
+  mTempDigit_1.scale(xRel/2, yRel/2);
+  mTempDigit_1.setPosition(75*xRel, (wHeight-(50*yRel)));
+  mTempDigit_2.setTexture(mTextures.get(Textures::num0));
+  mTempDigit_2.scale(xRel, yRel);
+  mTempDigit_2.setPosition(100*xRel, (wHeight-(50*yRel)));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
