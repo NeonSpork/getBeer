@@ -31,10 +31,11 @@ int main(int argc, char const *argv[])
   float scale = averageValItem/reportedWeight;
   hx.setScale(scale);
   std::cout << "\n\n#########################################\n";
-  std::cout << "\n\n### Offset: " << offset << std::endl;
-  std::cout << "\n\n#########################################\n";
-  std::cout << "\n\n### Scale:  " << scale << std::endl;
-  std::cout << "\n\n#########################################\n";
-  std::cout << "\n\n############## Terminating. #############\n";
+  std::cout << "\n#########################################\n";
+  std::cout << "\n### Offset: " << offset << std::endl;
+  std::cout << "\n#########################################\n";
+  std::cout << "\n### Scale:  " << scale << std::endl;
+  std::cout << "\n#########################################\n";
+  std::cout << "\n############## Terminating. #############\n";
   return 0;
 }
