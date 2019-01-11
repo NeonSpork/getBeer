@@ -48,7 +48,7 @@ float Ds18b20::getTemp()
     float tempC;
     while((numRead = read(fd, buf, 256)) > 0) 
     {
-     strncpy(tmpData, strstr(buf, "t=") + 2); 
+     strncpy(tmpData, strstr(buf, "t=") + 2, 5); 
      tempC = strtof(tmpData, NULL);
      printf("Temp: %.3f C  \n", tempC / 1000);
     }
