@@ -43,7 +43,8 @@ void Ds18b20::init()
 
 float Ds18b20::getTemp()
 {
-
+  try
+  {
     sprintf(devPath, "/sys/bus/w1/devices/%s/w1_slave", dev);
     int fd = open(devPath, O_RDONLY);
     if(fd == -1)
@@ -59,5 +60,15 @@ float Ds18b20::getTemp()
     }
     close(fd);
     return tempC / 1000;
-
+  }
+  catch(NoRead)
+  {
+    std::cout << "Unable to read " << dev << " at location " << devPath << std::endl;
+    return 99;
+  }
+  catch (...)
+  {
+    std::cout << "Ds18b20::getTemp() - Unknown error.\n";
+    return 99;
+  }
 }
