@@ -53,6 +53,7 @@ private:
   int mPints;
   int mOldPints;
   int mTemp;
+  int mOldTemp;
   int checkPints();
   int checkTemp();
 

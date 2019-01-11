@@ -47,6 +47,7 @@ App::App()
   setState(State::ID::Default);
   mOldState = mState;
   mOldPints = mPints;
+  mOldTemp = mTemp;
   ValveOperator vo;
   Sensor sensor;
   vo.openValve('b', false);
