@@ -2,6 +2,11 @@
 
 Ds18b20::Ds18b20()
 {
+  int i;
+  i = system("modprobe w1-gpio");
+  std::cout << "modprobe w1-gpio system call returned " << i << std::endl;
+  i = system("modprobe w1-therm");
+  std::cout << "modprobe w1-therm system call returned " << i << std::endl;
   init();
 }
 
@@ -13,7 +18,7 @@ void Ds18b20::init()
 {
   try
   {
-    dir = opendir (path);
+    dir = opendir ("/sys/bus/w1/devices");
     if (dir == NULL)
     {
       throw NoDir{};
@@ -39,7 +44,7 @@ void Ds18b20::init()
 float Ds18b20::getTemp()
 {
 
-    sprintf(devPath, "%s/%s/w1_slave", path, dev);
+    sprintf(devPath, "/sys/bus/w1/devices/%s/w1_slave", dev);
     int fd = open(devPath, O_RDONLY);
     if(fd == -1)
     {
