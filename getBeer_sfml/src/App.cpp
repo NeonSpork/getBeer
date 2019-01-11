@@ -205,6 +205,27 @@ void App::update(const sf::Time& TimePerFrame)
     mOldPints = mPints;
     mRenderScreen = true;
   }
+  if (mOldTemp != mTemp)
+  {
+    if (mTemp < 10)
+    {
+      mTempDigit_1.setTexture(mTextures.get(Textures::ID(mTemp)));
+    }
+    if (mTemp >= 10 && mTemp < 100)
+    {
+      int first = ((mTemp/10)%10);
+      int second = (mTemp%10);
+      mTempDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+      mTempDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+    }
+    if (mTemp >= 100)
+    {
+      mTempDigit_1.setTexture(mTextures.get(Textures::num9));
+      mTempDigit_2.setTexture(mTextures.get(Textures::num9));
+    }
+    mOldTemp = mTemp;
+    mRenderScreen = true;
+  }
   mNewButtonState = vo.getBeerStatus();
   mNewSecretState = vo.getSecretStatus();
 }
@@ -251,6 +272,16 @@ void App::render()
     {
       mWindow.draw(mPintDigit_1);
       mWindow.draw(mPintDigit_2);
+    }
+    mWindow.draw(mTempIcon);
+    if (mTemp < 10)
+    {
+      mWindow.draw(mTempDigit_1);
+    }
+    if (mTemp >= 10)
+    {
+      mWindow.draw(mTempDigit_1);
+      mWindow.draw(mTempDigit_2);
     }
   }
   if (mState == State::ID::BeerMenu)
