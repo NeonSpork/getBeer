@@ -211,18 +211,23 @@ void App::update(const sf::Time& TimePerFrame)
     if (mTemp < 10)
     {
       mTempDigit_1.setTexture(mTextures.get(Textures::ID(mTemp)));
+      mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
     }
     if (mTemp >= 10 && mTemp < 100)
     {
       int first = ((mTemp/10)%10);
       int second = (mTemp%10);
       mTempDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
       mTempDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
     }
     if (mTemp >= 100)
     {
       mTempDigit_1.setTexture(mTextures.get(Textures::num9));
+      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
       mTempDigit_2.setTexture(mTextures.get(Textures::num9));
+      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
     }
     mOldTemp = mTemp;
     mRenderScreen = true;
