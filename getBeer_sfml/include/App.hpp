@@ -54,6 +54,9 @@ private:
   int checkPints();
   int checkTemp();
 
+  PyObject* pluginModule;
+  PyObject* getTemp;
+  PyObject* args;
   const char *PLUGIN_NAME;
   float callPython();
 

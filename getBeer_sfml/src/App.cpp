@@ -53,6 +53,10 @@ App::App()
   placeTextures();
 
   PLUGIN_NAME = "PyTemp";
+  pluginModule = PyImport_Import(PyString_FromString(PLUGIN_NAME));
+  getTemp = PyObject_GetAttrString(pluginModule, "getTemp");
+  args = Py_BuildValue("(s)");
+
   // FPS and TimePerFrame display, will be removed in final version
   mFont.loadFromFile("media/Sansation.ttf");
   mStatisticsText.setFont(mFont);
@@ -290,9 +294,9 @@ int App::checkTemp()
 
 float App::callPython()
 {
-  PyObject* pluginModule = PyImport_Import(PyString_FromString(PLUGIN_NAME));
-  PyObject* getTemp = PyObject_GetAttrString(pluginModule, "getTemp");
-  PyObject* args = Py_BuildValue("(s)");
+  // PyObject* pluginModule = PyImport_Import(PyString_FromString(PLUGIN_NAME));
+  // PyObject* getTemp = PyObject_GetAttrString(pluginModule, "getTemp");
+  // PyObject* args = Py_BuildValue("(s)");
   PyObject* result = PyObject_CallObject(getTemp, args);
   return PyFloat_AsDouble(result);
 }
