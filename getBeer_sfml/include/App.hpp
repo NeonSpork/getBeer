@@ -32,6 +32,9 @@ private:
   sf::Sprite mPintsIcon;
   sf::Sprite mPintDigit_1;
   sf::Sprite mPintDigit_2;
+  sf::Sprite mTempIcon;
+  sf::Sprite mTempDigit_1;
+  sf::Sprite mTempDigit_2;
   sf::Sprite mIcon0;
   sf::Sprite mIcon1;
   sf::Sprite mIcon2;
