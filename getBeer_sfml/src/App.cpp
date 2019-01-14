@@ -73,24 +73,24 @@ void App::run()
 {
   sf::Clock clock;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
-  sf::Time timeSinceSensorUpdate = sf::Time::Zero;
+  // sf::Time timeSinceSensorUpdate = sf::Time::Zero;
   while (mWindow.isOpen())
   {
     events();
     sf::Time elapsedTime = clock.restart();
     timeSinceLastUpdate += elapsedTime;
-    timeSinceSensorUpdate += elapsedTime;
+    // timeSinceSensorUpdate += elapsedTime;
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
       events();
       update(TimePerFrame);
-      if (timeSinceSensorUpdate > TimePerSensorUpdate)
-      {
-        mPints = checkPints();
-        mTemp = checkTemp();
-        timeSinceSensorUpdate = sf::seconds(0.f);
-      }
+      // if (timeSinceSensorUpdate > TimePerSensorUpdate)
+      // {
+      //   mPints = checkPints();
+      //   mTemp = checkTemp();
+      //   timeSinceSensorUpdate = sf::seconds(0.f);
+      // }
       stateCheck();
     }
     updateStatistics(elapsedTime);
