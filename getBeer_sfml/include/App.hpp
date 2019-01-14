@@ -7,9 +7,9 @@
 #include "ResourceIdentifiers.hpp"
 #include "StateIdentifiers.hpp"
 #include "ValveOperator.hpp"
-#include "Sensor.hpp"
+// #include "Sensor.hpp"
 
-class Sensor;
+// class Sensor;
 
 class App
 {
@@ -49,13 +49,13 @@ private:
   sf::Sprite mIcon11;
   sf::Sprite mIcon12;
   ValveOperator vo;
-  Sensor sensor;
+  // Sensor sensor;
   int mPints;
   int mOldPints;
   int mTemp;
   int mOldTemp;
-  int checkPints();
-  int checkTemp();
+  // int checkPints();
+  // int checkTemp();
 
   State::ID mState;
   State::ID mOldState;

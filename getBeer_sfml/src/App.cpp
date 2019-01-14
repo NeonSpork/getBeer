@@ -50,7 +50,7 @@ App::App()
   mOldPints = mPints;
   mOldTemp = mTemp;
   ValveOperator vo;
-  Sensor sensor;
+  // Sensor sensor;
   vo.openValve('b', false);
   vo.openValve('s', false);
   loadTextures();
@@ -185,53 +185,53 @@ void App::update(const sf::Time& TimePerFrame)
     mOldState = mState;
     mRenderScreen = true;
   }
-  if (mOldPints != mPints)
-  {
-    if (mPints < 10)
-    {
-      mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
-    }
-    if (mPints >= 10 && mPints < 100)
-    {
-      int first = ((mPints/10)%10);
-      int second = (mPints%10);
-      mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
-      mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
-    }
-    if (mPints >= 100)
-    {
-      mPintDigit_1.setTexture(mTextures.get(Textures::num9));
-      mPintDigit_2.setTexture(mTextures.get(Textures::num9));
-    }
-    mOldPints = mPints;
-    mRenderScreen = true;
-  }
-  if (mOldTemp != mTemp)
-  {
-    if (mTemp < 10)
-    {
-      mTempDigit_1.setTexture(mTextures.get(Textures::ID(mTemp)));
-      mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
-    }
-    if (mTemp >= 10 && mTemp < 100)
-    {
-      int first = ((mTemp/10)%10);
-      int second = (mTemp%10);
-      mTempDigit_1.setTexture(mTextures.get(Textures::ID(first)));
-      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
-      mTempDigit_2.setTexture(mTextures.get(Textures::ID(second)));
-      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
-    }
-    if (mTemp >= 100)
-    {
-      mTempDigit_1.setTexture(mTextures.get(Textures::num9));
-      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
-      mTempDigit_2.setTexture(mTextures.get(Textures::num9));
-      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
-    }
-    mOldTemp = mTemp;
-    mRenderScreen = true;
-  }
+  // if (mOldPints != mPints)
+  // {
+  //   if (mPints < 10)
+  //   {
+  //     mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+  //   }
+  //   if (mPints >= 10 && mPints < 100)
+  //   {
+  //     int first = ((mPints/10)%10);
+  //     int second = (mPints%10);
+  //     mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+  //     mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+  //   }
+  //   if (mPints >= 100)
+  //   {
+  //     mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+  //     mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+  //   }
+  //   mOldPints = mPints;
+  //   mRenderScreen = true;
+  // }
+  // if (mOldTemp != mTemp)
+  // {
+  //   if (mTemp < 10)
+  //   {
+  //     mTempDigit_1.setTexture(mTextures.get(Textures::ID(mTemp)));
+  //     mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
+  //   }
+  //   if (mTemp >= 10 && mTemp < 100)
+  //   {
+  //     int first = ((mTemp/10)%10);
+  //     int second = (mTemp%10);
+  //     mTempDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+  //     mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
+  //     mTempDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+  //     mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+  //   }
+  //   if (mTemp >= 100)
+  //   {
+  //     mTempDigit_1.setTexture(mTextures.get(Textures::num9));
+  //     mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
+  //     mTempDigit_2.setTexture(mTextures.get(Textures::num9));
+  //     mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+  //   }
+  //   mOldTemp = mTemp;
+  //   mRenderScreen = true;
+  // }
   mNewButtonState = vo.getBeerStatus();
   mNewSecretState = vo.getSecretStatus();
 }
@@ -269,26 +269,26 @@ void App::render()
     {
       mWindow.draw(mSecretIconOn);
     }
-    mWindow.draw(mPintsIcon);
-    if (mPints < 10)
-    {
-      mWindow.draw(mPintDigit_1);
-    }
-    if (mPints >= 10)
-    {
-      mWindow.draw(mPintDigit_1);
-      mWindow.draw(mPintDigit_2);
-    }
-    mWindow.draw(mTempIcon);
-    if (mTemp < 10)
-    {
-      mWindow.draw(mTempDigit_1);
-    }
-    if (mTemp >= 10)
-    {
-      mWindow.draw(mTempDigit_1);
-      mWindow.draw(mTempDigit_2);
-    }
+    // mWindow.draw(mPintsIcon);
+    // if (mPints < 10)
+    // {
+    //   mWindow.draw(mPintDigit_1);
+    // }
+    // if (mPints >= 10)
+    // {
+    //   mWindow.draw(mPintDigit_1);
+    //   mWindow.draw(mPintDigit_2);
+    // }
+    // mWindow.draw(mTempIcon);
+    // if (mTemp < 10)
+    // {
+    //   mWindow.draw(mTempDigit_1);
+    // }
+    // if (mTemp >= 10)
+    // {
+    //   mWindow.draw(mTempDigit_1);
+    //   mWindow.draw(mTempDigit_2);
+    // }
   }
   if (mState == State::ID::BeerMenu)
   {
@@ -311,18 +311,18 @@ void App::render()
   mRenderScreen = false;
 }
 
-int App::checkPints()
-{
-  int ml = sensor.checkWeight();
-  int pints = ml/500;
-  return pints;
-}
+// int App::checkPints()
+// {
+//   int ml = sensor.checkWeight();
+//   int pints = ml/500;
+//   return pints;
+// }
 
-int App::checkTemp()
-{
-  int temp = (int) sensor.checkTemp();
-  return temp;
-}
+// int App::checkTemp()
+// {
+//   int temp = (int) sensor.checkTemp();
+//   return temp;
+// }
 
 void App::updateStatistics(sf::Time elapsedTime)
 {
@@ -558,24 +558,24 @@ void App::placeTextures()
   mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
   mSecretIconOn.scale(xRel, yRel);
   mSecretIconOn.setPosition((525*xRel), (75*yRel));
-  mPintsIcon.setTexture(mTextures.get(Textures::pints));
-  mPintsIcon.scale(xRel, xRel);
-  mPintsIcon.setPosition(0.f, (wHeight-(100*yRel)));
-  mPintDigit_1.setTexture(mTextures.get(Textures::num0));
-  mPintDigit_1.scale(xRel, yRel);
-  mPintDigit_1.setPosition(180*xRel, (wHeight-(100*yRel)));
-  mPintDigit_2.setTexture(mTextures.get(Textures::num0));
-  mPintDigit_2.scale(xRel, yRel);
-  mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
-  mTempIcon.setTexture(mTextures.get(Textures::temp_icon));
-  mTempIcon.scale(xRel, xRel);
-  mTempIcon.setPosition(150*xRel, (wHeight-(150*yRel)));
-  mTempDigit_1.setTexture(mTextures.get(Textures::num0));
-  mTempDigit_1.scale(xRel/2, yRel/2);
-  mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
-  mTempDigit_2.setTexture(mTextures.get(Textures::num0));
-  mTempDigit_2.scale(xRel/2, yRel/2);
-  mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+  // mPintsIcon.setTexture(mTextures.get(Textures::pints));
+  // mPintsIcon.scale(xRel, xRel);
+  // mPintsIcon.setPosition(0.f, (wHeight-(100*yRel)));
+  // mPintDigit_1.setTexture(mTextures.get(Textures::num0));
+  // mPintDigit_1.scale(xRel, yRel);
+  // mPintDigit_1.setPosition(180*xRel, (wHeight-(100*yRel)));
+  // mPintDigit_2.setTexture(mTextures.get(Textures::num0));
+  // mPintDigit_2.scale(xRel, yRel);
+  // mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
+  // mTempIcon.setTexture(mTextures.get(Textures::temp_icon));
+  // mTempIcon.scale(xRel, xRel);
+  // mTempIcon.setPosition(150*xRel, (wHeight-(150*yRel)));
+  // mTempDigit_1.setTexture(mTextures.get(Textures::num0));
+  // mTempDigit_1.scale(xRel/2, yRel/2);
+  // mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
+  // mTempDigit_2.setTexture(mTextures.get(Textures::num0));
+  // mTempDigit_2.scale(xRel/2, yRel/2);
+  // mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
   mIcon0.setTexture(mTextures.get(Textures::default_icon));
   mIcon0.scale(xRel, yRel);
   mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
