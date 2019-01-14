@@ -36,7 +36,7 @@ App::App()
 , mOldSecretState(false)
 , mRenderScreen(true)
 , TimePerFrame(sf::seconds(1.f/60.f))
-, TimePerSensorUpdate(sf::seconds(1.f))
+, TimePerSensorUpdate(sf::seconds(10.f))
 // FPS and TimePerFrame display, will be removed in final version
 , mFont()
 , mStatisticsText()
