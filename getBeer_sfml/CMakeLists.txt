@@ -1,15 +1,27 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
-#Change the name "dispenser" to whatever you want
-project(dispenser VERSION 0.1.0 LANGUAGES CXX)
+#Change the name "getBeer" to whatever you want
+project(getBeer VERSION 1.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
+
 
 # Specify default build type if none provided (before project() command)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}")
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(RASPBERRY FALSE CACHE BOOL "User flag if Raspberry Pi 3 is active. Set to TRUE to enable compiler optimization flags.")
+  if(RASPBERRY)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcpu=cortex-a53 -mfloat-abi=hard -mfpu=neon-fp-armv8 -mneon-for-64bits -mtune=cortex-a53")
+    message(STATUS "RASPBERRY SET TO TRUE")
+    message(STATUS "Using compiler optimizations for Raspberry Pi 3")
+  endif()
+else()
+  message(STATUS "Raspberry Pi 3 compiler optimizations inactive.")
+endif()
 
 # Install setup (TODO)
 message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
@@ -41,7 +53,6 @@ endforeach()
 
 # Edit the subdirectories as needed
 
-set(MAINSRC main.cpp)
 set(executable getBeerX)
 include_directories(
   "${PROJECT_SOURCE_DIR}/include"
@@ -49,14 +60,20 @@ include_directories(
   )
 
 add_executable(${executable}
-  include/ValveOperator.hpp
-  src/ValveOperator.cpp
+  include/App.hpp
+  include/ds18b20.h
+  include/hx711.h
   include/ResourceHolder.hpp
   include/ResourceHolder.inl
   include/ResourceIdentifiers.hpp
+  include/Sensor.hpp
   include/StateIdentifiers.hpp
-  include/App.hpp
+  include/ValveOperator.hpp
   src/App.cpp
+  src/ds18b20.cpp
+  src/hx711.cpp
+  src/Sensor.cpp
+  src/ValveOperator.cpp
   main.cpp
   )
 
@@ -87,6 +104,6 @@ else()
 endif()
 
 # Linking to all the libraries, for simplicity
-target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lcppgpio)
+target_link_libraries(${executable} sfml-audio sfml-graphics sfml-network sfml-window sfml-system -lwiringPi -lcrypt)
 
 # Remember to set -DCMAKE_INSTALL_PREFIX="where_you_want_it_installed" if using install()

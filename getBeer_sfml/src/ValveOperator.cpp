@@ -3,44 +3,34 @@
 ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
-{}
-
-void ValveOperator::openValve(const GPIO::DigitalOut &valve, bool state)
 {
-  if (state)
-  {
-    valve.on();
-  }
-  if (!state)
-  {
-    valve.off();
-  }
+  pinMode(5, OUTPUT); // Beer valve
+  pinMode(6, OUTPUT); // Secret valve
+  digitalWrite(5, false);
+  digitalWrite(6, false);
+}
+
+ValveOperator::~ValveOperator()
+{
+  digitalWrite(5, false);
+  digitalWrite(6, false);
 }
 
 void ValveOperator::openValve(char name, bool state)
-  // \brief Sets the state of valve to open (true) or closed (false)
-  // \param name 'b' for beer valve or 's' for secret valve
-  // \param state true or false
 {
-  const GPIO::DigitalOut *valve;
   switch (name)
   {
     case 'b':
-      valve = &Valve::beer;
+      digitalWrite(5, state);
       beerDispensing = state;
       break;
     case 's':
-      valve = &Valve::secret;
+      digitalWrite(6, state);
       secretDispensing = state;
       break;
-  }
-  if (state)
-  {
-    valve->on();
-  }
-  if (!state)
-  {
-    valve->off();
+    default:
+      std::cout << "Valve error: Invalid name. Correct name is 'b' or 's' (for beer or secret)\n";
+      break;
   }
 }
 

@@ -7,7 +7,7 @@ import pygame as pg
 
 
 # Screen parameters
-FPS = 60
+FPS = 12
 # for testing:
 # SWIDTH = 1024
 # SHEIGHT = 600
@@ -45,10 +45,10 @@ THUMB = []
 default_thumbnail = pg.image.load('img/icon/default_icon.png')
 DEFAULT_THUMBNAIL = pg.transform.scale(default_thumbnail, (int(300*RELX), int(150*RELY)))
 THUMB.append(DEFAULT_THUMBNAIL)
-beer1 = pg.image.load('img/icon/tropical_thunder.png')
+beer1 = pg.image.load('img/icon/tropical_thunder_icon.png')
 BEER1 = pg.transform.scale(beer1, (int(150*RELX), int(150*RELY)))
 THUMB.append(BEER1)
-beer2 = pg.image.load('img/icon/angry_babushka.png')
+beer2 = pg.image.load('img/icon/angry_babushka_icon.png')
 BEER2 = pg.transform.scale(beer2, (int(150*RELX), int(150*RELY)))
 THUMB.append(BEER2)
 coming_soon = pg.image.load('img/icon/coming_soon_thumb.png')
@@ -57,13 +57,13 @@ COMING_SOON = pg.transform.scale(coming_soon, (int(150*RELX), int(150*RELY)))
 
 # Buttons & icons
 CURSOR = pg.image.load('img/icon/cursor.png')
-button = pg.image.load('img/icon/beer_button.png')
+button = pg.image.load('img/icon/beer_button_off.png')
 BUTTON = pg.transform.scale(button, (int(200*RELX), int(200*RELY)))
-button_on = pg.image.load('img/icon/beer_button1.png')
+button_on = pg.image.load('img/icon/beer_button_on.png')
 BUTTON_ON = pg.transform.scale(button_on, (int(200*RELX), int(200*RELY)))
-red_button = pg.image.load('img/icon/beer_button_red1.png')
+red_button = pg.image.load('img/icon/beer_button_red_off.png')
 RED_BUTTON = pg.transform.scale(red_button, (int(200*RELX), int(200*RELY)))
-red_button_on = pg.image.load('img/icon/beer_button_red2.png')
+red_button_on = pg.image.load('img/icon/beer_button_red_on.png')
 RED_BUTTON_ON = pg.transform.scale(red_button_on, (int(200*RELX), int(200*RELY)))
 quit = pg.image.load('img/icon/exit.png')
 QUIT = pg.transform.scale(quit, (int(50*RELX), int(50*RELY)))

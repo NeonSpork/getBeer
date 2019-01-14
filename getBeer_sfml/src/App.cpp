@@ -1,12 +1,18 @@
 #include "../include/App.hpp"
 
 App::App()
-: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer")
+: mWindow(sf::VideoMode(wWidth, wHeight), "getBeer", sf::Style::Fullscreen)
 , mBackground()
 , mButtonOff()
 , mButtonOn()
 , mXicon()
 , mSecretIconOn()
+, mPintsIcon()
+, mPintDigit_1()
+, mPintDigit_2()
+, mTempIcon()
+, mTempDigit_1()
+, mTempDigit_2()
 , mIcon0()
 , mIcon1()
 , mIcon2()
@@ -20,76 +26,79 @@ App::App()
 , mIcon10()
 , mIcon11()
 , mIcon12()
+, mPints(0)
+, mTemp(0)
 , mState()
 , mOldState()
+, mNewButtonState(false)
+, mOldButtonState(false)
+, mNewSecretState(false)
+, mOldSecretState(false)
+, mRenderScreen(true)
 , TimePerFrame(sf::seconds(1.f/60.f))
+, TimePerSensorUpdate(sf::seconds(10.f))
+// FPS and TimePerFrame display, will be removed in final version
+, mFont()
+, mStatisticsText()
+, mStatisticsUpdateTime()
+, mStatisticsNumFrames(0)
 {
+  mWindow.setMouseCursorVisible(false);
+  // mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
+  mOldPints = mPints;
+  mOldTemp = mTemp;
   ValveOperator vo;
+  Sensor sensor;
   vo.openValve('b', false);
   vo.openValve('s', false);
   loadTextures();
-  mBackground.setTexture(mTextures.get(Textures::default_background));
-  mBackground.setPosition(0.f, 0.f);
-  mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
-  mButtonOff.setPosition((wWidth-200), (wHeight-200));
-  mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
-  mButtonOn.setPosition((wWidth-200), (wHeight-200));
-  mXicon.setTexture(mTextures.get(Textures::exit));
-  mXicon.setPosition(0.f, 0.f);
-  mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
-  mSecretIconOn.setPosition(525, 75);
-  mIcon0.setTexture(mTextures.get(Textures::default_icon));
-  mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
-  mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
-  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon5.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon6.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon7.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon8.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon9.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon10.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon11.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon12.setTexture(mTextures.get(Textures::coming_soon_icon));
-  mIcon0.setPosition(((wWidth/2)-150), 0);
-  mIcon1.setPosition(((wWidth/2)-300), 150);
-  mIcon2.setPosition(((wWidth/2)-150), 150);
-  mIcon3.setPosition(((wWidth/2)), 150);
-  mIcon4.setPosition(((wWidth/2)+150), 150);
-  mIcon5.setPosition(((wWidth/2)-300), 300);
-  mIcon6.setPosition(((wWidth/2)-150), 300);
-  mIcon7.setPosition(((wWidth/2)), 300);
-  mIcon8.setPosition(((wWidth/2)+150), 300);
-  mIcon9.setPosition(((wWidth/2)-300), 450);
-  mIcon10.setPosition(((wWidth/2)-150), 450);
-  mIcon11.setPosition(((wWidth/2)), 450);
-  mIcon12.setPosition(((wWidth/2)+150), 450);
+  placeTextures();
+
+  // FPS and TimePerFrame display, will be removed in final version
+  mFont.loadFromFile("media/Sansation.ttf");
+  mStatisticsText.setFont(mFont);
+  mStatisticsText.setPosition(50.f, 5.f);
+  mStatisticsText.setCharacterSize(10);
 }
 
 App::~App()
 {
-  Valve::beer.off();
-  Valve::secret.off();
+  digitalWrite(5, false);
+  digitalWrite(6, false);
 }
 
 void App::run()
 {
   sf::Clock clock;
   sf::Time timeSinceLastUpdate = sf::Time::Zero;
+  sf::Time timeSinceSensorUpdate = sf::Time::Zero;
   while (mWindow.isOpen())
   {
     events();
-    timeSinceLastUpdate += clock.restart();
+    sf::Time elapsedTime = clock.restart();
+    timeSinceLastUpdate += elapsedTime;
+    timeSinceSensorUpdate += elapsedTime;
     while (timeSinceLastUpdate > TimePerFrame)
     {
       timeSinceLastUpdate -= TimePerFrame;
       events();
       update(TimePerFrame);
+      if (timeSinceSensorUpdate > TimePerSensorUpdate)
+      {
+        mPints = checkPints();
+        mTemp = checkTemp();
+        timeSinceSensorUpdate = sf::seconds(0.f);
+      }
+      stateCheck();
     }
-    render();
-    std::cout << "Frame.\n";
+    updateStatistics(elapsedTime);
+    if (mRenderScreen)
+    {
+      render();
+      mRenderScreen = false;
+    }
   }
 }
 
@@ -111,18 +120,18 @@ void App::events()
       case sf::Event::KeyReleased:
         handleInput(event.key.code, false);
         break;
-      // case sf::Event::MouseButtonPressed:
-      //   handleInput(event.mouseButton.button, true);
-      //   break;
+      case sf::Event::MouseButtonPressed:
+        handleInput(event.mouseButton.button, true);
+        break;
       // case sf::Event::MouseMoved:
       //   if (event.mouseButton.button == sf::Mouse::Left)
       //     swipe(origMousePos.x, event.mouseMove.x);
       //   break;
-      // case sf::Event::MouseButtonReleased:
-      //   handleInput(event.mouseButton.button, false);
-      //   vo.openValve('b', false);
-      //   vo.openValve('s', false);
-      //   break;
+      case sf::Event::MouseButtonReleased:
+        handleInput(event.mouseButton.button, false);
+        vo.openValve('b', false);
+        vo.openValve('s', false);
+        break;
       case sf::Event::TouchBegan:
         std::cout << "Touch began.\n";      
         handleInput(event.touch.finger, true);
@@ -174,6 +183,70 @@ void App::update(const sf::Time& TimePerFrame)
         break;
     }
     mOldState = mState;
+    mRenderScreen = true;
+  }
+  if (mOldPints != mPints)
+  {
+    if (mPints < 10)
+    {
+      mPintDigit_1.setTexture(mTextures.get(Textures::ID(mPints)));
+    }
+    if (mPints >= 10 && mPints < 100)
+    {
+      int first = ((mPints/10)%10);
+      int second = (mPints%10);
+      mPintDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+      mPintDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+    }
+    if (mPints >= 100)
+    {
+      mPintDigit_1.setTexture(mTextures.get(Textures::num9));
+      mPintDigit_2.setTexture(mTextures.get(Textures::num9));
+    }
+    mOldPints = mPints;
+    mRenderScreen = true;
+  }
+  if (mOldTemp != mTemp)
+  {
+    if (mTemp < 10)
+    {
+      mTempDigit_1.setTexture(mTextures.get(Textures::ID(mTemp)));
+      mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
+    }
+    if (mTemp >= 10 && mTemp < 100)
+    {
+      int first = ((mTemp/10)%10);
+      int second = (mTemp%10);
+      mTempDigit_1.setTexture(mTextures.get(Textures::ID(first)));
+      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
+      mTempDigit_2.setTexture(mTextures.get(Textures::ID(second)));
+      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+    }
+    if (mTemp >= 100)
+    {
+      mTempDigit_1.setTexture(mTextures.get(Textures::num9));
+      mTempDigit_1.setPosition(75*xRel, (wHeight-(150*yRel)));
+      mTempDigit_2.setTexture(mTextures.get(Textures::num9));
+      mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+    }
+    mOldTemp = mTemp;
+    mRenderScreen = true;
+  }
+  mNewButtonState = vo.getBeerStatus();
+  mNewSecretState = vo.getSecretStatus();
+}
+
+void App::stateCheck()
+{
+  if (mNewButtonState != mOldButtonState)
+  {
+    mRenderScreen = true;
+    mOldButtonState = mNewButtonState;
+  }
+  if (mNewSecretState != mOldSecretState)
+  {
+    mRenderScreen = true;
+    mOldSecretState = mNewSecretState;
   }
 }
 
@@ -196,6 +269,26 @@ void App::render()
     {
       mWindow.draw(mSecretIconOn);
     }
+    mWindow.draw(mPintsIcon);
+    if (mPints < 10)
+    {
+      mWindow.draw(mPintDigit_1);
+    }
+    if (mPints >= 10)
+    {
+      mWindow.draw(mPintDigit_1);
+      mWindow.draw(mPintDigit_2);
+    }
+    mWindow.draw(mTempIcon);
+    if (mTemp < 10)
+    {
+      mWindow.draw(mTempDigit_1);
+    }
+    if (mTemp >= 10)
+    {
+      mWindow.draw(mTempDigit_1);
+      mWindow.draw(mTempDigit_2);
+    }
   }
   if (mState == State::ID::BeerMenu)
   {
@@ -213,7 +306,36 @@ void App::render()
     mWindow.draw(mIcon11);
     mWindow.draw(mIcon12);
   }
+  mWindow.draw(mStatisticsText);
   mWindow.display();
+  mRenderScreen = false;
+}
+
+int App::checkPints()
+{
+  int ml = sensor.checkWeight();
+  int pints = ml/500;
+  return pints;
+}
+
+int App::checkTemp()
+{
+  int temp = (int) sensor.checkTemp();
+  return temp;
+}
+
+void App::updateStatistics(sf::Time elapsedTime)
+{
+  mStatisticsUpdateTime += elapsedTime;
+  mStatisticsNumFrames += 1;
+  if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+  {
+    mStatisticsText.setString(
+      "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
+      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
+    mStatisticsUpdateTime -= sf::seconds(1.0f);
+    mStatisticsNumFrames = 0;
+  }
 }
 
 void App::handleInput(sf::Keyboard::Key key, bool isPressed)
@@ -227,15 +349,15 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
   sf::Vector2i pos = sf::Mouse::getPosition(mWindow);
   if (button ==  sf::Mouse::Left)
   {
-    if (pos.x > (wWidth-100) && pos.y < 100)
+    if (pos.x > (wWidth-(100*xRel)) && pos.y < (100*yRel))
     {
       mWindow.close();
     }
     if (mState != State::ID::BeerMenu)
     {
-      if (pos.x < 100 && pos.y < 100)
+      if (pos.x < (100*xRel) && pos.y < (100*yRel))
         mState = State::ID::BeerMenu;
-      if ((pos.x > (wWidth-200)) && (pos.y > (wHeight-200)))
+      if ((pos.x > (wWidth-(200*xRel))) && (pos.y > (wHeight-(200*yRel))))
       {
         vo.openValve('b', isPressed);
         if (isPressed)
@@ -250,7 +372,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       // THIS ONE IS ONLY FOR TESTING. DOUBLE TOUCH WILL BE IN THE LIVE VERSION
       if (mState == State::ID::Default)
       {
-        if (((pos.x > 575) && (pos.x < 825)) && ((pos.y > 25) && (pos.y < 125)))
+        if (((pos.x > (575*xRel)) && (pos.x < (825*xRel))) && ((pos.y > (25*yRel)) && (pos.y < (125*yRel))))
         {
           vo.openValve('s', isPressed);
           if (isPressed)
@@ -267,74 +389,79 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
     if (mState == State::ID::BeerMenu)
     {
       /* BUTTON GRID
-                00
-            1  2  3  4
-            5  6  7  8
-            9 10 11 12
+        +--+--+--+--+
+        |  |00000|  |
+        +--+--+--+--+
+        |01|02|03|04|
+        +--+--+--+--+
+        |05|06|07|08|
+        +--+--+--+--+
+        |09|10|11|12|
+        +--+--+--+--+
       */
       // To be updated with graphics as more beers get added to repetoire
-      int xx = wWidth/2;
-      if ((pos.x > xx-150 && pos.x < xx+150) && (pos.y < 150))
+      int xx = (wWidth)/2;
+      if ((pos.x > (xx-(150*xRel)) && pos.x < (xx+(150*xRel))) && (pos.y < (150)*yRel))
       // 00
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx-300 && pos.x < xx-150) && (pos.y > 150 && pos.y < 300))
+      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 1
       {
         mState = State::ID::TropicalThunder;
       }
-      if ((pos.x > xx-150 && pos.x < xx) && (pos.y > 150 && pos.y < 300))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 2
       {
         mState = State::ID::AngryBabushka;
       }
-      if ((pos.x > xx && pos.x < xx+150) && (pos.y > 150 && pos.y < 300))
+      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 3
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx+150 && pos.x < xx+300) && (pos.y > 150 && pos.y < 300))
+      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 4
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx-300 && pos.x < xx-150) && (pos.y > 300 && pos.y < 450))
+      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
       // 5
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx-150 && pos.x < xx) && (pos.y > 300 && pos.y < 450))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
       // 6
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx && pos.x < xx+150) && (pos.y > 300 && pos.y < 450))
+      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
       // 7
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx+150 && pos.x < xx+300) && (pos.y > 300 && pos.y < 450))
+      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (300*yRel) && pos.y < (450*yRel)))
       // 8
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx-300 && pos.x < xx-150) && (pos.y > 450 && pos.y < 600))
+      if ((pos.x > (xx-(300*xRel)) && pos.x < (xx-(150*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
       // 9
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx-150 && pos.x < xx) && (pos.y > 450 && pos.y < 600))
+      if ((pos.x > (xx-(150*xRel)) && pos.x < xx) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
       // 10
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx && pos.x < xx+150) && (pos.y > 450 && pos.y < 600))
+      if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
       // 11
       {
         mState = State::ID::Default;
       }
-      if ((pos.x > xx+150 && pos.x < xx+300) && (pos.y > 450 && pos.y < 600))
+      if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (450*yRel) && pos.y < (600*yRel)))
       // 12
       {
         mState = State::ID::Default;
@@ -347,17 +474,17 @@ void App::handleInput(unsigned int touch, bool isPressed)
 // TODO update this when get hands on touch screen
 {
   sf::Vector2i pos0 = sf::Touch::getPosition(0, mWindow);
-  if (pos0.x > (wWidth-100) && pos0.y < 100)
+  if (pos0.x > (wWidth-(100*xRel)) && pos0.y < (100*yRel))
       mWindow.close();
-  if (pos0.x > (wHeight-200) && pos0.y > (wWidth-200))
+  if (pos0.x > (wWidth-(200*xRel)) && pos0.y > (wHeight-(200*yRel)))
   {
     vo.openValve('b', isPressed);
     std::cout << "Button pressed!\n";
   }
-  if ((pos0.x > 575 && pos0.x < 825) && (pos0.y > 25 && pos0.y < 125))
+  if ((pos0.x > (575*xRel) && pos0.x < (825*xRel)) && (pos0.y > (25*yRel) && pos0.y < (125*yRel)))
   {
     sf::Vector2i pos1 = sf::Touch::getPosition(1, mWindow);
-    if ((pos1.x > 250 && pos1.x < 500) && (pos1.y > 100 && pos1.y < 200))
+    if ((pos1.x > (250*xRel) && pos1.x < (500*xRel)) && (pos1.y > (100*yRel) && pos1.y < (200*yRel)))
     {
       vo.openValve('s', isPressed);
       std::cout << "Secret pressed!!\n";
@@ -380,6 +507,17 @@ void App::setState(State::ID name)
 
 void App::loadTextures()
 {
+  // Number images
+  mTextures.load(Textures::num0, "media/num/num0.png");
+  mTextures.load(Textures::num1, "media/num/num1.png");
+  mTextures.load(Textures::num2, "media/num/num2.png");
+  mTextures.load(Textures::num3, "media/num/num3.png");
+  mTextures.load(Textures::num4, "media/num/num4.png");
+  mTextures.load(Textures::num5, "media/num/num5.png");
+  mTextures.load(Textures::num6, "media/num/num6.png");
+  mTextures.load(Textures::num7, "media/num/num7.png");
+  mTextures.load(Textures::num8, "media/num/num8.png");
+  mTextures.load(Textures::num9, "media/num/num9.png");
   // Backgrounds
   mTextures.load(Textures::default_background, "media/bg/default_background.png");
   mTextures.load(Textures::tropical_thunder_bg, "media/bg/tropical_thunder_bg.png");
@@ -401,15 +539,80 @@ void App::loadTextures()
   mTextures.load(Textures::secret_on, "media/icon/secret_on.png");
   mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
   mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
-  // Number images
-  mTextures.load(Textures::num0, "media/num/num0.png");
-  mTextures.load(Textures::num1, "media/num/num1.png");
-  mTextures.load(Textures::num2, "media/num/num2.png");
-  mTextures.load(Textures::num3, "media/num/num3.png");
-  mTextures.load(Textures::num4, "media/num/num4.png");
-  mTextures.load(Textures::num5, "media/num/num5.png");
-  mTextures.load(Textures::num6, "media/num/num6.png");
-  mTextures.load(Textures::num7, "media/num/num7.png");
-  mTextures.load(Textures::num8, "media/num/num8.png");
-  mTextures.load(Textures::num9, "media/num/num9.png");
+}
+
+void App::placeTextures()
+{
+  mBackground.setTexture(mTextures.get(Textures::default_background));
+  mBackground.scale(xRel, yRel);
+  mBackground.setPosition(0.f, 0.f);
+  mButtonOff.setTexture(mTextures.get(Textures::beer_button_off));
+  mButtonOff.scale(xRel, yRel);
+  mButtonOff.setPosition((wWidth-(200*xRel)), (wHeight-(200*yRel)));
+  mButtonOn.setTexture(mTextures.get(Textures::beer_button_on));
+  mButtonOn.scale(xRel, yRel);
+  mButtonOn.setPosition((wWidth-(200*xRel)), (wHeight-(200*yRel)));
+  mXicon.setTexture(mTextures.get(Textures::exit));
+  mXicon.scale(xRel, yRel);
+  mXicon.setPosition(0.f, 0.f);
+  mSecretIconOn.setTexture(mTextures.get(Textures::secret_on));
+  mSecretIconOn.scale(xRel, yRel);
+  mSecretIconOn.setPosition((525*xRel), (75*yRel));
+  mPintsIcon.setTexture(mTextures.get(Textures::pints));
+  mPintsIcon.scale(xRel, xRel);
+  mPintsIcon.setPosition(0.f, (wHeight-(100*yRel)));
+  mPintDigit_1.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_1.scale(xRel, yRel);
+  mPintDigit_1.setPosition(180*xRel, (wHeight-(100*yRel)));
+  mPintDigit_2.setTexture(mTextures.get(Textures::num0));
+  mPintDigit_2.scale(xRel, yRel);
+  mPintDigit_2.setPosition(230*xRel, (wHeight-(100*yRel)));
+  mTempIcon.setTexture(mTextures.get(Textures::temp_icon));
+  mTempIcon.scale(xRel, xRel);
+  mTempIcon.setPosition(150*xRel, (wHeight-(150*yRel)));
+  mTempDigit_1.setTexture(mTextures.get(Textures::num0));
+  mTempDigit_1.scale(xRel/2, yRel/2);
+  mTempDigit_1.setPosition(110*xRel, (wHeight-(150*yRel)));
+  mTempDigit_2.setTexture(mTextures.get(Textures::num0));
+  mTempDigit_2.scale(xRel/2, yRel/2);
+  mTempDigit_2.setPosition(110*xRel, (wHeight-(150*yRel)));
+  mIcon0.setTexture(mTextures.get(Textures::default_icon));
+  mIcon0.scale(xRel, yRel);
+  mIcon1.setTexture(mTextures.get(Textures::tropical_thunder_icon));
+  mIcon1.scale(xRel, yRel);
+  mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
+  mIcon2.scale(xRel, yRel);
+  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon3.scale(xRel, yRel);
+  mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon4.scale(xRel, yRel);
+  mIcon5.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon5.scale(xRel, yRel);
+  mIcon6.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon6.scale(xRel, yRel);
+  mIcon7.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon7.scale(xRel, yRel);
+  mIcon8.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon8.scale(xRel, yRel);
+  mIcon9.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon9.scale(xRel, yRel);
+  mIcon10.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon10.scale(xRel, yRel);
+  mIcon11.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon11.scale(xRel, yRel);
+  mIcon12.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon12.scale(xRel, yRel);
+  mIcon0.setPosition(((wWidth/2)-(150*xRel)), 0);
+  mIcon1.setPosition(((wWidth/2)-(300*xRel)), (150*yRel));
+  mIcon2.setPosition(((wWidth/2)-(150*xRel)), (150*yRel));
+  mIcon3.setPosition((wWidth/2), (150*yRel));
+  mIcon4.setPosition(((wWidth/2)+(150*xRel)), (150*yRel));
+  mIcon5.setPosition(((wWidth/2)-(300*xRel)), (300*yRel));
+  mIcon6.setPosition(((wWidth/2)-(150*xRel)), (300*yRel));
+  mIcon7.setPosition(((wWidth/2)), (300*yRel));
+  mIcon8.setPosition(((wWidth/2)+(150*xRel)), (300*yRel));
+  mIcon9.setPosition(((wWidth/2)-(300*xRel)), (450*yRel));
+  mIcon10.setPosition(((wWidth/2)-(150*xRel)), (450*yRel));
+  mIcon11.setPosition(((wWidth/2)), (450*yRel));
+  mIcon12.setPosition(((wWidth/2)+(150*xRel)), (450*yRel));
 }

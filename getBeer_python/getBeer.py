@@ -4,6 +4,7 @@ Control unit for beer dispenser built into kegerator.
 
 Wiring the hardware:
 Magnetic valve  - GP5 (pin 29) & GND (pin 30)
+Secret valve  - GP6 (pin 31) & GND (pin 30)
 Temperature - GP4 (pin 7), GND (pin 20) & 3v3 (pin 1)
 Load sensor - VCC=3v3 (pin 17), GND (pin 9), DT=GP2 (pin 3), SCK=GP3 (pin 5)
 See LCD for wiring 16x2 display
@@ -19,6 +20,31 @@ from w1thermsensor import W1ThermSensor
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
+# Set up GPIO pins
+GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
+GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
+GPIO.setup(2, GPIO.IN)  # Load sensor DT
+GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
+# Load sensor
+hx = HX711(2, 3)
+hx.set_offset(8234508)  # This gets calibrated to zero the sensor
+hx.set_scale(-20.9993)
+# Temp sensor
+tempSensor = W1ThermSensor()
+
+
+def kegVolume():
+    dryKegWeight = 4025
+    wetKegVolume = hx.get_grams(times=1) - dryKegWeight
+    if wetKegVolume < 0:
+        wetKegVolume = 0
+    return wetKegVolume
+
+
+def kegTemp():
+    kegTemperature = tempSensor.get_temperature()
+    return kegTemperature
 
 
 class BeerDispenser(object):
@@ -29,30 +55,40 @@ class BeerDispenser(object):
         pg.mouse.set_cursor(*cursor_from_image(CURSOR, 8, (0, 0)))
         self.clock = pg.time.Clock()
 
-        # Set up GPIO pins
-        GPIO.setup(5, GPIO.OUT, initial=0)  # Magnetic valve, starts closed
-        GPIO.setup(6, GPIO.OUT, initial=0)  # Magnetic secret valve, starts closed
-        GPIO.setup(4, GPIO.IN)  # Temperature probe DS18S20
-        GPIO.setup(2, GPIO.IN)  # Load sensor DT
-        GPIO.setup(3, GPIO.OUT)  # Load sensor SCK
-
-        # Load sensor
-        self.hx = HX711(2, 3)
-        self.hx.set_offset(8234508) # This gets calibrated to zero the sensor
-        self.hx.set_scale(-20.9993)
-
         # Parameters for dispenser
         self.running = True
         self.dispensing = False
         self.dispensingSecret = False
-        self.buttonDown = False
         self.bg_image = 0
         self.dispenserDisplay = True
         self.beerChooser = False
-        self.tempSensor = W1ThermSensor()
-        self.currentTemp = 0
-        self.counter = 0
+        self.secretActive = False
+        self.secretTimer = 0
+        self.secretTimeIdle = 0
         self.pintsLeft = 0
+        self.counter = 0
+
+    def openValve(self):
+        GPIO.output(5, True)
+        self.dispensing = True
+
+    def shutValve(self):
+        GPIO.output(5, False)
+        self.dispensing = False
+
+    def openSecretValve(self):
+        GPIO.output(6, True)
+        self.dispensingSecret = True
+
+    def shutSecretValve(self):
+        GPIO.output(6, False)
+        self.dispensingSecret = False
+
+    def drawToScreen(self, image, x, y):
+        self.image = image
+        image_rect = image.get_rect()
+        image_rect.center = (x, y)
+        self.screen.blit(image, image_rect)
 
     def dispenserEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -79,22 +115,6 @@ class BeerDispenser(object):
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.running = False
 
-    def openValve(self):
-        GPIO.output(5, True)
-        self.dispensing = True
-
-    def shutValve(self):
-        GPIO.output(5, False)
-        self.dispensing = False
-
-    def openSecretValve(self):
-        GPIO.output(6, True)
-        self.dispensingSecret = True
-
-    def shutSecretValve(self):
-        GPIO.output(6, False)
-        self.dispensingSecret = False
-
     def dispenserDraw(self):
         try:
             self.drawToScreen(BACKGROUNDS[self.bg_image], SWIDTH/2, SHEIGHT/2)
@@ -105,13 +125,15 @@ class BeerDispenser(object):
                 self.drawToScreen(RED_BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             else:
                 self.drawToScreen(BUTTON_ON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
-        if self.dispensingSecret:
-            self.drawToScreen(SECRET_ICON_ON, (525*RELX), (75*RELY))
         if not self.dispensing:
             if self.bg_image == 2:
                 self.drawToScreen(RED_BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
             else:
                 self.drawToScreen(BUTTON, SWIDTH-(100*RELX), SHEIGHT-(100*RELY))
+        if self.bg_image == 0:
+            if self.secretActive:
+                if self.dispensingSecret:
+                    self.drawToScreen(SECRET_ICON_ON, (525*RELX), (75*RELY))
         self.drawToScreen(PINTS_ICON, (SWIDTH*0.1), (SHEIGHT*0.9))
         if int(self.pintsLeft) < 10:
             self.drawToScreen(NEON_NUMBER[int(str(self.pintsLeft))], (SWIDTH*0.28), (SHEIGHT*0.9))
@@ -127,12 +149,6 @@ class BeerDispenser(object):
             self.drawToScreen(TEMP_ICON, ((SWIDTH*0.1)+(30*RELX)), (SHEIGHT*0.96))
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
-
-    def drawToScreen(self, image, x, y):
-        self.image = image
-        image_rect = image.get_rect()
-        image_rect.center = (x, y)
-        self.screen.blit(image, image_rect)
 
     def beerChooserEvents(self):
         self.mouse = pg.mouse.get_pos()
@@ -234,20 +250,9 @@ class BeerDispenser(object):
         self.drawToScreen(QUIT, (25*RELX), (25*RELY))
         pg.display.flip()
 
-    def kegVolume(self):
-        dryKegWeight = 4025
-        wetKegVolume = self.hx.get_grams(times=1) - dryKegWeight
-        if wetKegVolume < 0:
-            wetKegVolume = 0
-        return wetKegVolume
-
-    def kegTemp(self):
-        kegTemperature = self.tempSensor.get_temperature()
-        return kegTemperature
-
     def updateWeightTemp(self):
-        self.pintsLeft = int(self.kegVolume()/500)
-        self.currentTemp = int(self.kegTemp())
+        self.pintsLeft = int(kegVolume()/500)
+        self.currentTemp = int(kegTemp())
 
     def eventUpdate(self):
         if self.dispenserDisplay:
@@ -266,7 +271,7 @@ class BeerDispenser(object):
         self.eventUpdate()
         self.eventDraw()
         self.counter += 1
-        if self.counter > 60:
+        if self.counter > FPS:
             self.updateWeightTemp()
             self.counter = 0
 
