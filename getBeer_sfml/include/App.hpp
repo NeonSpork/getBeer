@@ -87,6 +87,4 @@ private:
   std::size_t mStatisticsNumFrames;
 };
 
-
-
 #endif // APP_HPP

@@ -34,13 +34,13 @@
 
 # CMake build directory
 build/
-build*/
 
 # Others (schematics etc.)
 *.pub
 *.pdf
 *.sublime-project
 *.sublime-workspace
+*.log
 
 # Python stuff
 *.png~
