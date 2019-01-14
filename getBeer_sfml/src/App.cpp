@@ -37,11 +37,11 @@ App::App()
 , mRenderScreen(true)
 , TimePerFrame(sf::seconds(1.f/60.f))
 , TimePerSensorUpdate(sf::seconds(1.f))
-// FPS and TimePerFrame display, will be removed in final version
-, mFont()
-, mStatisticsText()
-, mStatisticsUpdateTime()
-, mStatisticsNumFrames(0)
+// // FPS and TimePerFrame display, will be removed in final version
+// , mFont()
+// , mStatisticsText()
+// , mStatisticsUpdateTime()
+// , mStatisticsNumFrames(0)
 {
   mWindow.setMouseCursorVisible(false);
   // mWindow.setFramerateLimit(15);
@@ -56,11 +56,11 @@ App::App()
   loadTextures();
   placeTextures();
 
-  // FPS and TimePerFrame display, will be removed in final version
-  mFont.loadFromFile("media/Sansation.ttf");
-  mStatisticsText.setFont(mFont);
-  mStatisticsText.setPosition(50.f, 5.f);
-  mStatisticsText.setCharacterSize(10);
+  // // FPS and TimePerFrame display, will be removed in final version
+  // mFont.loadFromFile("media/Sansation.ttf");
+  // mStatisticsText.setFont(mFont);
+  // mStatisticsText.setPosition(50.f, 5.f);
+  // mStatisticsText.setCharacterSize(10);
 }
 
 App::~App()
@@ -93,7 +93,7 @@ void App::run()
       // }
       stateCheck();
     }
-    updateStatistics(elapsedTime);
+    // updateStatistics(elapsedTime);
     if (mRenderScreen)
     {
       render();
@@ -306,7 +306,7 @@ void App::render()
     mWindow.draw(mIcon11);
     mWindow.draw(mIcon12);
   }
-  mWindow.draw(mStatisticsText);
+  // mWindow.draw(mStatisticsText);
   mWindow.display();
   mRenderScreen = false;
 }
@@ -324,19 +324,19 @@ void App::render()
 //   return temp;
 // }
 
-void App::updateStatistics(sf::Time elapsedTime)
-{
-  mStatisticsUpdateTime += elapsedTime;
-  mStatisticsNumFrames += 1;
-  if (mStatisticsUpdateTime >= sf::seconds(1.0f))
-  {
-    mStatisticsText.setString(
-      "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
-      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
-    mStatisticsUpdateTime -= sf::seconds(1.0f);
-    mStatisticsNumFrames = 0;
-  }
-}
+// void App::updateStatistics(sf::Time elapsedTime)
+// {
+//   mStatisticsUpdateTime += elapsedTime;
+//   mStatisticsNumFrames += 1;
+//   if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+//   {
+//     mStatisticsText.setString(
+//       "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
+//       "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
+//     mStatisticsUpdateTime -= sf::seconds(1.0f);
+//     mStatisticsNumFrames = 0;
+//   }
+// }
 
 void App::handleInput(sf::Keyboard::Key key, bool isPressed)
 {
