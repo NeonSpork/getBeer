@@ -22,7 +22,8 @@ public:
   long getOffset();
   void setScale(float scale);
   float getScale();
-  float getGrams(byte times = 32);
+  float getGramsAverage(byte times = 32);
+  float getGrams();
 private:
   const unsigned int _pin_dout;
   const unsigned int _pin_slk;

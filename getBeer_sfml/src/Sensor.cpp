@@ -30,7 +30,7 @@ int Sensor::checkWeight()
   catch (SensorFail)
   {
     std::cout << "HX711 not working.\n";
-    return 0;
+    return 99;
   }
 } 
 
