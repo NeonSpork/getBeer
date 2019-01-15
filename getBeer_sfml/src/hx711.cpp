@@ -71,11 +71,24 @@ float HX711::getScale()
   return _scale;
 }
 
-float HX711::getGrams(byte times)
+float HX711::getGramsAverage(byte times)
 {
   try
   {
     long val = (averageValue(times) - _offset);
+    return (float) val/_scale;
+  }
+  catch (...)
+  {
+    return -999999.;
+  }
+}
+
+float HX711::getGrams()
+{
+  try
+  {
+    long val = getValue() - _offset;
     return (float) val/_scale;
   }
   catch (...)
