@@ -22,10 +22,10 @@ void ValveOperator::openValve(char name, bool state)
   {
     case 'b':
       digitalWrite(29, state);
-      beerDispensin31 = state;
+      beerDispensing = state;
       break;
     case 's':
-      digitalWrite(6, state);
+      digitalWrite(31, state);
       secretDispensing = state;
       break;
     default:
