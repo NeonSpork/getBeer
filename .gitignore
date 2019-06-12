@@ -35,6 +35,9 @@
 # CMake build directory
 build/
 
+# SCons builf files
+.sconsign.dblite
+
 # Others (schematics etc.)
 *.pub
 *.pdf
