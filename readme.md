@@ -33,9 +33,9 @@ Should be able to clone directly into raspberry pi
 * mkdir build
 * cd build
 * cmake .. -L
-  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/start-linux.php
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
 * make
 #### SCons commands
 * scons
   * Builds the program as an executable
-  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/start-linux.php
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
