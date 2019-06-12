@@ -1,0 +1,41 @@
+# getBeer_SFML C++ version
+print("Initializing SCons")
+
+env = Environment(CC='g++')
+env.Append(CCFLAGS='-static-libgcc -static-libstdc++')
+
+print(env['CCFLAGS'])
+
+lib = ['sfml-audio',
+       'sfml-graphics',
+       'sfml-network',
+       'sfml-system',
+       'sfml-window',
+       'wiringPi',
+       'crypt']
+
+src = ['./src/App.cpp',
+       './src/ds18b20.cpp',
+       './src/hx711.cpp',
+       './src/Sensor.cpp',
+       './src/ValveOperator.cpp',
+       './main.cpp',
+       './include/App.hpp',
+       './include/ds18b20.h',
+       './include/hx711.h',
+       './include/ResourceHolder.hpp',
+       './include/ResourceIdentifiers.hpp',
+       './include/Sensor.hpp',
+       './include/StateIdentifiers.hpp',
+       './include/ValveOperator.hpp']
+
+if env['PLATFORM'] == 'posix':
+    print("Platform: Linux")
+    env.Program('getBeerX', src, LIBS=lib, LIBPATH=['/usr/lib',
+                                                    '/usr/local/lib'],
+                CPPPATH='./include')
+if env['PLATFORM'] == 'win32':
+    print("Platform: Windows")
+    env.Program('getBeerX', src, LIBS=lib, LIBPATH=['C:\\lib',
+                                                    'D:\\lib'],
+                CPPPATH='./include')
