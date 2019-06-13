@@ -41,16 +41,16 @@ int Sensor::checkWeight()
 
 float Sensor::checkTemp()
 {
-  try
-  {
-    float tempC = temp.getTemp();
-    std::cout << "Sensor::checkTemp(): " << tempC << std::endl;
-    return tempC;
-  }
-  catch (std::exception& e)
-  {
-    std::cout << "Unexpected HX711 error: " << e.what();
-    return 99;
-  }
-
+  // try
+  // {
+  //   float tempC = temp.getTemp();
+  //   std::cout << "Sensor::checkTemp(): " << tempC << std::endl;
+  //   return tempC;
+  // }
+  // catch (std::exception& e)
+  // {
+  //   std::cout << "Unexpected HX711 error: " << e.what();
+  //   return 99;
+  // }
+  return 88;
 }
