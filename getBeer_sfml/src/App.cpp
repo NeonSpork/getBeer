@@ -43,7 +43,7 @@ App::App()
 , mStatisticsUpdateTime()
 , mStatisticsNumFrames(0)
 {
-  mWindow.setMouseCursorVisible(false);
+  mWindow.setMouseCursorVisible(true);
   // mWindow.setFramerateLimit(15);
   setState(State::ID::Default);
   mOldState = mState;
