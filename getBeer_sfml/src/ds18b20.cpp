@@ -69,6 +69,6 @@ float Ds18b20::getTemp()
   catch (...)
   {
     std::cout << "Ds18b20::getTemp() - Unknown error.\n";
-    return 99;
+    return 98;
   }
 }
