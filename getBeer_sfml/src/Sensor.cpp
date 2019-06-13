@@ -52,5 +52,4 @@ float Sensor::checkTemp()
     std::cout << "Unexpected HX711 error: " << e.what();
     return 99;
   }
-
 }
