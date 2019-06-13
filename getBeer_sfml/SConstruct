@@ -45,7 +45,7 @@ if env['PLATFORM'] == 'posix':
         os.system('cmake . -L')
         os.system('sudo make')
         os.system('sudo make install')
-        os.system('cd ../../')
+        os.system('cd ../')
         os.system('rm -rf SFML')
     print("Platform: Linux")
     env.Program('getBeerX', src, LIBS=lib, LIBPATH=['/usr/lib',
