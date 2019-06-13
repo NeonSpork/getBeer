@@ -40,11 +40,11 @@ if env['PLATFORM'] == 'posix':
         print('Building SFML linux dependencies, installing SFML, then removing SFML files.')
         os.system('sudo apt-get install libfreetype6-dev libx11-dev libxrandr-dev libudev-dev libgl1-mesa-dev libflac++-dev libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev libpthread-stubs0-dev cmake -y')
         os.system('git clone https://github.com/SFML/SFML.git')
-        os.system('cd ./SFML/')
+        os.chdir('./SFML/')
         os.system('cmake . -L')
         os.system('sudo make')
         os.system('sudo make install')
-        os.system('cd ../')
+        os.chdir('../')
         os.system('rm -rf SFML')
     print("Platform: Linux")
     env.Program('getBeerX', src, LIBS=lib, LIBPATH=['/usr/lib',
