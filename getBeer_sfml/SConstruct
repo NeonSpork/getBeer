@@ -45,6 +45,7 @@ if env['PLATFORM'] == 'posix':
         os.system('mkdir tmpbuild')
         os.system('cd tmpbuild')
         os.system('cmake .. -L')
+        os.system('sudo make')
         os.system('sudo make install')
         os.system('cd ../../')
         os.system('rm -rf SFML')
