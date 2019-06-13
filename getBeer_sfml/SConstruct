@@ -1,8 +1,14 @@
+import os
 # getBeer_SFML C++ version
 print("Initializing SCons")
 
-env = Environment(CC='g++')
+install_SFML = ARGUMENTS.get('install_SFML', 0)
+vars = Variables(None, ARGUMENTS)
+vars.Add('install_SFML', 'Set to 1 to build linux dependencies for SFML and install SFML!', 0)
+env = Environment(CC='g++', variables=vars)
 env.Append(CCFLAGS='-static-libgcc -static-libstdc++')
+Help(vars.GenerateHelpText(env))
+
 
 print(env['CCFLAGS'])
 
@@ -30,12 +36,25 @@ src = ['./src/App.cpp',
        './include/ValveOperator.hpp']
 
 if env['PLATFORM'] == 'posix':
+    if int(install_SFML):
+        print('Building SFML linux dependencies, installing SFML, then removing SFML files.')
+        os.system('sudo apt-get install lib libfreetype6-dev libx11-dev libxrandr-dev libudev-dev libgl1-mesa-dev libflac++-dev libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev libpthread-stubs0-dev')
+        os.system('mkdir SFML/build')
+        os.system('cd SFML')
+        os.system('git clone https://github.com/SFML/SFML.git')
+        os.system('cd build')
+        os.system('cmake . -L')
+        os.system('sudo make install')
+        os.system('cd ../../')
+        os.system('rm -rf SFML')
     print("Platform: Linux")
     env.Program('getBeerX', src, LIBS=lib, LIBPATH=['/usr/lib',
                                                     '/usr/local/lib'],
                 CPPPATH='./include')
 if env['PLATFORM'] == 'win32':
-    print("Platform: Windows")
+    if int(install_SFML):
+        print('SFML does not need dependencies on windows,'
+              ' ignoring flag "SFMLdepend".\nInstall SFML directly if needed.')
     env.Program('getBeerX', src, LIBS=lib, LIBPATH=['C:\\lib',
                                                     'D:\\lib'],
                 CPPPATH='./include')
