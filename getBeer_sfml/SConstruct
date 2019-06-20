@@ -8,7 +8,7 @@ vars = Variables(None, ARGUMENTS)
 vars.Add('install_SFML', 'Set to 1 to build linux dependencies for SFML and install.', 0)
 vars.Add('install_wirringPi', 'Set to 1 to build and install wiring Pi.', 0)
 env = Environment(CC='g++', variables=vars)
-env.Append(CCFLAGS='-static-libgcc -static-libstdc++')
+env.Append(CCFLAGS='-static-libgcc -static-libstdc++ -g')
 Help(vars.GenerateHelpText(env))
 
 
@@ -28,6 +28,7 @@ src = ['./src/App.cpp',
        './src/Sensor.cpp',
        './src/ValveOperator.cpp',
        './main.cpp',
+       # SCons doesn't need explicit lists of .hpp if they're #included
        # './include/App.hpp',
        # './include/ds18b20.h',
        # './include/hx711.h',
