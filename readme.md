@@ -28,3 +28,14 @@ Should be able to clone directly into raspberry pi
   * Be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML
 * wiringPi
   * http://wiringpi.com/
+### Building and compiling
+#### CMAKE commands
+* mkdir build
+* cd build
+* cmake .. -L
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+* make
+#### SCons commands
+* scons
+  * Builds the program as an executable
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
