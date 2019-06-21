@@ -35,15 +35,17 @@ tempSensor = W1ThermSensor()
 
 
 def kegVolume():
-    dryKegWeight = 4025
-    wetKegVolume = hx.get_grams(times=1) - dryKegWeight
-    if wetKegVolume < 0:
-        wetKegVolume = 0
+    # dryKegWeight = 4025
+    # wetKegVolume = hx.get_grams(times=1) - dryKegWeight
+    # if wetKegVolume < 0:
+    #     wetKegVolume = 0
+    wetKegVolume = 99
     return wetKegVolume
 
 
 def kegTemp():
-    kegTemperature = tempSensor.get_temperature()
+    # kegTemperature = tempSensor.get_temperature()
+    kegTemperature = 99
     return kegTemperature
 
 
