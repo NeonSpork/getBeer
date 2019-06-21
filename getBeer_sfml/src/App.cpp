@@ -492,13 +492,13 @@ void App::handleInput(unsigned int touch, bool isPressed)
   }
 }
 
-void App::swipe(int oldX, int newX)
-{
-  if (oldX < newX)
-    setState(State::ID::BeerMenu);
-  if ((oldX > newX) && (mState == State::ID::BeerMenu))
-    setState(State::ID::Default);
-}
+// void App::swipe(int oldX, int newX)
+// {
+//   if (oldX < newX)
+//     setState(State::ID::BeerMenu);
+//   if ((oldX > newX) && (mState == State::ID::BeerMenu))
+//     setState(State::ID::Default);
+// }
 
 void App::setState(State::ID name)
 {
