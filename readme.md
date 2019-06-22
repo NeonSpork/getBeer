@@ -24,7 +24,11 @@ Should be able to clone directly into raspberry pi
 * PyGame 1.9.4 
 * W1ThermSensor
 ### Dependencies - CPP
-* SFML 2.5.1
+__Important note:__ If you use SCons to install, there is an option to have SCons install all the dependencies you need on linux and install SFML automagically!
+```
+sudo scons install_SFML=1 install_wiringPi=1
+```
+* SFML 2.5.1 `install_SFML=1`
   * Be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML
-* wiringPi
+* wiringPi `install_wiringPi=1`
   * http://wiringpi.com/
