@@ -15,19 +15,20 @@ lib = ['sfml-audio',
        'crypt']
 
 src = ['./src/App.cpp',
-       './src/ds18b20.cpp',
+       # './src/ds18b20.cpp',
        './src/hx711.cpp',
        './src/Sensor.cpp',
        './src/ValveOperator.cpp',
        './main.cpp',
-       './include/App.hpp',
-       './include/ds18b20.h',
-       './include/hx711.h',
-       './include/ResourceHolder.hpp',
-       './include/ResourceIdentifiers.hpp',
-       './include/Sensor.hpp',
-       './include/StateIdentifiers.hpp',
-       './include/ValveOperator.hpp']
+       # './include/App.hpp',
+       # './include/ds18b20.h',
+       # './include/hx711.h',
+       # './include/ResourceHolder.hpp',
+       # './include/ResourceIdentifiers.hpp',
+       # './include/Sensor.hpp',
+       # './include/StateIdentifiers.hpp',
+       # './include/ValveOperator.hpp',
+       ]
 
 if env['PLATFORM'] == 'posix':
     print("Platform: Linux")
