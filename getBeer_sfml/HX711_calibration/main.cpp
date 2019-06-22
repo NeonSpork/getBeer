@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 {
   wiringPiSetup();
 
-  HX711 hx(3, 5);
+  HX711 hx(8, 9);
   long averageVal = hx.averageValue();
   hx.setOffset(averageVal);
   char cont = 'a';
