@@ -1,7 +1,7 @@
 #include "../include/Sensor.hpp"
 
 Sensor::Sensor()
-: hx(3, 5)
+: hx(8, 9)
 // , temp()
 {
 

@@ -65,8 +65,8 @@ App::App()
 
 App::~App()
 {
-  digitalWrite(29, false);
-  digitalWrite(31, false);
+  digitalWrite(21, false);
+  digitalWrite(22, false);
 }
 
 void App::run()
