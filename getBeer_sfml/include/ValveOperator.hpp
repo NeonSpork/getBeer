@@ -16,6 +16,8 @@ public:
 private:
   bool beerDispensing;
   bool secretDispensing;
+  static const int beerpin = 29;
+  static const int secretpin = 31;
 };
 
 #endif // VALVEOPERATOR_HPP

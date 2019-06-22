@@ -4,16 +4,18 @@ ValveOperator::ValveOperator()
 : beerDispensing{false}
 , secretDispensing{false}
 {
-  pinMode(29, OUTPUT); // Beer valve
-  pinMode(31, OUTPUT); // Secret valve
-  digitalWrite(29, false);
-  digitalWrite(31, false);
+  pinMode(beerpin, OUTPUT); // Beer valve
+  pullUpDnControl (beerpin, PUD_DOWN);
+  pinMode(secretpin, OUTPUT); // Secret valve
+  pullUpDnControl (secretpin, PUD_DOWN);
+  digitalWrite(beerpin, false);
+  digitalWrite(secretpin, false);
 }
 
 ValveOperator::~ValveOperator()
 {
-  digitalWrite(29, false);
-  digitalWrite(31, false);
+  digitalWrite(beerpin, false);
+  digitalWrite(secretpin, false);
 }
 
 void ValveOperator::openValve(char name, bool state)
@@ -21,11 +23,11 @@ void ValveOperator::openValve(char name, bool state)
   switch (name)
   {
     case 'b':
-      digitalWrite(29, state);
+      digitalWrite(beerpin, state);
       beerDispensing = state;
       break;
     case 's':
-      digitalWrite(31, state);
+      digitalWrite(secretpin, state);
       secretDispensing = state;
       break;
     default:
