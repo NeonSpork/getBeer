@@ -142,10 +142,10 @@ void App::events()
         vo.openValve('b', false);
         vo.openValve('s', false);
         break;
-      case sf::Event::TouchMoved:
-        std::cout << "Touch moved.\n";      
-        swipe(origTouchPos.x, event.touch.x);
-        break;
+      // case sf::Event::TouchMoved:
+      //   std::cout << "Touch moved.\n";      
+      //   swipe(origTouchPos.x, event.touch.x);
+      //   break;
     }
   }
 }
