@@ -1,6 +1,6 @@
 #include <iostream>
 #include "hx711.h"
-#include <wiringPi.h>
+
 
 int getInt()
 {
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 {
   wiringPiSetupGpio();
 
-  HX711 hx(2, 3);
+  HX711 hx(3, 5);
   long averageVal = hx.averageValue();
   hx.setOffset(averageVal);
   char cont = 'a';
