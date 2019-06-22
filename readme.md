@@ -1,5 +1,3 @@
-readme.md
-
 # Custom beer dispenser for a kegerator
 
 WORK IN PROGRESS
@@ -23,12 +21,30 @@ Should be able to clone directly into raspberry pi
 ### Dependencies - Python
 * PyGame 1.9.4 
 * W1ThermSensor
-### Dependencies - CPP
-__Important note:__ If you use SCons to install, there is an option to have SCons install all the dependencies you need on *linux* and install SFML automagically!
-```
-sudo scons install_SFML=1 install_wiringPi=1
-```
-* SFML 2.5.1 `install_SFML=1`
+### Dependencies - CPP *(see below for an easy way to install dependencies)*
+* SFML 2.5.1
   * Be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML
-* wiringPi `install_wiringPi=1`
+* wiringPi
   * http://wiringpi.com/
+### Building and compiling
+#### CMAKE commands
+* `mkdir build`
+* `cd build`
+* `cmake .. -L`
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+* `make install`
+#### SCons commands
+* `scons`
+  * Builds the program as an executable
+  * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+  * See below for the *lazy, easy peasy* way to install all the dependencies!
+* Command flags for scons (LINUX ONLY)
+  * `sudo scons install_SFML=1`
+    * Clones into SFML git, compiles SFML
+    * Installs SFML plus all the dependencies necessary on linux
+    * Removes SFML directory when complete
+  * `sudo scons install_wiringPi=1`
+    * Clones into wiringPi library and installs it
+    * Removes directory when complete
+  * Flags can be combined!
+    * `sudo scons install_SFML=1 install_wiringPi=1`
