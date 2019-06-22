@@ -108,7 +108,7 @@ void App::events()
   while (mWindow.pollEvent(event))
   {
     // sf::Vector2i origMousePos = sf::Mouse::getPosition(mWindow);
-    sf::Vector2i origTouchPos = sf::Touch::getPosition(0, mWindow);
+    // sf::Vector2i origTouchPos = sf::Touch::getPosition(0, mWindow);
     switch (event.type)
     {
       case sf::Event::Closed:
@@ -142,10 +142,10 @@ void App::events()
         vo.openValve('b', false);
         vo.openValve('s', false);
         break;
-      case sf::Event::TouchMoved:
-        std::cout << "Touch moved.\n";      
-        swipe(origTouchPos.x, event.touch.x);
-        break;
+      // case sf::Event::TouchMoved:
+      //   std::cout << "Touch moved.\n";      
+      //   swipe(origTouchPos.x, event.touch.x);
+      //   break;
     }
   }
 }

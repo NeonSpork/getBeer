@@ -74,7 +74,7 @@ private:
   void handleInput(sf::Keyboard::Key key, bool isPressed);
   void handleInput(sf::Mouse::Button button, bool isPressed);
   void handleInput(unsigned int touch, bool isPressed);
-  void swipe(int oldX, int newX);
+  // void swipe(int oldX, int newX);
   void setState(State::ID name);
   void loadTextures();
   void placeTextures();
