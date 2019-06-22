@@ -123,10 +123,10 @@ void App::events()
       case sf::Event::MouseButtonPressed:
         handleInput(event.mouseButton.button, true);
         break;
-      // case sf::Event::MouseMoved:
-      //   if (event.mouseButton.button == sf::Mouse::Left)
-      //     swipe(origMousePos.x, event.mouseMove.x);
-      //   break;
+      case sf::Event::MouseMoved:
+        if (event.mouseButton.button == sf::Mouse::Left)
+          swipe(origMousePos.x, event.mouseMove.x);
+        break;
       case sf::Event::MouseButtonReleased:
         handleInput(event.mouseButton.button, false);
         vo.openValve('b', false);
