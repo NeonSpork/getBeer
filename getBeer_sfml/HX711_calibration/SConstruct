@@ -1,0 +1,8 @@
+# HX711 calibration
+
+env = Environment(CC='g++', CCFLAGS='-static-libgcc -static-libstdc++')
+src = ['hx711.cpp',
+       'main.cpp']
+
+env.Program('calibrate', src, LIBPATH=['/usr/lib',
+                                       '/usr/local/lib'])
