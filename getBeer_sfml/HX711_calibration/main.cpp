@@ -14,7 +14,7 @@ int getInt()
 
 int main(int argc, char const *argv[])
 {
-  wiringPiSetupGpio();
+  wiringPiSetup();
 
   HX711 hx(3, 5);
   long averageVal = hx.averageValue();
