@@ -2,6 +2,12 @@
 #define HX711_H
 
 #include <stdint.h>
+#include <dirent.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <iostream>
 #include <wiringPi.h>
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
