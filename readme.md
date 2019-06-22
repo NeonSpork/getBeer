@@ -1,5 +1,3 @@
-readme.md
-
 # Custom beer dispenser for a kegerator
 
 WORK IN PROGRESS
@@ -23,20 +21,20 @@ Should be able to clone directly into raspberry pi
 ### Dependencies - Python
 * PyGame 1.9.4 
 * W1ThermSensor
-### Dependencies - CPP
+### Dependencies - CPP *(see below for an easy way to install dependencies)*
 * SFML 2.5.1
   * Be aware the apt-get version for Pi is outdated and this needs to be compiled from source including dependencies for SFML
 * wiringPi
   * http://wiringpi.com/
 ### Building and compiling
 #### CMAKE commands
-* mkdir build
-* cd build
-* cmake .. -L
+* `mkdir build`
+* `cd build`
+* `cmake .. -L`
   * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
-* make
+* `make install`
 #### SCons commands
-* scons
+* `scons`
   * Builds the program as an executable
   * Remember to install the dependencies for SFML, a complete list can be found here: https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
   * See below for the *lazy, easy peasy* way to install all the dependencies!
