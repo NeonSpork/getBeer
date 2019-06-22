@@ -1,0 +1,12 @@
+# HX711 calibration
+
+env = Environment(CC='g++', CCFLAGS='-static-libgcc -static-libstdc++')
+lib = ['wiringPi',
+       'crypt']
+
+src = ['hx711.cpp',
+       'hx711.h',
+       'main.cpp']
+
+env.Program('calibrate', src, LIBS=lib, LIBPATH=['/usr/lib',
+                                                 '/usr/local/lib'])
