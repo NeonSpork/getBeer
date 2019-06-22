@@ -4,8 +4,8 @@
 int main(int argc, char const *argv[])
 {
   // Must be called at beginning of program to function correctly
-  wiringPiSetupGpio();
-  std::cout << "wiringPi complete";
+  wiringPiSetup();
+  std::cout << "wiringPi complete\n";
   
   App getBeer;
   getBeer.run();
