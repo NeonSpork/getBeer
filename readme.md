@@ -13,8 +13,12 @@ WORK IN PROGRESS
 * Daydreams about beer dispensors
 
 ## Pictures
+Main screen, push button for beer!
+[Imgur](https://i.imgur.com/P2THWZr.jpg)
 
-WORK IN PROGRESS
+Installed in the final product.
+[Imgur](https://i.imgur.com/OJeiuH8.jpg)
+
 
 ## Code
 Should be able to clone directly into raspberry pi
