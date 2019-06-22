@@ -4,6 +4,8 @@ WORK IN PROGRESS
 
 ## Equipment
 * Raspberry Pi 3
+  * Currently working on implementing C++ code on an Asus Tinker Board, in the hopes that it will run more smoothly. The graphics combined with the sensors push the RPi3 to the limits and then some.
+  * Recommend using the program from the `nosensor` branch if you're using a Raspberry Pi 3 for a much more responsive performance.
 * HX711 weight sensor (to calculate volume)
 * DS18B20 temperature sensor
 * 1024*600 7" touch screen (HDMI)
