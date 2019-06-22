@@ -1,7 +1,7 @@
 #include "../include/Sensor.hpp"
 
 Sensor::Sensor()
-: hx(3, 5)
+: hx(2, 3)
 , temp()
 {
 
@@ -49,7 +49,7 @@ float Sensor::checkTemp()
   }
   catch (std::exception& e)
   {
-    std::cout << "Unexpected HX711 error: " << e.what();
+    std::cout << "Unexpected DS18B20 error: " << e.what();
     return 99;
   }
 }
