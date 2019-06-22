@@ -1,5 +1,6 @@
 #include <iostream>
 #include "hx711.h"
+#include <wiringPi.h>
 
 int getInt()
 {
