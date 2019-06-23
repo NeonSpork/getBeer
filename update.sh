@@ -1,15 +1,12 @@
 #!/bin/sh
 
-cd ~/getBeer/
+cd ~/getBeer/getBeer_sfml
 /usr/bin/git pull
-/usr/bin/git checkout secret
+/usr/bin/git checkout master
 /usr/bin/git pull
 
-cd ~/getBeer/getBeer_sfml/build
-/usr/bin/cmake .. -DRASPBERRY=TRUE -DCMAKE_BUILD_TYPE=Release -L
-/usr/bin/make
+/usr/bin/scons
 
-cd ~/getBeer/getBeer_sfml/
 ./getBeerX
 
 exit 0
