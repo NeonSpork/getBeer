@@ -14,11 +14,11 @@ Help(vars.GenerateHelpText(env))
 
 print(env['CCFLAGS'])
 
-lib = ['sfml-audio-s',
-       'sfml-graphics-s',
-       'sfml-network-s',
-       'sfml-system-s',
-       'sfml-window-s',
+lib = ['sfml-audio',
+       'sfml-graphics',
+       'sfml-network',
+       'sfml-system',
+       'sfml-window',
        'wiringPi',
        'crypt']
 
