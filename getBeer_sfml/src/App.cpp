@@ -38,10 +38,10 @@ App::App()
 , TimePerFrame(sf::seconds(1.f/60.f))
 , TimePerSensorUpdate(sf::seconds(10.f))
 // FPS and TimePerFrame display, will be removed in final version
-, mFont()
-, mStatisticsText()
-, mStatisticsUpdateTime()
-, mStatisticsNumFrames(0)
+// , mFont()
+// , mStatisticsText()
+// , mStatisticsUpdateTime()
+// , mStatisticsNumFrames(0)
 {
   mWindow.setMouseCursorVisible(false);
   // mWindow.setFramerateLimit(15);
@@ -57,10 +57,10 @@ App::App()
   placeTextures();
 
   // FPS and TimePerFrame display, will be removed in final version
-  mFont.loadFromFile("media/Sansation.ttf");
-  mStatisticsText.setFont(mFont);
-  mStatisticsText.setPosition(50.f, 5.f);
-  mStatisticsText.setCharacterSize(10);
+  // mFont.loadFromFile("media/Sansation.ttf");
+  // mStatisticsText.setFont(mFont);
+  // mStatisticsText.setPosition(50.f, 5.f);
+  // mStatisticsText.setCharacterSize(10);
 }
 
 App::~App()
@@ -68,6 +68,20 @@ App::~App()
   digitalWrite(21, false);
   digitalWrite(22, false);
 }
+
+// void App::updateStatistics(sf::Time elapsedTime)
+// {
+//   mStatisticsUpdateTime += elapsedTime;
+//   mStatisticsNumFrames += 1;
+//   if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+//   {
+//     mStatisticsText.setString(
+//       "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
+//       "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
+//     mStatisticsUpdateTime -= sf::seconds(1.0f);
+//     mStatisticsNumFrames = 0;
+//   }
+// }
 
 void App::run()
 {
@@ -322,20 +336,6 @@ int App::checkTemp()
 {
   int temp = (int) sensor.checkTemp();
   return temp;
-}
-
-void App::updateStatistics(sf::Time elapsedTime)
-{
-  mStatisticsUpdateTime += elapsedTime;
-  mStatisticsNumFrames += 1;
-  if (mStatisticsUpdateTime >= sf::seconds(1.0f))
-  {
-    mStatisticsText.setString(
-      "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
-      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
-    mStatisticsUpdateTime -= sf::seconds(1.0f);
-    mStatisticsNumFrames = 0;
-  }
 }
 
 void App::handleInput(sf::Keyboard::Key key, bool isPressed)
