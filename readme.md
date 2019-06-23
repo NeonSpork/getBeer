@@ -22,8 +22,9 @@ Installed in the final product.
 ![Imgur](https://i.imgur.com/OJeiuH8.jpg)
 
 Alternate backgrounds, the button updates too! (More to come in the future)
-![Imgur](https://i.imgur.com/vd8A6uum.png)
-![Imgur](https://i.imgur.com/EzW6KZr.png)
+
+![[Imgur](https://i.imgur.com/vd8A6uul.png)
+![Imgur](https://i.imgur.com/EzW6KZrl.png)
 
 
 ## Code
