@@ -57,6 +57,7 @@ App::App()
   placeTextures();
 
   // FPS and TimePerFrame display, will be removed in final version
+  // REMEMBER LINE IN App::run()
   // mFont.loadFromFile("media/Sansation.ttf");
   // mStatisticsText.setFont(mFont);
   // mStatisticsText.setPosition(50.f, 5.f);
@@ -107,7 +108,7 @@ void App::run()
       }
       stateCheck();
     }
-    updateStatistics(elapsedTime);
+    // updateStatistics(elapsedTime);
     if (mRenderScreen)
     {
       render();
