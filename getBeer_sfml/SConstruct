@@ -50,6 +50,7 @@ if env['PLATFORM'] == 'posix':
         os.system('sudo make install')
         os.chdir('../')
         os.system('rm -rf SFML')
+        os.system('sudo ldconfig')
     if int(install_wiringPi):
         print('Installing wiringPi, then removing temp files.')
         os.system('git clone git://git.drogon.net/wiringPi')
@@ -57,6 +58,7 @@ if env['PLATFORM'] == 'posix':
         os.system('sudo ./build')
         os.chdir('../')
         os.system('rm -rf wiringPi')
+        os.system('sudo ldconfig')
     print("Platform: Linux")
     env.Program('getBeerX', src, LIBS=lib, LIBPATH=['/usr/lib',
                                                     '/usr/local/lib'],
