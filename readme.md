@@ -16,7 +16,7 @@ WORK IN PROGRESS
 
 ## Pictures
 Main screen, push button for beer!
-![Imgur](https://i.imgur.com/P2THWZr.jpg)
+![Imgur](https://i.imgur.com/2BQso9Q.jpg)
 
 Installed in the final product.
 ![Imgur](https://i.imgur.com/OJeiuH8.jpg)
