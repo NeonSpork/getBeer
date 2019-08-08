@@ -9,6 +9,7 @@ namespace State
     Default,
     TropicalThunder,
     AngryBabushka,
+    JbBday,
     BeerMenu,
   };
 }

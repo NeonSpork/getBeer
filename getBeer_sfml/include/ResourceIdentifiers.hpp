@@ -26,6 +26,7 @@ namespace Textures
     tropical_thunder_bg,
     angry_babushka_bg,
     brick_wall,
+    jbbday_bg,
     // Icons
     angry_babushka_icon,
     beer_button_off,
@@ -42,6 +43,7 @@ namespace Textures
     secret_on,
     temp_icon,
     tropical_thunder_icon,
+    jbbday_icon,
   };
 }
 
