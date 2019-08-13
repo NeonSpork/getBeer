@@ -190,6 +190,9 @@ void App::update(const sf::Time& TimePerFrame)
       case State::ID::AngryBabushka:
         mBackground.setTexture(mTextures.get(Textures::angry_babushka_bg));
         break;
+      case State::ID::JbBday:
+        mBackground.setTexture(mTextures.get(Textures::jbbday_bg));
+        break;
       case State::ID::BeerMenu:
         mBackground.setTexture(mTextures.get(Textures::brick_wall));
         break;
@@ -420,7 +423,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 3
       {
-        mState = State::ID::Default;
+        mState = State::ID::JbBday;
       }
       if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 4
@@ -524,6 +527,7 @@ void App::loadTextures()
   mTextures.load(Textures::tropical_thunder_bg, "media/bg/tropical_thunder_bg.png");
   mTextures.load(Textures::angry_babushka_bg, "media/bg/angry_babushka_bg.png");
   mTextures.load(Textures::brick_wall, "media/bg/brick_wall.png");
+  mTextures.load(Textures::jbbday_bg, "media/bg/jbbday_bg.png");
   // Icons
   mTextures.load(Textures::angry_babushka_icon, "media/icon/angry_babushka_icon.png");
   mTextures.load(Textures::beer_button_off, "media/icon/beer_button_off.png");
@@ -540,6 +544,7 @@ void App::loadTextures()
   mTextures.load(Textures::secret_on, "media/icon/secret_on.png");
   mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
   mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
+  mTextures.load(Textures::jbbday_icon, "media/icon/jbbday_icon.png");
 }
 
 void App::placeTextures()
@@ -583,7 +588,7 @@ void App::placeTextures()
   mIcon1.scale(xRel, yRel);
   mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
   mIcon2.scale(xRel, yRel);
-  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon3.setTexture(mTextures.get(Textures::jbbday_icon));
   mIcon3.scale(xRel, yRel);
   mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
   mIcon4.scale(xRel, yRel);
