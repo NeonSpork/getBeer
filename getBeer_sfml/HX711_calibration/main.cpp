@@ -13,13 +13,13 @@ int getInt()
 
 int main(int argc, char const *argv[])
 {
-  wiringPiSetupGpio();
+  wiringPiSetup();
 
-  HX711 hx(2, 3);
+  HX711 hx(8, 9);
   long averageVal = hx.averageValue();
   hx.setOffset(averageVal);
   char cont = 'a';
-  std::cout << "!!!!! Remove all items from scale !!!!!\nress any key to continue.\n";
+  std::cout << "!!!!! Remove all items from scale !!!!!\nPress any key to continue.\n";
   std::cin >> cont;
   long offset = hx.getOffset();
   std::cout << "Place item with known weight on scale.\nPress any key to continue.\n";

@@ -37,7 +37,7 @@ void Ds18b20::init()
   }
   catch(NoDir)
   {
-    std::cout << "Couldn't open the w1 devices directory\n";
+    std::cout << "NoDir ERROR: Couldn't open the w1 devices directory\n";
   }
 }
 
@@ -63,7 +63,7 @@ float Ds18b20::getTemp()
   }
   catch(NoRead)
   {
-    std::cout << "Unable to read " << dev << " at location " << devPath << std::endl;
+    std::cout << "NoRead ERROR: Unable to read " << dev << " at location " << devPath << std::endl;
     return 99;
   }
   catch (...)

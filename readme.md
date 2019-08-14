@@ -3,9 +3,12 @@
 WORK IN PROGRESS
 
 ## Equipment
-* Raspberry Pi 3
-  * Currently working on implementing C++ code on an Asus Tinker Board, in the hopes that it will run more smoothly. The graphics combined with the sensors push the RPi3 to the limits and then some.
+* ASUS Tinker Board 2GB
+  * Use the master branch for this.
+* ALTERNATE: Raspberry Pi 3 (suboptimal)
+  * Highly recommend using the Asus Tinker Board. The graphics combined with the sensors push the RPi3 to the limits and then some.
   * Recommend using the program from the `nosensor` branch if you're using a Raspberry Pi 3 for a much more responsive performance.
+  * If you don't care about the sensors the RPi3 is somewhat OK.
 * HX711 weight sensor (to calculate volume)
 * DS18B20 temperature sensor
 * 1024*600 7" touch screen (HDMI)
@@ -16,14 +19,18 @@ WORK IN PROGRESS
 
 ## Pictures
 Main screen, push button for beer!
-![Imgur](https://i.imgur.com/P2THWZr.jpg)
+![Imgur](https://i.imgur.com/2BQso9Q.jpg)
 
 Installed in the final product.
 ![Imgur](https://i.imgur.com/OJeiuH8.jpg)
 
+Alternate backgrounds, the button updates too! (More to come in the future)
+
+![Imgur](https://i.imgur.com/vd8A6uum.png)
+![Imgur](https://i.imgur.com/EzW6KZrm.png)
+
 
 ## Code
-Should be able to clone directly into raspberry pi
 ### Dependencies - Python
 * PyGame 1.9.4 
 * W1ThermSensor

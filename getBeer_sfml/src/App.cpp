@@ -38,10 +38,10 @@ App::App()
 , TimePerFrame(sf::seconds(1.f/60.f))
 , TimePerSensorUpdate(sf::seconds(10.f))
 // FPS and TimePerFrame display, will be removed in final version
-, mFont()
-, mStatisticsText()
-, mStatisticsUpdateTime()
-, mStatisticsNumFrames(0)
+// , mFont()
+// , mStatisticsText()
+// , mStatisticsUpdateTime()
+// , mStatisticsNumFrames(0)
 {
   mWindow.setMouseCursorVisible(false);
   // mWindow.setFramerateLimit(15);
@@ -57,17 +57,32 @@ App::App()
   placeTextures();
 
   // FPS and TimePerFrame display, will be removed in final version
-  mFont.loadFromFile("media/Sansation.ttf");
-  mStatisticsText.setFont(mFont);
-  mStatisticsText.setPosition(50.f, 5.f);
-  mStatisticsText.setCharacterSize(10);
+  // REMEMBER LINE IN App::run()
+  // mFont.loadFromFile("media/Sansation.ttf");
+  // mStatisticsText.setFont(mFont);
+  // mStatisticsText.setPosition(50.f, 5.f);
+  // mStatisticsText.setCharacterSize(10);
 }
 
 App::~App()
 {
-  digitalWrite(29, false);
-  digitalWrite(31, false);
+  digitalWrite(21, false);
+  digitalWrite(22, false);
 }
+
+// void App::updateStatistics(sf::Time elapsedTime)
+// {
+//   mStatisticsUpdateTime += elapsedTime;
+//   mStatisticsNumFrames += 1;
+//   if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+//   {
+//     mStatisticsText.setString(
+//       "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
+//       "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
+//     mStatisticsUpdateTime -= sf::seconds(1.0f);
+//     mStatisticsNumFrames = 0;
+//   }
+// }
 
 void App::run()
 {
@@ -93,7 +108,7 @@ void App::run()
       }
       stateCheck();
     }
-    updateStatistics(elapsedTime);
+    // updateStatistics(elapsedTime);
     if (mRenderScreen)
     {
       render();
@@ -108,7 +123,7 @@ void App::events()
   while (mWindow.pollEvent(event))
   {
     // sf::Vector2i origMousePos = sf::Mouse::getPosition(mWindow);
-    sf::Vector2i origTouchPos = sf::Touch::getPosition(0, mWindow);
+    // sf::Vector2i origTouchPos = sf::Touch::getPosition(0, mWindow);
     switch (event.type)
     {
       case sf::Event::Closed:
@@ -142,10 +157,10 @@ void App::events()
         vo.openValve('b', false);
         vo.openValve('s', false);
         break;
-      case sf::Event::TouchMoved:
-        std::cout << "Touch moved.\n";      
-        swipe(origTouchPos.x, event.touch.x);
-        break;
+      // case sf::Event::TouchMoved:
+      //   std::cout << "Touch moved.\n";      
+      //   swipe(origTouchPos.x, event.touch.x);
+      //   break;
     }
   }
 }
@@ -174,6 +189,9 @@ void App::update(const sf::Time& TimePerFrame)
         break;
       case State::ID::AngryBabushka:
         mBackground.setTexture(mTextures.get(Textures::angry_babushka_bg));
+        break;
+      case State::ID::JbBday:
+        mBackground.setTexture(mTextures.get(Textures::jbbday_bg));
         break;
       case State::ID::BeerMenu:
         mBackground.setTexture(mTextures.get(Textures::brick_wall));
@@ -324,20 +342,6 @@ int App::checkTemp()
   return temp;
 }
 
-void App::updateStatistics(sf::Time elapsedTime)
-{
-  mStatisticsUpdateTime += elapsedTime;
-  mStatisticsNumFrames += 1;
-  if (mStatisticsUpdateTime >= sf::seconds(1.0f))
-  {
-    mStatisticsText.setString(
-      "FPS: " + std::to_string(mStatisticsNumFrames) + "\n" +
-      "TimePerFrame: " + std::to_string(mStatisticsUpdateTime.asMicroseconds()/mStatisticsNumFrames) + " microsec");
-    mStatisticsUpdateTime -= sf::seconds(1.0f);
-    mStatisticsNumFrames = 0;
-  }
-}
-
 void App::handleInput(sf::Keyboard::Key key, bool isPressed)
 {
   if (key == sf::Keyboard::Escape)
@@ -419,7 +423,7 @@ void App::handleInput(sf::Mouse::Button button, bool isPressed)
       if ((pos.x > xx && pos.x < (xx+(150*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 3
       {
-        mState = State::ID::Default;
+        mState = State::ID::JbBday;
       }
       if ((pos.x > (xx+(150*xRel)) && pos.x < (xx+(300*xRel))) && (pos.y > (150*yRel) && pos.y < (300*yRel)))
       // 4
@@ -523,6 +527,7 @@ void App::loadTextures()
   mTextures.load(Textures::tropical_thunder_bg, "media/bg/tropical_thunder_bg.png");
   mTextures.load(Textures::angry_babushka_bg, "media/bg/angry_babushka_bg.png");
   mTextures.load(Textures::brick_wall, "media/bg/brick_wall.png");
+  mTextures.load(Textures::jbbday_bg, "media/bg/jbbday_bg.png");
   // Icons
   mTextures.load(Textures::angry_babushka_icon, "media/icon/angry_babushka_icon.png");
   mTextures.load(Textures::beer_button_off, "media/icon/beer_button_off.png");
@@ -539,6 +544,7 @@ void App::loadTextures()
   mTextures.load(Textures::secret_on, "media/icon/secret_on.png");
   mTextures.load(Textures::temp_icon, "media/icon/temp_icon.png");
   mTextures.load(Textures::tropical_thunder_icon, "media/icon/tropical_thunder_icon.png");
+  mTextures.load(Textures::jbbday_icon, "media/icon/jbbday_icon.png");
 }
 
 void App::placeTextures()
@@ -582,7 +588,7 @@ void App::placeTextures()
   mIcon1.scale(xRel, yRel);
   mIcon2.setTexture(mTextures.get(Textures::angry_babushka_icon));
   mIcon2.scale(xRel, yRel);
-  mIcon3.setTexture(mTextures.get(Textures::coming_soon_icon));
+  mIcon3.setTexture(mTextures.get(Textures::jbbday_icon));
   mIcon3.scale(xRel, yRel);
   mIcon4.setTexture(mTextures.get(Textures::coming_soon_icon));
   mIcon4.scale(xRel, yRel);
