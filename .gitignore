@@ -31,6 +31,7 @@
 *.exe
 *.out
 *.app
+getBeer_sfml/getBeerX
 
 # CMake build directory
 build/
@@ -49,3 +50,4 @@ build/
 *.png~
 __pycache__/
 *.pyc
+getBeer_python/.pgenv

@@ -133,17 +133,17 @@ void App::events()
         vo.openValve('s', false);
         break;
       case sf::Event::TouchBegan:
-        std::cout << "Touch began.\n";      
+        std::cout << "Touch began.\n";
         handleInput(event.touch.finger, true);
         break;
       case sf::Event::TouchEnded:
-        std::cout << "Touch ended.\n";      
+        std::cout << "Touch ended.\n";
         handleInput(event.touch.finger, false);
         vo.openValve('b', false);
         vo.openValve('s', false);
         break;
       // case sf::Event::TouchMoved:
-      //   std::cout << "Touch moved.\n";      
+      //   std::cout << "Touch moved.\n";
       //   swipe(origTouchPos.x, event.touch.x);
       //   break;
     }
