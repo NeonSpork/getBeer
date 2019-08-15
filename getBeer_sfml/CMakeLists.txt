@@ -80,13 +80,13 @@ add_executable(${executable}
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   message(STATUS "Configuring on/for Windows")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive")
+  set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
 endif()
 
 
 # Configuration options
 # Remember to specify -DSFML_DIR="D:/lib/SFML" (install directory of SFML)
 
-# set(SFML_STATIC_LIBRARIES TRUE CACHE BOOL "Use static SFML librares")
 
 # Add directory containing FindSFML.cmake to module path
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/;${CMAKE_MODULE_PATH}")
