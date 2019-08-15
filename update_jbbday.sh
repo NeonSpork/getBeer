@@ -8,7 +8,7 @@
 
 cd ~/getBeer/getBeer_sfml
 /usr/bin/git pull
-/usr/bin/git checkout master
+/usr/bin/git checkout jbbday
 /usr/bin/git pull
 
 /usr/bin/scons
