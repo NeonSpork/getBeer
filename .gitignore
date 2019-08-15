@@ -45,6 +45,7 @@ build/
 *.sublime-project
 *.sublime-workspace
 *.log
+*.json
 
 # Python stuff
 *.png~
