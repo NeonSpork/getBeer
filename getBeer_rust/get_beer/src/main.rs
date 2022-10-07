@@ -15,7 +15,7 @@ fn main() {
             .title("Hello, World!")
             .build();
 
-        // Don't forget to make all widgets visible.
+        // Make all widgets visible.
         win.show_all();
     });
 
